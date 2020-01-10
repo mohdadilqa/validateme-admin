@@ -32,11 +32,13 @@
                             {{ trans('cruds.user.fields.email') }}
                         </th>
                         <th>
-                            {{ trans('cruds.user.fields.email_verified_at') }}
-                        </th>
-                        <th>
                             {{ trans('cruds.user.fields.roles') }}
                         </th>
+                        @if ((Auth::user()->roles->first()->toArray()['title'] ==='support staff'))
+                        <th>
+                            {{ trans('cruds.user.fields.organization') }}
+                        </th>
+                        @endif
                         <th>
                             &nbsp;
                         </th>
@@ -49,7 +51,7 @@
 
                             </td>
                             <td>
-                                {{ $user->id ?? '' }}
+                                {{ ++$key ?? '' }}
                             </td>
                             <td>
                                 {{ $user->name ?? '' }}
@@ -58,13 +60,15 @@
                                 {{ $user->email ?? '' }}
                             </td>
                             <td>
-                                {{ $user->email_verified_at ?? '' }}
-                            </td>
-                            <td>
                                 @foreach($user->roles as $key => $item)
                                     <span class="badge badge-info">{{ $item->title }}</span>
                                 @endforeach
                             </td>
+                            @if ((Auth::user()->roles->first()->toArray()['title'] ==='support staff'))
+                            <td>
+                                <span class="badge badge-info">{{ $user->organization['name'] }}</span>
+                            </td>
+                            @endif
                             <td>
                                 @can('user_show')
                                     <a class="btn btn-xs btn-primary" href="{{ route('admin.users.show', $user->id) }}">
@@ -87,14 +91,11 @@
                                 @endcan
 
                             </td>
-
                         </tr>
                     @endforeach
                 </tbody>
             </table>
         </div>
-
-
     </div>
 </div>
 @endsection
@@ -134,8 +135,8 @@
 @endcan
 
   $.extend(true, $.fn.dataTable.defaults, {
-    order: [[ 1, 'desc' ]],
-    pageLength: 100,
+    order: [[ 1, 'asc' ]],
+    pageLength: 10,
   });
   $('.datatable-User:not(.ajaxTable)').DataTable({ buttons: dtButtons })
     $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){

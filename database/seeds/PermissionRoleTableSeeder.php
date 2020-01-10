@@ -8,11 +8,25 @@ class PermissionRoleTableSeeder extends Seeder
 {
     public function run()
     {
-        $admin_permissions = Permission::all();
-        Role::findOrFail(1)->permissions()->sync($admin_permissions->pluck('id'));
-        $user_permissions = $admin_permissions->filter(function ($permission) {
-            return substr($permission->title, 0, 5) != 'user_' && substr($permission->title, 0, 5) != 'role_' && substr($permission->title, 0, 11) != 'permission_';
+        //superadmin permission
+        $superadmin_permissions = Permission::all();
+        Role::findOrFail(1)->permissions()->sync($superadmin_permissions->pluck('id'));
+        //end superadmin permission
+        
+        //support staff permission
+        $support_staff_permissions = $superadmin_permissions->filter(function ($permission) {
+            return substr($permission->title, 0, 5) != 'company_user_' && substr($permission->title, 0, 11) != 'permission_' && substr($permission->title, 0, 11) != 'role_';
         });
-        Role::findOrFail(2)->permissions()->sync($user_permissions);
+        Role::findOrFail(2)->permissions()->sync($support_staff_permissions->pluck('id'));
+        //end support staff permission
+
+        //company admin permissions
+        $company_admin_permissions = $superadmin_permissions->filter(function ($permission) {
+            return (substr($permission->title, 0, 5) != 'user_' || substr($permission->title, 0, 5) === 'user_management_access' ) && substr($permission->title, 0, 5) != 'role_' && substr($permission->title, 0, 11) != 'permission_';
+        });
+        //end company admin permissions
+        
+        Role::findOrFail(3)->permissions()->sync($company_admin_permissions->pluck('id'));
+
     }
 }

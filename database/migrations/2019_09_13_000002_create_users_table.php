@@ -20,6 +20,9 @@ class CreateUsersTable extends Migration
             $table->string('password');
 
             $table->string('remember_token')->nullable();
+            
+            $table->integer('created_by')->nullable(false)->default('0');
+            $table->integer('organization_id')->nullable(false)->default('0');
 
             $table->timestamps();
 

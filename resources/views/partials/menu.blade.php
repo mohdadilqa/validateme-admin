@@ -2,6 +2,14 @@
     <nav class="sidebar-nav">
 
         <ul class="nav">
+            <li class="nav-item">
+                <a href="{{ route("admin.dashboard.index") }}" class="nav-link {{ request()->is('admin/dashboard') || request()->is('admin/dashboard/*') ? 'active' : '' }}">
+                    <i class="fa-fw fas fa-unlock-alt nav-icon">
+
+                    </i>
+                    {{ trans('cruds.dashboard.title') }}
+                </a>
+            </li>
             @can('user_management_access')
                 <li class="nav-item nav-dropdown">
                     <a class="nav-link  nav-dropdown-toggle" href="#">
@@ -41,61 +49,25 @@
                                 </a>
                             </li>
                         @endcan
+
+                        @can('company_user_access')
+                        
+                            @if ((Auth::user()->roles->first()->toArray()['title'] ==='company admin'))
+                                <li class="nav-item">
+                                    <a href="{{ route("admin.company-user.index") }}" class="nav-link {{ request()->is('admin/company-user') || request()->is('admin/company-user/*') ? 'active' : '' }}">
+                                        <i class="fa-fw fas fa-user nav-icon">
+
+                                        </i>
+                                        {{ trans('cruds.company_user.title') }}
+                                    </a>
+                                </li>
+                            @endif
+                        @endcan
+                        
                     </ul>
                 </li>
+                
             @endcan
-
-            @can('expense_category_access')
-                <li class="nav-item">
-                    <a href="{{ route("admin.expense-categories.index") }}" class="nav-link {{ request()->is('admin/expense-categories') || request()->is('admin/expense-categories/*') ? 'active' : '' }}">
-                        <i class="fa-fw fas fa-list nav-icon">
-
-                        </i>
-                        {{ trans('cruds.expenseCategory.title') }}
-                    </a>
-                </li>
-            @endcan
-            @can('income_category_access')
-                <li class="nav-item">
-                    <a href="{{ route("admin.income-categories.index") }}" class="nav-link {{ request()->is('admin/income-categories') || request()->is('admin/income-categories/*') ? 'active' : '' }}">
-                        <i class="fa-fw fas fa-list nav-icon">
-
-                        </i>
-                        {{ trans('cruds.incomeCategory.title') }}
-                    </a>
-                </li>
-            @endcan
-            @can('expense_access')
-                <li class="nav-item">
-                    <a href="{{ route("admin.expenses.index") }}" class="nav-link {{ request()->is('admin/expenses') || request()->is('admin/expenses/*') ? 'active' : '' }}">
-                        <i class="fa-fw fas fa-arrow-circle-right nav-icon">
-
-                        </i>
-                        {{ trans('cruds.expense.title') }}
-                    </a>
-                </li>
-            @endcan
-            @can('income_access')
-                <li class="nav-item">
-                    <a href="{{ route("admin.incomes.index") }}" class="nav-link {{ request()->is('admin/incomes') || request()->is('admin/incomes/*') ? 'active' : '' }}">
-                        <i class="fa-fw fas fa-arrow-circle-right nav-icon">
-
-                        </i>
-                        {{ trans('cruds.income.title') }}
-                    </a>
-                </li>
-            @endcan
-            @can('expense_report_access')
-                <li class="nav-item">
-                    <a href="{{ route("admin.expense-reports.index") }}" class="nav-link {{ request()->is('admin/expense-reports') || request()->is('admin/expense-reports/*') ? 'active' : '' }}">
-                        <i class="fa-fw fas fa-chart-line nav-icon">
-
-                        </i>
-                        {{ trans('cruds.expenseReport.title') }}
-                    </a>
-                </li>
-            @endcan
-
             <li class="nav-item">
                 <a href="#" class="nav-link" onclick="event.preventDefault(); document.getElementById('logoutform').submit();">
                     <i class="nav-icon fas fa-fw fa-sign-out-alt">

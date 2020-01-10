@@ -36,15 +36,7 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.user.fields.email_verified_at') }}
-                        </th>
-                        <td>
-                            {{ $user->email_verified_at }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            Roles
+                        {{ trans('cruds.user.fields.roles') }}
                         </th>
                         <td>
                             @foreach($user->roles as $id => $roles)
@@ -52,6 +44,16 @@
                             @endforeach
                         </td>
                     </tr>
+                    <!--<tr>
+                        <th>
+                        {{ trans('cruds.user.fields.organization') }}
+                        </th>
+                        <td>
+                           
+                            <span class="label label-info label-many">{{ $user->title }}</span>
+                           
+                        </td>
+                    </tr>-->
                 </tbody>
             </table>
             <a style="margin-top:20px;" class="btn btn-default" href="{{ url()->previous() }}">

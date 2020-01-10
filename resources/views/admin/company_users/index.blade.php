@@ -1,32 +1,40 @@
 @extends('layouts.admin')
 @section('content')
-@can('income_category_create')
+@can('company_user_create')
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route("admin.income-categories.create") }}">
-                {{ trans('global.add') }} {{ trans('cruds.incomeCategory.title_singular') }}
+            <a class="btn btn-success" href="{{ route("admin.company-user.create") }}">
+                {{ trans('global.add') }} {{ trans('cruds.company_user.title_singular') }}
             </a>
         </div>
     </div>
 @endcan
 <div class="card">
     <div class="card-header">
-        {{ trans('cruds.incomeCategory.title_singular') }} {{ trans('global.list') }}
+        {{ trans('cruds.company_user.title_singular') }} {{ trans('global.list') }}
     </div>
 
     <div class="card-body">
         <div class="table-responsive">
-            <table class=" table table-bordered table-striped table-hover datatable datatable-IncomeCategory">
+            <table class=" table table-bordered table-striped table-hover datatable datatable-User">
                 <thead>
                     <tr>
                         <th width="10">
-
                         </th>
                         <th>
-                            {{ trans('cruds.incomeCategory.fields.id') }}
+                            {{ trans('cruds.company_user.fields.id') }}
                         </th>
                         <th>
-                            {{ trans('cruds.incomeCategory.fields.name') }}
+                            {{ trans('cruds.company_user.fields.name') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.company_user.fields.email') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.company_user.fields.email_verified_at') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.company_user.fields.roles') }}
                         </th>
                         <th>
                             &nbsp;
@@ -34,32 +42,42 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($incomeCategories as $key => $incomeCategory)
-                        <tr data-entry-id="{{ $incomeCategory->id }}">
+                    @foreach($company_users as $key => $user)
+                        <tr data-entry-id="{{ $user->id }}">
                             <td>
-
                             </td>
                             <td>
-                                {{ $incomeCategory->id ?? '' }}
+                                {{ ++$key ?? '' }}
                             </td>
                             <td>
-                                {{ $incomeCategory->name ?? '' }}
+                                {{ $user->name ?? '' }}
                             </td>
                             <td>
-                                @can('income_category_show')
-                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.income-categories.show', $incomeCategory->id) }}">
+                                {{ $user->email ?? '' }}
+                            </td>
+                            <td>
+                                {{ $user->email_verified_at ?? '' }}
+                            </td>
+                            <td>
+                                @foreach($user->roles as $key => $item)
+                                    <span class="badge badge-info">{{ $item->title }}</span>
+                                @endforeach
+                            </td>
+                            <td>
+                                @can('company_user_show')
+                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.company-user.show', $user->id) }}">
                                         {{ trans('global.view') }}
                                     </a>
                                 @endcan
 
-                                @can('income_category_edit')
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.income-categories.edit', $incomeCategory->id) }}">
+                                @can('company_user_edit')
+                                    <a class="btn btn-xs btn-info" href="{{ route('admin.company-user.edit', $user->id) }}">
                                         {{ trans('global.edit') }}
                                     </a>
                                 @endcan
 
-                                @can('income_category_delete')
-                                    <form action="{{ route('admin.income-categories.destroy', $incomeCategory->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
+                                @can('company_user_delete')
+                                    <form action="{{ route('admin.company-user.destroy', $user->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
                                         <input type="hidden" name="_method" value="DELETE">
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                         <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
@@ -73,8 +91,6 @@
                 </tbody>
             </table>
         </div>
-
-
     </div>
 </div>
 @endsection
@@ -83,11 +99,11 @@
 <script>
     $(function () {
   let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
-@can('income_category_delete')
+@can('user_delete')
   let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
   let deleteButton = {
     text: deleteButtonTrans,
-    url: "{{ route('admin.income-categories.massDestroy') }}",
+    url: "{{ route('admin.users.massDestroy') }}",
     className: 'btn-danger',
     action: function (e, dt, node, config) {
       var ids = $.map(dt.rows({ selected: true }).nodes(), function (entry) {
@@ -114,10 +130,10 @@
 @endcan
 
   $.extend(true, $.fn.dataTable.defaults, {
-    order: [[ 1, 'desc' ]],
-    pageLength: 100,
+    order: [[ 1, 'asc' ]],
+    pageLength: 10,
   });
-  $('.datatable-IncomeCategory:not(.ajaxTable)').DataTable({ buttons: dtButtons })
+  $('.datatable-User:not(.ajaxTable)').DataTable({ buttons: dtButtons })
     $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
         $($.fn.dataTable.tables(true)).DataTable()
             .columns.adjust();

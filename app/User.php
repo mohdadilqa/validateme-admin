@@ -40,6 +40,8 @@ class User extends Authenticatable
         'deleted_at',
         'remember_token',
         'email_verified_at',
+        'created_by',
+        'organization_id'
     ];
 
     public function __construct(array $attributes = [])
@@ -54,26 +56,7 @@ class User extends Authenticatable
         });
     }
 
-    public function expenseCategories()
-    {
-        return $this->hasMany(ExpenseCategory::class, 'created_by_id', 'id');
-    }
-
-    public function incomeCategories()
-    {
-        return $this->hasMany(IncomeCategory::class, 'created_by_id', 'id');
-    }
-
-    public function expenses()
-    {
-        return $this->hasMany(Expense::class, 'created_by_id', 'id');
-    }
-
-    public function incomes()
-    {
-        return $this->hasMany(Income::class, 'created_by_id', 'id');
-    }
-
+    
     public function getEmailVerifiedAtAttribute($value)
     {
         return $value ? Carbon::createFromFormat('Y-m-d H:i:s', $value)->format(config('panel.date_format') . ' ' . config('panel.time_format')) : null;
@@ -99,5 +82,10 @@ class User extends Authenticatable
     public function roles()
     {
         return $this->belongsToMany(Role::class);
+    }
+
+    public function organization()
+    {
+        return $this->belongsTo(Organization::class);
     }
 }

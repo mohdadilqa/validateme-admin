@@ -9,6 +9,7 @@ use App\Http\Requests\UpdateRoleRequest;
 use App\Permission;
 use App\Role;
 use Gate;
+use Auth;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -17,9 +18,17 @@ class RolesController extends Controller
     public function index()
     {
         abort_if(Gate::denies('role_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $roles=array();
+        $loggedin_user_role = Auth::user()->roles->first()->toArray();
 
-        $roles = Role::all();
+        if(strtolower($loggedin_user_role['title'])===strtolower('superadmin')){
 
+            $roles = Role::where('title','=','support staff')->get();
+
+        }else if(strtolower($loggedin_user_role['title'])===strtolower('support staff')){
+           
+            $roles = Role::where('title','=','company admin')->get();
+        }
         return view('admin.roles.index', compact('roles'));
     }
 

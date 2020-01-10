@@ -43,7 +43,7 @@
 
                             </td>
                             <td>
-                                {{ $role->id ?? '' }}
+                                {{ ++$key ?? '' }}
                             </td>
                             <td>
                                 {{ $role->title ?? '' }}
@@ -122,8 +122,8 @@
 @endcan
 
   $.extend(true, $.fn.dataTable.defaults, {
-    order: [[ 1, 'desc' ]],
-    pageLength: 100,
+    order: [[ 1, 'asc' ]],
+    pageLength: 10,
   });
   $('.datatable-Role:not(.ajaxTable)').DataTable({ buttons: dtButtons })
     $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){

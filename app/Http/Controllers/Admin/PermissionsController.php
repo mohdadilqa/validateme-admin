@@ -8,6 +8,7 @@ use App\Http\Requests\StorePermissionRequest;
 use App\Http\Requests\UpdatePermissionRequest;
 use App\Permission;
 use Gate;
+use Auth;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -31,8 +32,16 @@ class PermissionsController extends Controller
 
     public function store(StorePermissionRequest $request)
     {
-        $permission = Permission::create($request->all());
+        $loggedin_user_role = Auth::user()->roles->first()->toArray();
+        if($loggedin_user_role['id']===1){
 
+            $permission = Permission::create($request->all());
+            $permission->roles()->sync($loggedin_user_role['id']);
+            
+        }else{
+            $permission = Permission::create($request->all());
+        }
+        
         return redirect()->route('admin.permissions.index');
     }
 
