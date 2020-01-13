@@ -135,7 +135,7 @@ class PermissionsTableSeeder extends Seeder
                 'updated_at' => '2019-09-13 19:21:30',
             ],
             [
-                'id'         => '21',
+                'id'         => '22',
                 'title'      => 'dashboard_index',
                 'created_at' => '2019-09-13 19:21:30',
                 'updated_at' => '2019-09-13 19:21:30',
