@@ -3,9 +3,9 @@
 @can('company_user_create')
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route("admin.company-user.create") }}">
+           <!-- <a class="btn btn-success" href="{{ route("admin.company-user.create") }}">
                 {{ trans('global.add') }} {{ trans('cruds.company_user.title_singular') }}
-            </a>
+            </a>-->
         </div>
     </div>
 @endcan
@@ -22,70 +22,80 @@
                         <th width="10">
                         </th>
                         <th>
-                            {{ trans('cruds.company_user.fields.id') }}
-                        </th>
-                        <th>
                             {{ trans('cruds.company_user.fields.name') }}
                         </th>
                         <th>
                             {{ trans('cruds.company_user.fields.email') }}
                         </th>
                         <th>
-                            {{ trans('cruds.company_user.fields.email_verified_at') }}
+                            {{ trans('cruds.company_user.fields.joining_date') }}
                         </th>
                         <th>
-                            {{ trans('cruds.company_user.fields.roles') }}
+                            {{ trans('cruds.company_user.fields.status') }}
                         </th>
-                        <th>
+                        <th width="197px">
                             &nbsp;
                         </th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($company_users as $key => $user)
-                        <tr data-entry-id="{{ $user->id }}">
+                    @foreach($datas as $key => $val)
+                        <?php 
+                            if($val['role']==="NONVERIFIED_ORG"){
+                                $status="Non Verified";
+                                $verifiedAction="Verfiy";
+                                $disableAction="";
+                                $viewActivityAction="";
+                            }else{
+                                $status="Verified";
+                                $verifiedAction="";
+                                $disableAction="Disable";
+                                $viewActivityAction="View Actvity";
+                            }
+                        ?>
+                        <tr data-entry-id="{{ $val['uid'] }}">
                             <td>
                             </td>
                             <td>
-                                {{ ++$key ?? '' }}
+                                {{ $val['name'] ?? '' }}
+                                <input type="hidden" id="<?php echo $val['uid'] ?>_name" name="name" value="<?php echo $val['name'];?>">
+                                <input type="hidden" id="<?php echo $val['uid'] ?>_organization_name" name="organization_name" value="<?php echo $val['organization_name'];?>">
                             </td>
                             <td>
-                                {{ $user->name ?? '' }}
+                                {{ $val['email'] ?? '' }}
                             </td>
                             <td>
-                                {{ $user->email ?? '' }}
+                                {{ date('d-M-Y',strtotime($val['createdAt'])) ?? '' }}
+                            </td>
+                            <td id="<?php echo $val['uid'] ?>_status">
+                                {{  $status ?? '' }}
                             </td>
                             <td>
-                                {{ $user->email_verified_at ?? '' }}
-                            </td>
-                            <td>
-                                @foreach($user->roles as $key => $item)
-                                    <span class="badge badge-info">{{ $item->title }}</span>
-                                @endforeach
-                            </td>
-                            <td>
-                                @can('company_user_show')
-                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.company-user.show', $user->id) }}">
-                                        {{ trans('global.view') }}
+                                @can('company_user_verify')
+                                    
+                                    <a class="btn btn-xs btn-primary " <?php if(empty($verifiedAction)) echo "style='display:none;'" ?> id="<?php echo $val['uid'] ?>_verifyAction"  onclick="verifyUser('5kVBZ3Yf3KWqGv9JgUMLrQpQ3xC3')" uid="{{ $val['uid'] }}" href="javascript:void(0)">
+                                        Verify
                                     </a>
+                                    
                                 @endcan
 
-                                @can('company_user_edit')
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.company-user.edit', $user->id) }}">
-                                        {{ trans('global.edit') }}
+                                @can('company_user_disable')
+                                    
+                                    <a class="btn btn-xs btn-primary" <?php if(empty($disableAction)) echo "style='display:none;'" ?> id="<?php echo $val['uid'] ?>_disableAction" href="javascript:void(0)">
+                                        Disable
                                     </a>
+                                    
                                 @endcan
 
-                                @can('company_user_delete')
-                                    <form action="{{ route('admin.company-user.destroy', $user->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
-                                        <input type="hidden" name="_method" value="DELETE">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
-                                    </form>
+                                @can('company_user_view_activity')
+                                    
+                                    <a class="btn btn-xs btn-primary" <?php if(empty($viewActivityAction)) echo "style='display:none;'" ?> id="<?php echo $val['uid'] ?>_viewActvityAction" href="javascript:void(0)">
+                                        View Activity
+                                    </a>
+                                    
                                 @endcan
 
                             </td>
-
                         </tr>
                     @endforeach
                 </tbody>
@@ -138,7 +148,35 @@
         $($.fn.dataTable.tables(true)).DataTable()
             .columns.adjust();
     });
-})
+    $('.select-checkbox').css('display','none');
+});
 
+//Ajax call to verify user and show disable && viewActivity Action
+function verifyUser(uid){
+    var x = confirm("Are you sure you want to verify user?");
+    if(x){
+        let name=$("#"+uid+"_name").val();
+        let orgName=$("#"+uid+"_organization_name").val();
+        $.ajax({
+            headers: {'x-csrf-token': _token},
+            url:"<?php echo env('APP_URL') ?>"+"/admin/company-user/verifyUser",
+            type:'POST',
+            data:{'uid':uid,'name':name,'organization_name':orgName},
+            success:function(response){
+                let result=($.parseJSON(response));
+                let status=result.status;
+                if(status===1){
+                    $("#"+uid+"_status").text("Verfied");
+                    $("#"+uid+"_verifyAction").css("display", "none");
+                    $("#"+uid+"_disableAction").css("display", "");
+                    $("#"+uid+"_viewActvityAction").css("display", "");
+                }
+            }
+        })
+
+    }else{
+        return false;
+    }
+}
 </script>
 @endsection

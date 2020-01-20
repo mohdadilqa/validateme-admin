@@ -65,6 +65,8 @@ return [
             'deleted_at_helper'        => '',
             'organization'               => 'Organization',
             'organization_helper'        => '',
+            'organization_domain'               => 'Organization Domain',
+            'organization_domain_helper'        => '',
         ],
     ],
     'company_user'              => [
@@ -77,20 +79,10 @@ return [
             'name_helper'              => '',
             'email'                    => 'Email',
             'email_helper'             => '',
-            'email_verified_at'        => 'Email verified at',
-            'email_verified_at_helper' => '',
-            'password'                 => 'Password',
-            'password_helper'          => '',
-            'roles'                    => 'Roles',
-            'roles_helper'             => '',
-            'remember_token'           => 'Remember Token',
-            'remember_token_helper'    => '',
-            'created_at'               => 'Created at',
-            'created_at_helper'        => '',
-            'updated_at'               => 'Updated at',
-            'updated_at_helper'        => '',
-            'deleted_at'               => 'Deleted at',
-            'deleted_at_helper'        => '',
+            'joining_date'             => 'Joining Date',
+            'joining_date_at_helper'   => '',
+            'status'                   => 'Status',
+            'status_helper'          => '',
         ],
     ],
     'dashboard'              => [
@@ -98,6 +90,29 @@ return [
         'title_singular' => 'Dashboard',
         'fields'         => [
             
+        ],
+    ],
+    'log'              => [
+        'title'          => 'Logs',
+        'title_singular' => 'Log',
+        'fields'         => [
+            'date'                       => 'Date',
+            'date_helper'                => '',
+
+            'user'                       => 'User',
+            'user_helper'                => '',
+
+            'company'                    => 'Company',
+            'company_helper'             => '',
+
+            'action'                     => 'Action',
+            'action_helper'              => '',
+
+            'effeted_user'                => 'Effected User',
+            'effeted_user_helper'         => '',
+
+            'effected_user_company'       => "Effected User's Company",
+            'effected_user_company_helper'=> '',
         ],
     ],
 ];

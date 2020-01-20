@@ -18,11 +18,19 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // Users
     Route::delete('users/destroy', 'UsersController@massDestroy')->name('users.massDestroy');
     Route::resource('users', 'UsersController');
+    Route::post('users/allOrganization','UsersController@allOrganization');
 
     // Company Users
     Route::delete('company-user/destroy', 'CompanyUsersController@massDestroy')->name('companyusers.massDestroy');
     Route::resource('company-user', 'CompanyUsersController');
+    Route::post('company-user/verifyUser','CompanyUsersController@verifyUser');
 
     //Dashboard
     Route::resource('dashboard', 'DashboardController');
+
+    //Log 
+
+    Route::resource('log','LogController');
+    
 });
+

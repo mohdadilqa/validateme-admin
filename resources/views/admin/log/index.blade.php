@@ -3,15 +3,15 @@
 @can('user_create')
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route("admin.users.create") }}">
-                {{ trans('global.add') }} {{ trans('cruds.user.title_singular') }}
-            </a>
+            <!-- <a class="btn btn-success">
+               {{ trans('cruds.log.title_singular') }}
+            </a> -->
         </div>
     </div>
 @endcan
 <div class="card">
     <div class="card-header">
-        {{ trans('cruds.user.title_singular') }} {{ trans('global.list') }}
+        {{ trans('cruds.log.title_singular') }} {{ trans('global.list') }}
     </div>
 
     <div class="card-body">
@@ -23,74 +23,65 @@
 
                         </th>
                         <th>
-                            {{ trans('cruds.user.fields.id') }}
+                            {{ trans('cruds.log.fields.date') }}
                         </th>
                         <th>
-                            {{ trans('cruds.user.fields.name') }}
+                            {{ trans('cruds.log.fields.user') }}
                         </th>
                         <th>
-                            {{ trans('cruds.user.fields.email') }}
+                            {{ trans('cruds.log.fields.company') }}
                         </th>
                         <th>
-                            {{ trans('cruds.user.fields.roles') }}
+                            {{ trans('cruds.log.fields.action') }}
                         </th>
-                        @if ((Auth::user()->roles->first()->toArray()['title'] ==='support staff'))
                         <th>
-                            {{ trans('cruds.user.fields.organization') }}
+                            {{ trans('cruds.log.fields.effeted_user') }}
                         </th>
-                        @endif
                         <th>
-                            &nbsp;
+                            {{ trans('cruds.log.fields.effected_user_company') }}
                         </th>
+                        
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($users as $key => $user)
-                        <tr data-entry-id="{{ $user->id }}">
+                    @foreach($logs as $key => $log)
+                        <?php  
+                        //echo "<pre/>";print_r($logs);
+                        $arr = ['Logged In','Logged Out','Failed Login Attempt','Locked Out','Reset Password'];
+                        if(!in_array($log->description, $arr))
+                        {$activity_data=json_decode($log->description,true);
+                        $action=$activity_data['action'];
+                        $target_user=$activity_data['target_user'];
+                        $target_company=$activity_data['target_company'];
+                        
+                        } else {
+                            $action=$log->description;
+                            $target_user="NA";
+                            $target_company="NA";
+                        } ?>
+                        <tr data-entry-id="{{ ++$key }}">
                             <td>
 
                             </td>
                             <td>
-                                {{ ++$key ?? '' }}
+                            {{ date('d-M-Y h:i:s A',strtotime($log->created_at)) ?? '' }}
                             </td>
                             <td>
-                                {{ $user->name ?? '' }}
+                            {{ $log['user']->name ?? 'Guest' }}
                             </td>
                             <td>
-                                {{ $user->email ?? '' }}
+                            {{ $log['user']['organization']->organization_name ?? 'Validate Me' }}
                             </td>
                             <td>
-                                @foreach($user->roles as $key => $item)
-                                    <span class="badge badge-info">{{ $item->title }}</span>
-                                @endforeach
+                            {{ $action ?? '' }}
                             </td>
-                            @if ((Auth::user()->roles->first()->toArray()['title'] ==='support staff'))
                             <td>
-                                <span class="badge badge-info">{{ $user->organization['organization_name'] }}</span>
+                            {{ $target_user ?? '' }}
                             </td>
-                            @endif
                             <td>
-                                @can('user_show')
-                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.users.show', $user->id) }}">
-                                        {{ trans('global.view') }}
-                                    </a>
-                                @endcan
-
-                                @can('user_edit')
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.users.edit', $user->id) }}">
-                                        {{ trans('global.edit') }}
-                                    </a>
-                                @endcan
-
-                                @can('user_delete')
-                                    <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
-                                        <input type="hidden" name="_method" value="DELETE">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
-                                    </form>
-                                @endcan
-
+                            {{ $target_company ?? '' }}
                             </td>
+                            
                         </tr>
                     @endforeach
                 </tbody>
@@ -131,7 +122,7 @@
       }
     }
   }
-  dtButtons.push(deleteButton)
+  //dtButtons.push(deleteButton)
 @endcan
 
   $.extend(true, $.fn.dataTable.defaults, {
@@ -143,7 +134,7 @@
         $($.fn.dataTable.tables(true)).DataTable()
             .columns.adjust();
     });
-    
+    $('.select-checkbox').css('display','none');
 })
 
 

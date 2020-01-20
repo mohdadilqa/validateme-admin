@@ -15,21 +15,27 @@ class OrganizationsTableSeeder extends Seeder
         $organizations=[
             [
                 'id'      =>1,
-                'name'    =>'QAinfotech',
-                'domain'  =>'https://qainfotech.com/',
-                'created_at'     => '2020-01-01 19:21:30',
-                'updated_at'     => '2020-01-01 19:21:30',
+                'organization_name'    =>'QA InfoTech',
+                'organization_domain'  =>'qainfotech.com',
+                'organization_email'  =>'qainfotech.com@validateme.online',
+                'created_at'=> '2020-01-01 19:21:30',
+                'updated_at'=> '2020-01-01 19:21:30',
 
             ],
             [
                 'id'      =>2,
-                'name'    =>'Adobe',
-                'domain'  =>'https://www.adobe.com/in/',
-                'created_at'     => '2020-01-01 19:21:30',
-                'updated_at'     => '2020-01-01 19:21:30',
+                'organization_name'    =>'Adobe',
+                'organization_domain'  =>'adobe.com',
+                'organization_email'  =>'adobe.com@validateme.online',
+                'created_at'=> '2020-01-01 19:21:30',
+                'updated_at'=> '2020-01-01 19:21:30',
 
             ]
         ];
-        Organization::insert($organizations);
+
+        foreach ($organizations as $organization) {
+            Organization::updateOrCreate(['id' => $organization['id']], $organization);
+        }
+        //Organization::insert($organizations);
     }
 }

@@ -15,14 +15,14 @@ class PermissionRoleTableSeeder extends Seeder
         
         //support staff permission
         $support_staff_permissions = $superadmin_permissions->filter(function ($permission) {
-            return substr($permission->title, 0, 5) != 'company_user_' && substr($permission->title, 0, 11) != 'permission_' && substr($permission->title, 0, 11) != 'role_';
+            return substr($permission->title, 0, 13) != 'company_user_' && substr($permission->title, 0, 11) != 'permission_' && substr($permission->title, 0, 5) != 'role_';
         });
         Role::findOrFail(2)->permissions()->sync($support_staff_permissions->pluck('id'));
         //end support staff permission
 
         //company admin permissions
         $company_admin_permissions = $superadmin_permissions->filter(function ($permission) {
-            return (substr($permission->title, 0, 5) != 'user_' || substr($permission->title, 0, 5) === 'user_management_access' ) && substr($permission->title, 0, 5) != 'role_' && substr($permission->title, 0, 11) != 'permission_';
+            return (substr($permission->title, 0, 5) != 'user_' || $permission->title === 'user_management_access' ) && substr($permission->title, 0, 5) != 'role_' && substr($permission->title, 0, 11) != 'permission_' && substr($permission->title, 0, 11) != 'log_';
         });
         //end company admin permissions
         

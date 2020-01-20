@@ -18,8 +18,9 @@ class Organization extends Model
     ];
 
     protected $fillable = [
-        'name',
-        'domain',
+        'organization_name',
+        'organization_domain',
+        'organization_email',
         'created_at',
         'updated_at',
         'deleted_at',

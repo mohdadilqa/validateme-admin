@@ -18,9 +18,7 @@ class LoginController extends Controller
     | to conveniently provide its functionality to your applications.
     |
     */
-
     use AuthenticatesUsers;
-
     /**
      * Where to redirect users after login.
      *
@@ -31,6 +29,7 @@ class LoginController extends Controller
         
         // User role
         $role = Auth::user()->roles->first()->toArray();
+
         
         // Check user role
         switch (strtolower($role['title'])) {
