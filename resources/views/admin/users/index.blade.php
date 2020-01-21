@@ -127,7 +127,11 @@
           method: 'POST',
           url: config.url,
           data: { ids: ids, _method: 'DELETE' }})
-          .done(function () { location.reload() })
+          .done(function () { 
+            $('.container-fluid').html('<div class="row mb-2"><div class="col-lg-12"><div class="alert alert-success" role="alert">User has been deleted successfully.</div></div></div>');
+              
+              location.reload() 
+            })
       }
     }
   }

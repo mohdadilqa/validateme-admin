@@ -33,7 +33,7 @@ class RolesController extends Controller
 
          /***Start Log */
          
-         $log_string_serialize=(json_encode(array("action"=>"Navigated to Role List","target_user"=>'NA', "target_company"=>'Qa Infotech')));
+         $log_string_serialize=(json_encode(array("action"=>"Navigated to Role List","target_user"=>'NA', "target_company"=>'NA')));
 
         //  $log_string_serialize=(json_encode(array("activity"=>"Role List","activity_for"=>'')));
          ActivityLogger::activity($log_string_serialize);
@@ -63,7 +63,7 @@ class RolesController extends Controller
         ActivityLogger::activity($log_string_serialize);
         /*****Log */
 
-        return redirect()->route('admin.roles.index');
+        return redirect()->route('admin.roles.index')->with('message', 'Role has been created successfully.');
     }
 
     public function edit(Role $role)
@@ -87,7 +87,7 @@ class RolesController extends Controller
         ActivityLogger::activity($log_string_serialize);
         /*****Log */
 
-        return redirect()->route('admin.roles.index');
+        return redirect()->route('admin.roles.index')->with('message', 'Role has been updated successfully.');
     }
 
     public function show(Role $role)
@@ -119,7 +119,7 @@ class RolesController extends Controller
         ActivityLogger::activity($log_string_serialize);
         /*****Log */
 
-        return back();
+        return back()->with('message', 'Role has been deleted successfully.');
     }
 
     public function massDestroy(MassDestroyRoleRequest $request)

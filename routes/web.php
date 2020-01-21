@@ -31,6 +31,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     //Log 
 
     Route::resource('log','LogController');
+
+    //DocType Fields 
+    Route::resource('doctype-field','DocTypeFieldsController');
     
 });
 

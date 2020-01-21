@@ -115,4 +115,28 @@ return [
             'effected_user_company_helper'=> '',
         ],
     ],
+    'docTypeManagement'    => [
+        'title'          => 'Manage DocType',
+        'title_singular' => 'Manage DocType',
+    ],
+    'doctype_field'              => [
+        'title'          => 'Doctype Field',
+        'title_singular' => 'Doctype Field',
+        'fields'         => [
+            'id'                       => 'ID',
+            'id_helper'                => '',
+            'field_name'               => 'Field Name',
+            'field_name_helper'        => '',
+            'field_type'               => 'Field Type',
+            'field_type_helper'        => '',
+            'field_option'             => 'Filed option',
+            'option_helper'            => '',
+            'created_date'             => 'Created Date',
+            'created_date_helper'      => '',
+            'updated_date'             => 'Updated Date',
+            'updated_date_at_helper'   => '',
+            'status'                   => 'Status',
+            'status_helper'          => '',
+        ],
+    ],
 ];

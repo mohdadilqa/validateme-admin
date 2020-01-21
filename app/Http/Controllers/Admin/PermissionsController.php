@@ -48,26 +48,23 @@ class PermissionsController extends Controller
         $log_string_serialize=(json_encode(array("action"=>"Permission Added -> ".$request->title,"target_user"=>'NA', "target_company"=>'NA')));
         ActivityLogger::activity($log_string_serialize);
         /*****Log */
-        return redirect()->route('admin.permissions.index');
+        return redirect()->route('admin.permissions.index')->with('message', 'Permission has been created successfully.');
     }
 
     public function edit(Permission $permission)
     {
         abort_if(Gate::denies('permission_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         return view('admin.permissions.edit', compact('permission'));
     }
 
     public function update(UpdatePermissionRequest $request, Permission $permission)
     {
         $permission->update($request->all());
-
         /*****Log */
         $log_string_serialize=(json_encode(array("action"=>"Update Permission -> ".$permission->title,"target_user"=>'NA', "target_company"=>'NA')));
         ActivityLogger::activity($log_string_serialize);
         /*****Log */
-
-        return redirect()->route('admin.permissions.index');
+        return redirect()->route('admin.permissions.index')->with('message', 'Permission has been updated successfully.');
     }
 
     public function show(Permission $permission)
@@ -85,29 +82,23 @@ class PermissionsController extends Controller
         abort_if(Gate::denies('permission_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $permission_title=$permission['title'];
         $permission->delete();
-
         /*****Log */
         $log_string_serialize=(json_encode(array("action"=>"Deleted Permission -> ".$permission_title,"target_user"=>'NA', "target_company"=>'NA')));
-
-        // $log_string_serialize=(json_encode(array("activity"=>"Delete permission","activity_for"=>$permission_title)));
         ActivityLogger::activity($log_string_serialize);
         /*****Log */
-
-        return back();
+        return back()->with('message', 'Permission has been deleted successfully.');
     }
 
     public function massDestroy(MassDestroyPermissionRequest $request)
     {
         $permissions = Permission::whereIn('id', request('ids'))->get();
         Permission::whereIn('id', request('ids'))->delete();
-
         foreach($permissions as $key => $permission){
             /*****Log */
             $log_string_serialize=(json_encode(array("action"=>"Role Deleted -> ".$permission->title,"target_user"=>'NA', "target_company"=>'NA')));
             ActivityLogger::activity($log_string_serialize);
             /*****Log */
         }
-
         return response(null, Response::HTTP_NO_CONTENT);
     }
 }

@@ -102,7 +102,6 @@ class CompanyUsersController extends Controller
             $uid=$request->uid;
             $name=$request->name;
             $organization_name=$request->organization_name;
-           // print_r($uid);die;
             $url=env("VALIDATEME_BE_ENDPOINT")."/company/verify/$uid";
             
             $headers = [
