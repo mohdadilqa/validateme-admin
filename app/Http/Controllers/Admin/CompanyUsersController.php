@@ -30,7 +30,7 @@ class CompanyUsersController extends Controller
             $orgName=$user['organization']->organization_name;
 
             $client = new Client();//Guzzle Client object
-            $url=env("VALIDATEME_BE_ENDPOINT")."/company/user/$orgDomain";
+            $url=env("VALIDATEME_BE_ENDPOINT")."/company/user?domain=$orgDomain";
             
             $headers = [
                 'Content-Type' => 'application/json',
@@ -104,7 +104,7 @@ class CompanyUsersController extends Controller
             $name=$request->name;
             $organization_name=$request->organization_name;
            // print_r($uid);die;
-            $url=env("VALIDATEME_BE_ENDPOINT")."/company/verify/$uid";
+            $url=env("VALIDATEME_BE_ENDPOINT")."/company/role/$uid";
             
             $headers = [
                 'Content-Type' => 'application/json',
