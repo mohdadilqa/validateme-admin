@@ -1,12 +1,11 @@
 <?php
 
 Route::redirect('/', '/login');
-Route::redirect('/home', '/admin');
+Route::redirect('/home', '/admin/dashboard');
 Auth::routes();
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth']], function () {
-    
-    //Route::redirect('/', '/admin/users');
+    Route::redirect('/', '/admin/dashboard');
     // Permissions
     Route::delete('permissions/destroy', 'PermissionsController@massDestroy')->name('permissions.massDestroy');
     Route::resource('permissions', 'PermissionsController');

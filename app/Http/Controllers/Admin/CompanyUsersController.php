@@ -38,15 +38,16 @@ class CompanyUsersController extends Controller
             ];
             $response = $client->request('GET',$url, ['headers'=>$headers]);
             $result=json_decode($response->getBody()->getContents(),true);
-            foreach($result["response"] as $key=>$value){
-                $datas[$i]["uid"]=$value["uid"];
-                $datas[$i]["name"]=$value["name"];
-                $datas[$i]["email"]=$value["email"];
-                $datas[$i]["role"]=$value["role"];
-                $datas[$i]["createdAt"]=$value["createdAt"];
-                $datas[$i]['organization_name']=$orgName;
+            if(!empty($result)){
+                foreach($result["response"] as $key=>$value){
+                    $datas[$i]["uid"]=$value["uid"];
+                    $datas[$i]["name"]=$value["name"];
+                    $datas[$i]["email"]=$value["email"];
+                    $datas[$i]["role"]=$value["role"];
+                    $datas[$i]["createdAt"]=$value["createdAt"];
+                    $datas[$i]['organization_name']=$orgName;
+                }
             }
-
             /*****Log */
             $log_string_serialize=json_encode(array("action"=>"Navigate to company users","target_user"=>"NA", "target_company"=>$user['organization']->organization_name)); 
             ActivityLogger::activity($log_string_serialize);
