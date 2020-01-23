@@ -3,15 +3,15 @@
 @can('role_create')
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route("admin.doctype-field.create") }}">
-                {{ trans('global.add') }} {{ trans('cruds.doctype_field.title_singular') }}
+            <a class="btn btn-success" href="{{ route("admin.refdata.create") }}">
+                {{ trans('global.add') }} {{ trans('cruds.refdata.title_singular') }}
             </a>
         </div>
     </div>
 @endcan
 <div class="card">
     <div class="card-header">
-        {{ trans('cruds.doctype_field.title_singular') }} {{ trans('global.list') }}
+        {{ trans('cruds.refdata.title_singular') }} {{ trans('global.list') }}
     </div>
 
     <div class="card-body">
@@ -23,10 +23,13 @@
 
                         </th>
                         <th>
-                            {{ trans('cruds.doctype_field.fields.id') }}
+                            {{ trans('cruds.refdata.fields.title') }}
                         </th>
                         <th>
-                            {{ trans('cruds.doctype_field.fields.name') }}
+                            {{ trans('cruds.refdata.fields.RDT_key') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.refdata.fields.code') }}
                         </th>
                         <th>
                             &nbsp;
@@ -40,15 +43,13 @@
 
                             </td>
                             <td>
-                                {{ ++$key ?? '' }}
-                            </td>
-                            <td>
                                 {{ $role->title ?? '' }}
                             </td>
                             <td>
-                                @foreach($role->permissions as $key => $item)
-                                    <span class="badge badge-info">{{ $item->title }}</span>
-                                @endforeach
+                                <span class="badge badge-info">{{ $role->title }}</span>
+                            </td>
+                            <td>
+                                <span class="badge badge-info">{{ $role->title }}</span>
                             </td>
                             <td>
                                 @can('role_show')

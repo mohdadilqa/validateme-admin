@@ -100,16 +100,21 @@ class UsersController extends Controller
             $user = User::create($data);
             $user->roles()->sync($request->input('roles', []));
 
-            /*****Log */
+            
             if(strtolower($loggedin_user_role['title'])===strtolower('support staff')){
+                /*****Log */
                 $log_string_serialize=json_encode(array("action"=>"User Added.","target_user"=>$request->name, "target_company"=>$data['organization_name']));
+                ActivityLogger::activity($log_string_serialize);
+                /*****Log */
                 //Trigger Mail for reset password
                 $this->sendEmailNotification($user);
             }else{
+                /*****Log */
                 $log_string_serialize=json_encode(array("action"=>"User Added.","target_user"=>$request->name, "target_company"=>"ValidateMe"));
+                ActivityLogger::activity($log_string_serialize);
+                /*****Log */
             }
-            ActivityLogger::activity($log_string_serialize);
-            /*****Log */
+           
             return redirect()->route('admin.users.index')->with('message', 'User has been added successfully.');
             
         }else{
@@ -243,7 +248,6 @@ class UsersController extends Controller
      * 
      * 
      */
-
     public function allOrganization(Request $request){
         try{
             $queryString=$request->q;
@@ -259,17 +263,16 @@ class UsersController extends Controller
     }
 
     /******
-     * Send Email using Nodejs notification API
+     * Send Email using Nodejs Notification API
      * 
      * 
      */
     protected function sendEmailNotification($user){
         try{
             $user->load('organization');
-            $orgName=$user['organization']->organization_name;
             $client = new Client();
             $token = app(\Illuminate\Auth\Passwords\PasswordBroker::class)->createToken($user);
-            $link=env('APP_URL')."/password/reset".$token;
+            $link=env('APP_URL')."/password/reset/".$token;
             $url=env("VALIDATEME_NOTIFICATION_ENDPOINT")."/sendnotification";
             
             $headers = [
@@ -279,15 +282,15 @@ class UsersController extends Controller
             ];
             $data=['json' => [
                 "from"=>"Validate Me <no-reply@validateme.online>",
-                "to"=>"ayush.kumar@qainfotech.com",
+                "to"=>$user->email,
                 "message"=>"Verify and reset password", 
                 "category"=>"email",
                 "subCategory"=>"ADMIN_RESET_PASSWORD",
                 "resourceId"=>"",
                 "data"=>[
-                    "company"=>["name"=>$orgName],
+                    "company"=>["name"=>$user['organization']->organization_name],
                     "creator"=>["name"=>"#Creator#"],
-                    "name"=>"#Name#",
+                    "name"=>$user->name,
                     "link"=>$link,
                     "requesterName"=>"#RequestorName#",
                     "documentName"=>"#sample document#",
@@ -304,18 +307,25 @@ class UsersController extends Controller
             ] 
             ]];
         
-        $response = $client->request('POST',$url, $data);
-        /*****Log */
-        $log_string_serialize=json_encode(array("action"=>"Verfication email sent","target_user"=>$user->name, "target_company"=>$user['organization']->organization_name)); 
-        ActivityLogger::activity($log_string_serialize);
-        /*****Log */
-
+            $response = $client->request('POST',$url, $data);
+            $emailResponse=json_decode($response->getBody()->getContents());
+            if(!empty($emailResponse) && !empty($emailResponse->response)){
+                /*****Log */
+                $log_string_serialize=json_encode(array("action"=>"Verfication email sent.","target_user"=>$user->name, "target_company"=>$user['organization']->organization_name)); 
+                ActivityLogger::activity($log_string_serialize);
+                /*****Log */
+            }else{
+                /*****Log */
+                $log_string_serialize=json_encode(array("action"=>"Verfication email sent failed.","target_user"=>$user->name, "target_company"=>$user['organization']->organization_name)); 
+                ActivityLogger::activity($log_string_serialize);
+                /*****Log */
+            }
+        
         }catch(Exception $e){
             /*****Log */
             $log_string_serialize=json_encode(array("action"=>"Verfication email failed","target_user"=>$user->name, "target_company"=>$user['organization']->organization_name)); 
             ActivityLogger::activity($log_string_serialize);
             /*****Log */
-
         }
     }
 }

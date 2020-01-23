@@ -77,13 +77,13 @@
                         {{ trans('cruds.docTypeManagement.title') }}
                     </a>
                     <ul class="nav-dropdown-items">
-                        @can('doctype_field_access')
+                        @can('refdata_access')
                             <li class="nav-item">
-                                <a href="{{ route("admin.doctype-field.index") }}" class="nav-link {{ request()->is('admin/permissions') || request()->is('admin/permissions/*') ? 'active' : '' }}">
+                                <a href="{{ route("admin.refdata.index") }}" class="nav-link {{ request()->is('admin/refdata') || request()->is('admin/refdata/*') ? 'active' : '' }}">
                                     <i class="fa-fw fas fa-unlock-alt nav-icon">
 
                                     </i>
-                                    {{ trans('cruds.doctype_field.title') }}
+                                    {{ trans('cruds.refdata.title') }}
                                 </a>
                             </li>
                         @endcan

@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use jeremykenedy\LaravelLogger\App\Http\Traits\ActivityLogger;
 use GuzzleHttp\Client;
 
-class DocTypeFieldsController extends Controller
+class DocTypeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -65,17 +65,20 @@ class DocTypeFieldsController extends Controller
             
             $response = $client->request('POST',$url, $data);
             if($response->statusCode==200){
+                // /*****Log */
+                $log_string_serialize=json_encode(array("action"=>"DocType Field Added","target_user"=>"NA", "target_company"=>"NA")); 
+                ActivityLogger::activity($log_string_serialize);
+                /*****Log */
+               
                 return redirect()->route('admin.doctype-field.index')->with('message', 'DocType field has been added successfully.');
-            }elseif($response->statusCode==422){
-                return back()->with('message', 'Data is empty or invalid. Please try again.');
             }else{
+
+                // /*****Log */
+                $log_string_serialize=json_encode(array("action"=>"DocType Field Add failed","target_user"=>"NA", "target_company"=>"NA")); 
+                ActivityLogger::activity($log_string_serialize);
+                /*****Log */
                 return back()->with('message', 'Server Error. Please try again.');
             }
-            
-            // /*****Log */
-            $log_string_serialize=json_encode(array("action"=>"DocType Field Added","target_user"=>"NA", "target_company"=>"NA")); 
-            ActivityLogger::activity($log_string_serialize);
-            /*****Log */
 
         }catch(Exception $e){
 

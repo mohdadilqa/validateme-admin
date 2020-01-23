@@ -2,8 +2,8 @@
 
 return [
     'userManagement'    => [
-        'title'          => 'User management',
-        'title_singular' => 'User management',
+        'title'          => 'User Management',
+        'title_singular' => 'User Management',
     ],
     'permission'        => [
         'title'          => 'Permissions',
@@ -116,27 +116,21 @@ return [
         ],
     ],
     'docTypeManagement'    => [
-        'title'          => 'Manage DocType',
-        'title_singular' => 'Manage DocType',
+        'title'          => 'Doc Management',
+        'title_singular' => 'Doc Management',
     ],
-    'doctype_field'              => [
-        'title'          => 'Doctype Field',
-        'title_singular' => 'Doctype Field',
+    'refdata'              => [
+        'title'          => 'Reference Data',
+        'title_singular' => 'Reference Data',
         'fields'         => [
             'id'                       => 'ID',
             'id_helper'                => '',
-            'field_name'               => 'Field Name',
-            'field_name_helper'        => '',
-            'field_type'               => 'Field Type',
-            'field_type_helper'        => '',
-            'field_option'             => 'Filed option',
-            'option_helper'            => '',
-            'created_date'             => 'Created Date',
-            'created_date_helper'      => '',
-            'updated_date'             => 'Updated Date',
-            'updated_date_at_helper'   => '',
-            'status'                   => 'Status',
-            'status_helper'          => '',
+            'title'                    => 'Title',
+            'title_helper'             => '',
+            'RDT_key'                  => 'RDT Key',
+            'RDT_key_helper'           => '',
+            'code'                     => 'Code',
+            'code_helper'              => ''
         ],
     ],
 ];

@@ -118,7 +118,7 @@ $(document).ready(function(){
     $("#organization").select2({
         ajax: { 
             headers: {'x-csrf-token': _token},
-            url: "<?php echo url('/') ?>"+"/admin/users/allOrganization",
+            url: "<?php echo env('APP_URL') ?>"+"/admin/users/allOrganization",
             type: "POST",
             dataType: 'json',
             data: function (params) {
