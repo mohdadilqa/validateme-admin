@@ -96,34 +96,32 @@ class UsersController extends Controller
                 //generate a random password
                 $data['password']=rand();
             }
-        $data['created_by']=$loggedin_user_id;
-        $user = User::create($data);
-        $user->roles()->sync($request->input('roles', []));
-
-        /*****Log */
-        if(strtolower($loggedin_user_role['title'])===strtolower('support staff')){
-            $log_string_serialize=json_encode(array("action"=>"The email has already been taken.","target_user"=>$request->name, "target_company"=>$data['organization_name']));
-            //Trigger Mail for reset password
-            $this->sendEmailNotification($user);
-        }else{
-            $log_string_serialize=json_encode(array("action"=>"The email has already been taken.","target_user"=>$request->name, "target_company"=>"ValidateMe"));
-        }
-        ActivityLogger::activity($log_string_serialize);
-        /*****Log */
-        return redirect()->route('admin.users.index')->with('message', 'User has been added successfully.');
-            
-        }else{
+            $data['created_by']=$loggedin_user_id;
+            $user = User::create($data);
+            $user->roles()->sync($request->input('roles', []));
 
             /*****Log */
             if(strtolower($loggedin_user_role['title'])===strtolower('support staff')){
-                $log_string_serialize=json_encode(array("action"=>"Exception:The email has already been taken.","target_user"=>$request->name, "target_company"=>$data['organization_name']));
+                $log_string_serialize=json_encode(array("action"=>"User Added.","target_user"=>$request->name, "target_company"=>$data['organization_name']));
+                //Trigger Mail for reset password
+                $this->sendEmailNotification($user);
             }else{
-                $log_string_serialize=json_encode(array("action"=>"Exception:The email has already been taken.","target_user"=>$request->name, "target_company"=>"ValidateMe"));
+                $log_string_serialize=json_encode(array("action"=>"User Added.","target_user"=>$request->name, "target_company"=>"ValidateMe"));
             }
-            
             ActivityLogger::activity($log_string_serialize);
             /*****Log */
-            return back()->with('message', 'The email has already been taken. Please try with another email.');
+            return redirect()->route('admin.users.index')->with('message', 'User has been added successfully.');
+            
+        }else{
+            /*****Log */
+            // if(strtolower($loggedin_user_role['title'])===strtolower('support staff')){
+            //     $log_string_serialize=json_encode(array("action"=>"User has been already registered with this email.","target_user"=>$request->name, "target_company"=>$data['organization_name']));
+            // }else{
+            //     $log_string_serialize=json_encode(array("action"=>"User has been already registered with this email.","target_user"=>$request->name, "target_company"=>"ValidateMe"));
+            // }
+            // ActivityLogger::activity($log_string_serialize);
+            /*****Log */
+            return back()->with('message', 'User has been already registered with this email. Please try with another email.');
         }
         
     }
@@ -167,16 +165,16 @@ class UsersController extends Controller
             /*****Log */
             return redirect()->route('admin.users.index')->with('message', 'User has been updated successfully.');
         }else{
+            return back()->with('message', 'User has been already registered with this email.');
             /*****Log */
-            if(strtolower($loggedin_user_role['title'])===strtolower('support staff')){
-                $log_string_serialize=json_encode(array("action"=>"Exception:The email has already been taken.","target_user"=>$request->name, "target_company"=>$user['organization']->organization_name));
-            }else{
-                $log_string_serialize=json_encode(array("action"=>"Exception:The email has already been taken.","target_user"=>$request->name, "target_company"=>"ValidateMe"));
-            }
-            ActivityLogger::activity($log_string_serialize);
+            // if(strtolower($loggedin_user_role['title'])===strtolower('support staff')){
+            //     $log_string_serialize=json_encode(array("action"=>"User has been already registered with this email.","target_user"=>$request->name, "target_company"=>$user['organization']->organization_name));
+            // }else{
+            //     $log_string_serialize=json_encode(array("action"=>"User has been already registered with this email.","target_user"=>$request->name, "target_company"=>"ValidateMe"));
+            // }
+            // ActivityLogger::activity($log_string_serialize);
             /*****Log */
         }
-        return back()->with('message', 'The email has already been taken. Please try with another email.');
     }
 
     public function show(User $user)
@@ -185,12 +183,14 @@ class UsersController extends Controller
        
         $user->load('roles');
         $user->load('organization');
-       
+        $loggedin_user_role = Auth::user()->roles->first()->toArray();
         
         /*****Log */
-        $log_string_serialize=json_encode(array("action"=>"View User profile","target_user"=>$user['name'], "target_company"=>'Qa Infotech'));
-
-        // $log_string_serialize=json_encode(array("activity"=>"View user profile","activity_for"=>$user['name']));
+        if(strtolower($loggedin_user_role['title'])===strtolower('support staff')){
+            $log_string_serialize=json_encode(array("action"=>"View User profile","target_user"=>$user['name'], "target_company"=>$user['organization']['organization_name']));
+        }else{
+            $log_string_serialize=json_encode(array("action"=>"View User profile","target_user"=>$user['name'], "target_company"=>'Validate Me'));
+        }
         ActivityLogger::activity($log_string_serialize);
         /*****Log */
         return view('admin.users.show', compact('user'));
@@ -198,17 +198,20 @@ class UsersController extends Controller
 
     public function destroy(User $user)
     {
-
         abort_if(Gate::denies('user_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        $userdetail = $user->load('organization');
-        //echo '<pre>';print_r($user); die;
-        $user_name=$user['name'];
+        $user->load('organization');
+        $user_name=$user->name;
         $user->delete();
         
+        $loggedin_user_role = Auth::user()->roles->first()->toArray();
+        
         /*****Log */
-        $log_string_serialize=json_encode(array("action"=>"Deleted User","target_user"=>$user_name, "target_company"=>$userdetail['organization']->organization_name));
-
-        // $log_string_serialize=json_encode(array("activity"=>"Delete user","activity_for"=>$user_name));
+        if(strtolower($loggedin_user_role['title'])===strtolower('support staff')){
+            $log_string_serialize=json_encode(array("action"=>"Deleted User","target_user"=>$user_name, "target_company"=>$user['organization']->organization_name));
+        }else{
+            $log_string_serialize=json_encode(array("action"=>"Deleted User","target_user"=>$user_name, "target_company"=>'Validate Me'));
+           
+        }
         ActivityLogger::activity($log_string_serialize);
         /*****Log */
         return back()->with('message', 'User has been deleted successfully.');
@@ -218,13 +221,19 @@ class UsersController extends Controller
     {
         $users = User::with('organization')->whereIn('id', request('ids'))->get();
         User::whereIn('id', request('ids'))->delete();
+        $loggedin_user_role = Auth::user()->roles->first()->toArray();
         
         foreach($users as $key => $user){
-            /*****Log */
-            $log_string_serialize=json_encode(array("action"=>"Deleted User","target_user"=>$user->name, "target_company"=>$user['organization']->organization_name)); 
+           /*****Log */
+            if(strtolower($loggedin_user_role['title'])===strtolower('support staff')){
+                $log_string_serialize=json_encode(array("action"=>"Deleted User","target_user"=>$user->user_name, "target_company"=>$user['organization']->organization_name));
+            }else{
+                $log_string_serialize=json_encode(array("action"=>"Deleted User","target_user"=>$user->user_name, "target_company"=>'Validate Me'));
+            
+            }
             ActivityLogger::activity($log_string_serialize);
             /*****Log */
-        }
+        } 
         return response(null, Response::HTTP_NO_CONTENT);
     }
 
@@ -236,7 +245,6 @@ class UsersController extends Controller
      */
 
     public function allOrganization(Request $request){
-        
         try{
             $queryString=$request->q;
             $url=env('VALIDATEME_ORG_API_ENDPOINT')."/companies/suggest?query=".$queryString;
@@ -259,9 +267,10 @@ class UsersController extends Controller
         try{
             $user->load('organization');
             $orgName=$user['organization']->organization_name;
+            $emailTo=$user->email;
             $client = new Client();
             $token = app(\Illuminate\Auth\Passwords\PasswordBroker::class)->createToken($user);
-            $link=env('APP_URL')."/password/reset".$token;
+            $link=env('APP_URL')."/password/reset/".$token;
             $url=env("VALIDATEME_NOTIFICATION_ENDPOINT")."/sendnotification";
             
             $headers = [
@@ -271,7 +280,7 @@ class UsersController extends Controller
             ];
             $data=['json' => [
                 "from"=>"Validate Me <no-reply@validateme.online>",
-                "to"=>"ayush.kumar@qainfotech.com",
+                "to"=>$emailTo,
                 "message"=>"Verify and reset password", 
                 "category"=>"email",
                 "subCategory"=>"ADMIN_RESET_PASSWORD",
@@ -296,18 +305,28 @@ class UsersController extends Controller
             ] 
             ]];
         
-        $response = $client->request('POST',$url, $data);
-        /*****Log */
-        $log_string_serialize=json_encode(array("action"=>"Verfication email sent","target_user"=>$user->name, "target_company"=>$user['organization']->organization_name)); 
-        ActivityLogger::activity($log_string_serialize);
-        /*****Log */
+            $response = $client->request('POST',$url, $data);
+            $emailResponse=json_decode($response->getBody()->getContents());
+            if(!empty($emailResponse) && $emailResponse->response->sent){
+                /*****Log */
+                $log_string_serialize=json_encode(array("action"=>"Verfication email sent.","target_user"=>$user->name, "target_company"=>$user['organization']->organization_name)); 
+                ActivityLogger::activity($log_string_serialize);
+                /*****Log */
 
+            }else{
+
+                /*****Log */
+                $log_string_serialize=json_encode(array("action"=>"Verfication email sent failed.","target_user"=>$user->name, "target_company"=>$user['organization']->organization_name)); 
+                ActivityLogger::activity($log_string_serialize);
+                /*****Log */
+
+            }
+        
         }catch(Exception $e){
             /*****Log */
             $log_string_serialize=json_encode(array("action"=>"Verfication email failed","target_user"=>$user->name, "target_company"=>$user['organization']->organization_name)); 
             ActivityLogger::activity($log_string_serialize);
             /*****Log */
-
         }
     }
 }
