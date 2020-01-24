@@ -256,12 +256,20 @@ class UsersController extends Controller
             $request = $client->get($url);
             $response = $request->getBody()->getContents();
             print_r($response);
+
+            /*****Log */
+            $log_string_serialize=json_encode(array("action"=>"Company search->".$queryString,"target_user"=>"NA", "target_company"=>"NA")); 
+            ActivityLogger::activity($log_string_serialize);
+            /*****Log */
             exit;
         }catch(Exception $e){
 
+            /*****Log */
+            $log_string_serialize=json_encode(array("action"=>"Company search->".$queryString,"target_user"=>"NA", "target_company"=>"NA")); 
+            ActivityLogger::activity($log_string_serialize);
+            /*****Log */
         }
     }
-
     /******
      * Send Email using Nodejs Notification API
      * 
@@ -304,9 +312,8 @@ class UsersController extends Controller
                     "action"=> "#action#",
                     "actionCode"=> "SET_SOURCE",
                     "requestor"=> "#Requestor#"
-            ] 
+                ] 
             ]];
-        
             $response = $client->request('POST',$url, $data);
             $emailResponse=json_decode($response->getBody()->getContents());
             if(!empty($emailResponse) && !empty($emailResponse->response)){

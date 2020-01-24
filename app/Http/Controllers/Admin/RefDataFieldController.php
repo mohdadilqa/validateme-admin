@@ -10,7 +10,7 @@ use jeremykenedy\LaravelLogger\App\Http\Traits\ActivityLogger;
 use GuzzleHttp\Client;
 use App\Traits\BEAPITrait;
 
-class RefDataController extends Controller
+class RefDataFieldController extends Controller
 {
     /**
      * Display a listing of the resource.

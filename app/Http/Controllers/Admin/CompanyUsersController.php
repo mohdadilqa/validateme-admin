@@ -30,7 +30,7 @@ class CompanyUsersController extends Controller
             $orgName=$user['organization']->organization_name;
 
             $client = new Client();//Guzzle Client object
-            $url=env("VALIDATEME_BE_ENDPOINT")."/company/user/$orgDomain";
+            $url=env("VALIDATEME_BE_ENDPOINT")."/company/user?domain=$orgDomain";
             
             $headers = [
                 'Content-Type' => 'application/json',
@@ -46,6 +46,7 @@ class CompanyUsersController extends Controller
                     $datas[$i]["role"]=$value["role"];
                     $datas[$i]["createdAt"]=$value["createdAt"];
                     $datas[$i]['organization_name']=$orgName;
+                    $i++;
                 }
             }
 
@@ -104,7 +105,7 @@ class CompanyUsersController extends Controller
             $uid=$request->uid;
             $name=$request->name;
             $organization_name=$request->organization_name;
-            $url=env("VALIDATEME_BE_ENDPOINT")."/company/verify/$uid";
+            $url=env("VALIDATEME_BE_ENDPOINT")."/company/role/$uid";
             
             $headers = [
                 'Content-Type' => 'application/json',
@@ -116,14 +117,17 @@ class CompanyUsersController extends Controller
             $response = $client->request('PUT',$url, $data);
             if($response){
                 $data=json_encode(array("message"=>"User has been verified.","status"=>1));
+                 /*****Log */
+                $log_string_serialize=json_encode(array("action"=>"Verified company user.","target_user"=>$name, "target_company"=>$organization_name)); 
+                ActivityLogger::activity($log_string_serialize);
+                /*****Log */
             }else{
                 $data=json_encode(array("message"=>"User verification failed.","status"=>0));
+                /*****Log */
+                $log_string_serialize=json_encode(array("action"=>"Verify company user failed.","target_user"=>$name, "target_company"=>$organization_name)); 
+                ActivityLogger::activity($log_string_serialize);
+                /*****Log */
             }
-            
-            /*****Log */
-            $log_string_serialize=json_encode(array("action"=>"Verified company user","target_user"=>$name, "target_company"=>$organization_name)); 
-            ActivityLogger::activity($log_string_serialize);
-            /*****Log */
             echo $data;die;
         }catch(Exception $e){
             

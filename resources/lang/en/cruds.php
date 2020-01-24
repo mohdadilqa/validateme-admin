@@ -133,4 +133,32 @@ return [
             'code_helper'              => ''
         ],
     ],
+    'refdata'              => [
+        'title'          => 'Reference Data',
+        'title_singular' => 'Reference Data',
+        'fields'         => [
+            'id'                       => 'ID',
+            'id_helper'                => '',
+            'title'                    => 'Title',
+            'title_helper'             => '',
+            'RDT_key'                  => 'RDT Key',
+            'RDT_key_helper'           => '',
+            'code'                     => 'Code',
+            'code_helper'              => ''
+        ],
+    ],
+    'refdatafield'              => [
+        'title'          => 'Field Definition',
+        'title_singular' => 'Field Definition',
+        'fields'         => [
+            'id'                       => 'ID',
+            'id_helper'                => '',
+            'code'                     => 'Code',
+            'code_helper'              => '',
+            'RDT_key'                  => 'RDT Key',
+            'RDT_key_helper'           => '',
+            'UX_Type'                  => 'UX Type',
+            'UX_Type_helper'              => ''
+        ],
+    ],
 ];

@@ -87,6 +87,16 @@
                                 </a>
                             </li>
                         @endcan
+                        
+                            <li class="nav-item">
+                                <a href="{{ route("admin.refdata.index") }}" class="nav-link {{ request()->is('admin/refdata') || request()->is('admin/refdata/*') ? 'active' : '' }}">
+                                    <i class="fa-fw fas fa-unlock-alt nav-icon">
+
+                                    </i>
+                                    {{ trans('cruds.refdatafield.title') }}
+                                </a>
+                            </li>
+                       
                         @can('doctype_access')
                             <li class="nav-item">
                                 <a href="{{ route("admin.doctype.index") }}" class="nav-link {{ request()->is('admin/roles') || request()->is('admin/roles/*') ? 'active' : '' }}">

@@ -1,5 +1,6 @@
 $(document).ready(function(){
     window._token = $('meta[name="csrf-token"]').attr('content');
+    var base_url = window.location.origin;
     //Code for dynamic add input
     // var i=1;  
     // $("#add").on('click',function(){
@@ -18,26 +19,67 @@ $(document).ready(function(){
     //     $('#div'+id).remove();
     // })
     //end
-
+    //Select RDT Key if not then new one created
     $("#RDT_key").autocomplete({
         source: function(request, response) {
             $.ajax({
                 headers: {'x-csrf-token': _token},
-                url:"<?php echo env('APP_URL') ?>"+"/refdata/refDatakey",
+                url:base_url+"/admin/refdata/refDatakey",
                 type: "POST",
                 data: {
                     term: request.term
                 },
                 dataType: "json",
-                success: function (data) {
-                    response($.map(data, function (el) {
+                success: function (res) {
+                    console.log(res);
+                    response($.map(res, function(item) {
                         return {
-                            label: el.label,
-                            value: el.value
-                        };
-                    }));
+                            value: item
+                        }
+                    }))
                 }
             });
+        }
+    });
+
+    //Code generation for REFDATA
+
+    function regex (str) {
+        return str.replace(/(~|`| |!|@|#|$|%|^|&|\*|\(|\)|{|}|\[|\]|;|:|\"|'|<|,|\.|>|\?|\/|\\|\||-|_|\+|=)/g,"")
+    }
+
+    $("#title").keyup(function(){
+        let title=$(this).val();
+        let code=regex(title).toLowerCase();
+        $("#code").val(code);
+    });
+
+    //Only Selectable RDT Key
+    $("#select_RDT_key").autocomplete({
+        source: function(request, response) {
+            $.ajax({
+                headers: {'x-csrf-token': _token},
+                url:base_url+"/admin/refdata/refDatakey",
+                type: "POST",
+                data: {
+                    term: request.term
+                },
+                dataType: "json",
+                success: function (res) {
+                    console.log(res);
+                    response($.map(res, function(item) {
+                        return {
+                            value: item
+                        }
+                    }))
+                }
+            });
+        },
+        change: function(event, ui) {
+            if (ui.item == null) {
+              event.currentTarget.value = ''; 
+              event.currentTarget.focus();
+            }
         }
     });
 

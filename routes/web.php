@@ -28,13 +28,13 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::resource('dashboard', 'DashboardController');
 
     //Log 
-
     Route::resource('log','LogController');
-
-    //DocType Fields 
-    Route::resource('refdata','RefDataController');
-    Route::post('refdata/refDatakey','RefDataController@getReferenceDataKey');
-
     
+    //Refrence Data
+    Route::resource('refdata','RefDataController');
+    Route::post('refdata/refDatakey','RefDataController@referenceDataKey');
+
+    //Refrence Data Field Definition
+    Route::resource('refdatafield','RefDataFieldController');
 });
 
