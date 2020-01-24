@@ -46,6 +46,7 @@ class CompanyUsersController extends Controller
                     $datas[$i]["role"]=$value["role"];
                     $datas[$i]["createdAt"]=$value["createdAt"];
                     $datas[$i]['organization_name']=$orgName;
+                    $i++;
                 }
             }
             /*****Log */
