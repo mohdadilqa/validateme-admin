@@ -73,7 +73,7 @@
                             <td>
                                 @can('company_user_verify')
                                     
-                                    <a class="btn btn-xs btn-primary " <?php if(empty($verifiedAction)) echo "style='display:none;'" ?> id="<?php echo $val['uid'] ?>_verifyAction"  onclick="verifyUser('5kVBZ3Yf3KWqGv9JgUMLrQpQ3xC3')" uid="{{ $val['uid'] }}" href="javascript:void(0)">
+                                    <a class="btn btn-xs btn-primary " <?php if(empty($verifiedAction)) echo "style='display:none;'" ?> id="<?php echo $val['uid'] ?>_verifyAction"  onclick="verifyUser('<?php echo $val['uid']?>')" uid="{{ $val['uid'] }}" href="javascript:void(0)">
                                         Verify
                                     </a>
                                     
@@ -81,7 +81,7 @@
 
                                 @can('company_user_disable')
                                     
-                                    <a class="btn btn-xs btn-primary" <?php if(empty($disableAction)) echo "style='display:none;'" ?> id="<?php echo $val['uid'] ?>_disableAction" href="javascript:void(0)">
+                                    <a class="btn btn-xs btn-info" <?php if(empty($disableAction)) echo "style='display:none;'" ?> id="<?php echo $val['uid'] ?>_disableAction" href="javascript:void(0)" disabled>
                                         Disable
                                     </a>
                                     
@@ -89,7 +89,7 @@
 
                                 @can('company_user_view_activity')
                                     
-                                    <a class="btn btn-xs btn-primary" <?php if(empty($viewActivityAction)) echo "style='display:none;'" ?> id="<?php echo $val['uid'] ?>_viewActvityAction" href="javascript:void(0)">
+                                    <a class="btn btn-xs btn-info" <?php if(empty($viewActivityAction)) echo "style='display:none;'" ?> id="<?php echo $val['uid'] ?>_viewActvityAction" href="javascript:void(0)" disabled>
                                         View Activity
                                     </a>
                                     
