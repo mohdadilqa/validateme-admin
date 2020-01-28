@@ -20,7 +20,6 @@
                 <thead>
                     <tr>
                         <th width="10">
-
                         </th>
                         <th>
                             {{ trans('cruds.refdata.fields.title') }}
@@ -32,55 +31,32 @@
                             {{ trans('cruds.refdata.fields.code') }}
                         </th>
                         <th>
-                            &nbsp;
+                            {{ trans('cruds.refdata.fields.created_date') }}
                         </th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($roles as $key => $role)
-                        <tr data-entry-id="{{ $role->id }}">
+                    @foreach($datas as $key => $data)
+                        <tr data-entry-id="{{ $data['_id'] }}">
                             <td>
-
                             </td>
                             <td>
-                                {{ $role->title ?? '' }}
+                                {{ $data['title'] ?? '' }}
                             </td>
                             <td>
-                                <span class="badge badge-info">{{ $role->title }}</span>
+                                {{ $data['rdtKey']?? '' }}
                             </td>
                             <td>
-                                <span class="badge badge-info">{{ $role->title }}</span>
+                               {{ $data['code'] ??''}}
                             </td>
                             <td>
-                                @can('role_show')
-                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.roles.show', $role->id) }}">
-                                        {{ trans('global.view') }}
-                                    </a>
-                                @endcan
-
-                                @can('role_edit')
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.roles.edit', $role->id) }}">
-                                        {{ trans('global.edit') }}
-                                    </a>
-                                @endcan
-
-                                @can('role_delete')
-                                    <form action="{{ route('admin.roles.destroy', $role->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
-                                        <input type="hidden" name="_method" value="DELETE">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
-                                    </form>
-                                @endcan
-
+                                {{ date("d-M-Y",strtotime($data['createdAt'])) ??''}}
                             </td>
-
                         </tr>
                     @endforeach
                 </tbody>
             </table>
         </div>
-
-
     </div>
 </div>
 @endsection
@@ -89,11 +65,11 @@
 <script>
     $(function () {
   let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
-@can('role_delete')
+@can('refdata_delete')
   let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
   let deleteButton = {
     text: deleteButtonTrans,
-    url: "{{ route('admin.roles.massDestroy') }}",
+    url: "",
     className: 'btn-danger',
     action: function (e, dt, node, config) {
       var ids = $.map(dt.rows({ selected: true }).nodes(), function (entry) {
@@ -119,7 +95,8 @@
       }
     }
   }
-  dtButtons.push(deleteButton)
+  //dtButtons.push(deleteButton)
+  $('.select-checkbox').css('display','none');
 @endcan
 
   $.extend(true, $.fn.dataTable.defaults, {
@@ -131,7 +108,7 @@
         $($.fn.dataTable.tables(true)).DataTable()
             .columns.adjust();
     });
+    $('.select-checkbox').css('display','none');
 })
-
 </script>
 @endsection

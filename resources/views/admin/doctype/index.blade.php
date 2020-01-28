@@ -3,15 +3,15 @@
 @can('role_create')
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route("admin.refdatafield.create") }}">
-                {{ trans('global.add') }} {{ trans('cruds.refdatafield.title_singular') }}
+            <a class="btn btn-success" href="{{ route("admin.doctype.create") }}">
+                {{ trans('global.add') }} {{ trans('cruds.doctype.title_singular') }}
             </a>
         </div>
     </div>
 @endcan
 <div class="card">
     <div class="card-header">
-        {{ trans('cruds.refdatafield.title_singular') }} {{ trans('global.list') }}
+        {{ trans('cruds.doctype.title_singular') }} {{ trans('global.list') }}
     </div>
 
     <div class="card-body">
@@ -22,41 +22,41 @@
                         <th width="10">
                         </th>
                         <th>
-                            {{ trans('cruds.refdatafield.fields.code') }}
+                            {{ trans('cruds.doctype.fields.name') }}
                         </th>
                         <th>
-                            {{ trans('cruds.refdatafield.fields.title') }}
+                            {{ trans('cruds.doctype.fields.ref_data_field') }}
                         </th>
                         <th>
-                            {{ trans('cruds.refdatafield.fields.RDT_key') }}
+                            {{ trans('cruds.doctype.fields.name_rule') }}
                         </th>
                         <th>
-                            {{ trans('cruds.refdatafield.fields.UXType') }}
+                            {{ trans('cruds.doctype.fields.category') }}
                         </th>
                         <th>
-                            {{ trans('cruds.refdatafield.fields.created_date') }}
+                            {{ trans('cruds.doctype.fields.created_date') }}
                         </th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($datas as $key => $data)
                         <tr data-entry-id="{{ $data['_id'] }}">
-                        <td>
+                            <td>
                             </td>
                             <td>
-                                {{ $data['code'] ?? '' }}
+                                {{ $data['name'] ?? '' }}
                             </td>
                             <td>
-                                {{ $data['title'] }}
+                                {{ $data['ref_data_field']?? '' }}
                             </td>
                             <td>
-                                {{ $data['rdtKey'] }}
+                               {{ $data['name_rule'] ??''}}
                             </td>
                             <td>
-                                {{ $data['type'] }}
+                               {{ $data['category'] ??''}}
                             </td>
                             <td>
-                                {{ date("d-M-Y",strtotime($data['createdAt'])) }}
+                                {{ date("d-M-Y",strtotime($data['createdAt'])) ??''}}
                             </td>
                         </tr>
                     @endforeach
@@ -71,11 +71,11 @@
 <script>
     $(function () {
   let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
-@can('refdatafield_delete')
+@can('refdata_delete')
   let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
   let deleteButton = {
     text: deleteButtonTrans,
-    url: "{{ route('admin.roles.massDestroy') }}",
+    url: "",
     className: 'btn-danger',
     action: function (e, dt, node, config) {
       var ids = $.map(dt.rows({ selected: true }).nodes(), function (entry) {
@@ -102,7 +102,7 @@
     }
   }
   //dtButtons.push(deleteButton)
-  
+  $('.select-checkbox').css('display','none');
 @endcan
 
   $.extend(true, $.fn.dataTable.defaults, {
@@ -116,6 +116,5 @@
     });
     $('.select-checkbox').css('display','none');
 })
-
 </script>
 @endsection

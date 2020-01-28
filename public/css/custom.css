@@ -122,3 +122,28 @@ table.dataTable thead .sorting_desc {
     transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 	display: inline-block;
 }
+
+#sortable1, #sortable2 {
+    border: 1px solid #aaaaaa;
+    width: 49%;
+    height: 200px;
+    overflow: auto;
+    list-style-type: none;
+    margin: 0;
+    padding: 25px;
+    float: left;
+    border-radius: 5px;
+  }
+  #sortable1 li, #sortable2 li {
+    margin: 0 5px 5px 5px;
+    padding: 10px;
+    font-size: 1.2em;
+    width: 50%;
+  }
+  #sortable2{float:right;}
+
+  .category{
+    display: inline-block;
+    width: 100%;
+    margin-top: 20px;
+  }

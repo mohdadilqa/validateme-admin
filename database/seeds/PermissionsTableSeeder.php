@@ -230,6 +230,36 @@ class PermissionsTableSeeder extends Seeder
                 'created_at' => '2019-09-13 19:21:30',
                 'updated_at' => '2019-09-13 19:21:30',
             ],
+            [
+                'id'         => '38',
+                'title'      => 'doctype_access',
+                'created_at' => '2019-09-13 19:21:30',
+                'updated_at' => '2019-09-13 19:21:30',
+            ],
+            [
+                'id'         => '39',
+                'title'      => 'doctype_create',
+                'created_at' => '2019-09-13 19:21:30',
+                'updated_at' => '2019-09-13 19:21:30',
+            ],
+            [
+                'id'         => '40',
+                'title'      => 'doctype_edit',
+                'created_at' => '2019-09-13 19:21:30',
+                'updated_at' => '2019-09-13 19:21:30',
+            ],
+            [
+                'id'         => '41',
+                'title'      => 'doctype_show',
+                'created_at' => '2019-09-13 19:21:30',
+                'updated_at' => '2019-09-13 19:21:30',
+            ],
+            [
+                'id'         => '42',
+                'title'      => 'doctype_delete',
+                'created_at' => '2019-09-13 19:21:30',
+                'updated_at' => '2019-09-13 19:21:30',
+            ],
         ];
         foreach ($permissions as $permission) {
             Permission::updateOrCreate(['id' => $permission['id']], $permission);

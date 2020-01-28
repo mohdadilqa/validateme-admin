@@ -144,7 +144,9 @@ return [
             'RDT_key'                  => 'RDT Key',
             'RDT_key_helper'           => '',
             'code'                     => 'Code',
-            'code_helper'              => ''
+            'code_helper'              => '',
+            'created_date'             => 'Created Date',
+            'created_date_helper'      => ''
         ],
     ],
     'refdatafield'              => [
@@ -155,10 +157,32 @@ return [
             'id_helper'                => '',
             'code'                     => 'Code',
             'code_helper'              => '',
+            'title'                    => 'Title',
+            'title_helper'             => '',
             'RDT_key'                  => 'RDT Key',
             'RDT_key_helper'           => '',
-            'UX_Type'                  => 'UX Type',
-            'UX_Type_helper'              => ''
+            'UXType'                   => 'UX Type',
+            'UXType_helper'            => '',
+            'created_date'             => 'Created Date',
+            'created_date_helper'      => ''
+        ],
+    ],
+    'doctype'              => [
+        'title'          => 'Document Definition',
+        'title_singular' => 'Document Definition',
+        'fields'         => [
+            'id'                       => 'ID',
+            'id_helper'                => '',
+            'name'                     => 'Name',
+            'name_helper'              => '',
+            'ref_data_field'           => 'Reference Data Field',
+            'ref_data_field_helper'    => '',
+            'name_rule'                => 'Name Rule',
+            'name_rule_helper'         => '',
+            'category'                 => 'Category',
+            'category_helper'            => '',
+            'created_date'             => 'Created Date',
+            'created_date_helper'      => ''
         ],
     ],
 ];

@@ -21,8 +21,13 @@ class RefDataController extends Controller
 
     public function index()
     {
-        $roles=array();
-        return view('admin.refdata.index',compact('roles'));
+        $params="";$datas=array();
+        $response=json_decode($this->getReferenceData($params),true);
+        if(!empty($response) && isset($response['data']['refData'])){
+            $datas=$response['data']['refData'];
+        }
+        
+        return view('admin.refdata.index',compact('datas'));
     }
 
     /**
@@ -49,23 +54,21 @@ class RefDataController extends Controller
                     "title"=>$request->title,
                     "rdtKey"=>$request->RDT_key,
                     "code"=>$request->code,
-                    "createdBy"=>$loggedin_user_id
+                    "createdBy"=>"'$loggedin_user_id'"
                 ];
-            $response= $this->RDTKeyAPI($request,$data);
-            if(!empty($response) && !empty($resBody->response)){
+            $response= json_decode($this->refDataSaveAPI($request,$data),true);
+            if(!empty($response) && ($response['status']===1)){
                 // /*****Log */
                 $log_string_serialize=json_encode(array("action"=>"Reference Data Added","target_user"=>"NA", "target_company"=>"NA")); 
                 ActivityLogger::activity($log_string_serialize);
                 /*****Log */
-               
                 return redirect()->route('admin.refdata.index')->with('message', 'Reference Data has been added successfully.');
             }else{
-
                 // /*****Log */
                 $log_string_serialize=json_encode(array("action"=>"Reference Data failed","target_user"=>"NA", "target_company"=>"NA")); 
                 ActivityLogger::activity($log_string_serialize);
                 /*****Log */
-                return back()->with('message', 'Server Error. Please try again.');
+                return back()->with('message', $response['msg']);
             }
 
         }catch(Exception $e){
@@ -123,14 +126,13 @@ class RefDataController extends Controller
         //
     }
 
-    public function referenceDataKey(Request $request){
 
+    public function referenceDataKey(Request $request){
         try{
-            $client = new Client();//Guzzle Client object
             $searchTerm=$request->term;
-            $response= $this->RDTKeyAPI($request,$searchTerm);
-            if($response){
-                $responseData=json_encode(array("status"=>1,"data"=>$response));
+            $response= json_decode($this->RDTKeyAPI($request,$searchTerm),true);
+            if(!empty($response) && !empty($response['response'])){
+                $responseData=json_encode(array("status"=>1,"data"=>$response['response']));
                  /*****Log */
                 $log_string_serialize=json_encode(array("action"=>"RDTKey searching->".$searchTerm,"target_user"=>"NA", "target_company"=>"NA")); 
                 ActivityLogger::activity($log_string_serialize);
@@ -150,7 +152,6 @@ class RefDataController extends Controller
             ActivityLogger::activity($log_string_serialize);
             /*****Log */
             $responseData=json_encode(array("message"=>"RDTKey searching Failed.","status"=>0));
-            
         }
         echo $responseData;die;
     }

@@ -10,7 +10,7 @@ use jeremykenedy\LaravelLogger\App\Http\Traits\ActivityLogger;
 use GuzzleHttp\Client;
 use App\Traits\BEAPITrait;
 
-class RefDataFieldController extends Controller
+class DocTypeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -22,10 +22,12 @@ class RefDataFieldController extends Controller
     public function index()
     {
         $params="";$datas=array();
-        $response=json_decode($this->getReferenceFieldData($params),true);
-        //echo "<pre/>";print_r($response);die;
-        $datas=$response['data']['doctypeFieldDefinationData'];
-        return view('admin.refdatafield.index',compact('datas'));
+        // $response=json_decode($this->getReferenceData($params),true);
+        // if(!empty($response) && isset($response['data']['refData'])){
+        //     $datas=$response['data']['refData'];
+        // }
+        
+        return view('admin.doctype.index',compact('datas'));
     }
 
     /**
@@ -35,9 +37,8 @@ class RefDataFieldController extends Controller
      */
     public function create()
     {
-        //$uxtypes=array('text', 'number', 'select', 'multi-select', 'date');
-        $uxtypes=array("select"=>"select");
-        return view('admin.refdatafield.create',compact('uxtypes'));
+        $categories=array();
+        return view('admin.doctype.create',compact('categories'));
     }
 
     /**
@@ -51,22 +52,21 @@ class RefDataFieldController extends Controller
         $loggedin_user_id = Auth::user()->id;
         try{
             $data=[
-                    "code"=>$request->code,
                     "title"=>$request->title,
                     "rdtKey"=>$request->RDT_key,
-                    "type"=>$request->UXType,
+                    "code"=>$request->code,
                     "createdBy"=>"'$loggedin_user_id'"
                 ];
-            $response= json_decode($this->filedDataSaveAPI($request,$data),true);
-            if(!empty($response) && !empty(($response['status']===1))){
+            $response= json_decode($this->refDataSaveAPI($request,$data),true);
+            if(!empty($response) && ($response['status']===1)){
                 // /*****Log */
-                $log_string_serialize=json_encode(array("action"=>"Field Definition Added","target_user"=>"NA", "target_company"=>"NA")); 
+                $log_string_serialize=json_encode(array("action"=>"Reference Data Added","target_user"=>"NA", "target_company"=>"NA")); 
                 ActivityLogger::activity($log_string_serialize);
                 /*****Log */
-                return redirect()->route('admin.refdatafield.index')->with('message', 'Field Definition has been created successfully.');
+                return redirect()->route('admin.refdata.index')->with('message', 'Reference Data has been added successfully.');
             }else{
                 // /*****Log */
-                $log_string_serialize=json_encode(array("action"=>"Field Definition failed","target_user"=>"NA", "target_company"=>"NA")); 
+                $log_string_serialize=json_encode(array("action"=>"Reference Data failed","target_user"=>"NA", "target_company"=>"NA")); 
                 ActivityLogger::activity($log_string_serialize);
                 /*****Log */
                 return back()->with('message', $response['msg']);
@@ -76,7 +76,7 @@ class RefDataFieldController extends Controller
 
             return back()->with('message', 'Exception found. Please try again.');
             /*****Log */
-            $log_string_serialize=json_encode(array("action"=>"Reference Data Field Definition failed.","target_user"=>"NA", "target_company"=>"NA")); 
+            $log_string_serialize=json_encode(array("action"=>"Reference Data failed.","target_user"=>"NA", "target_company"=>"NA")); 
             ActivityLogger::activity($log_string_serialize);
             // /*****Log */
         }
@@ -127,32 +127,29 @@ class RefDataFieldController extends Controller
         //
     }
 
-    public function referenceDataKey(Request $request){
+    public function referenceDataField(Request $request){
         try{
-            $searchTerm=$request->term;
-            $response= $this->RDTKeyAPI($request,$searchTerm);
-            if($response){
-                $responseData=json_encode(array("status"=>1,"data"=>$response));
+            $searchTerm=$request->q;
+            $response= json_decode($this->GetReferenceDataFieldAPI($searchTerm),true);
+            if(!empty($response) && isset($response['data'])){
+                $responseData=json_encode(array("status"=>1,"data"=>$response['data']));
                  /*****Log */
-                $log_string_serialize=json_encode(array("action"=>"RDTKey searching->".$searchTerm,"target_user"=>"NA", "target_company"=>"NA")); 
+                $log_string_serialize=json_encode(array("action"=>"Reference data field searching->".$searchTerm,"target_user"=>"NA", "target_company"=>"NA")); 
                 ActivityLogger::activity($log_string_serialize);
                 /*****Log */
             }else{
                 $responseData=json_encode(array("status"=>0,"data"=>''));
                 /*****Log */
-                $log_string_serialize=json_encode(array("action"=>"RDTKey searching->".$searchTerm,"target_user"=>"NA", "target_company"=>"NA")); 
+                $log_string_serialize=json_encode(array("action"=>"Reference data field searching->".$searchTerm,"target_user"=>"NA", "target_company"=>"NA")); 
                 ActivityLogger::activity($log_string_serialize);
                 /*****Log */
             }
-           
         }catch(Exception $e){
-            
             /*****Log */
-            $log_string_serialize=json_encode(array("action"=>"RDTKey searching Failed->".$searchTerm,"target_user"=>"NA", "target_company"=>"NA")); 
+            $log_string_serialize=json_encode(array("action"=>"Reference data field searching Failed->".$searchTerm,"target_user"=>"NA", "target_company"=>"NA")); 
             ActivityLogger::activity($log_string_serialize);
             /*****Log */
-            $responseData=json_encode(array("message"=>"RDTKey searching Failed.","status"=>0));
-            
+            $responseData=json_encode(array("status"=>0,"data"=>''));
         }
         echo $responseData;die;
     }
