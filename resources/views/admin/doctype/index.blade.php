@@ -1,9 +1,9 @@
 @extends('layouts.admin')
 @section('content')
-@can('role_create')
+@can('doctype_create')
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route("admin.doctype.create") }}">
+            <a class="btn btn-success" href="{{ route('admin.doctype.create') }}">
                 {{ trans('global.add') }} {{ trans('cruds.doctype.title_singular') }}
             </a>
         </div>
@@ -44,16 +44,16 @@
                             <td>
                             </td>
                             <td>
-                                {{ $data['name'] ?? '' }}
+                                {{ $data['name'] ?? ''}}
                             </td>
                             <td>
-                                {{ $data['ref_data_field']?? '' }}
+                                {{ implode(",",$data['fields']) ?? ''}}
                             </td>
                             <td>
-                               {{ $data['name_rule'] ??''}}
+                               {{ implode(",",$data['nameRule']) ?? '' }}
                             </td>
                             <td>
-                               {{ $data['category'] ??''}}
+                               {{ $data['category'] ??'' }}
                             </td>
                             <td>
                                 {{ date("d-M-Y",strtotime($data['createdAt'])) ??''}}

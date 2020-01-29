@@ -256,7 +256,6 @@ class UsersController extends Controller
             $request = $client->get($url);
             $response = $request->getBody()->getContents();
             print_r($response);
-
             /*****Log */
             $log_string_serialize=json_encode(array("action"=>"Company search->".$queryString,"target_user"=>"NA", "target_company"=>"NA")); 
             ActivityLogger::activity($log_string_serialize);

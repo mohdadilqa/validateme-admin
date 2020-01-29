@@ -174,4 +174,55 @@ trait BEAPITrait
         $finalResponse=$this->HeaderStatusCode($response->getStatusCode(),json_decode($response->getBody()->getContents(),true));
         return $finalResponse;       
     }
+    
+    /******
+     * Doctype Data Save
+     * Inputs:      
+*           "name"=>$request->name,
+            "fields"=>$request->ref_data_field,
+            "nameRule"=>$request->name_rule,
+            "category"=>$request->category,
+            "createdBy"=>"'$loggedin_user_id'"
+
+     * Output :JSON Response
+     * 
+     */
+    public function DocTypeDataSaveAPI($request,$params){
+         $client=$this->getGuzzleHttpInstance();   //Guzzle Client object
+         $url=env("VALIDATEME_BE_ENDPOINT")."/doctype";
+         $headers = [
+             'Content-Type' => 'application/json',
+             'authorization' => 'Basic '.env("VALIDATEME_BE_API_AUTH_KEY"),
+         ];
+         $data=[
+                'json' => $params,
+                'headers' => $headers,
+                'http_errors' => false
+             ];
+        $response = $client->request('POST',$url, $data);
+        $finalResponse=$this->HeaderStatusCode($response->getStatusCode(),json_decode($response->getBody()->getContents(),true));
+        return $finalResponse;
+     }
+     /******
+     * Get Doctype data list
+     * Inputs:pageNo,limit
+     *    
+     * Output :Get all Doctype Data
+     * 
+     */
+     public function GetDoctypeListAPI($params){
+        $client=$this->getGuzzleHttpInstance();   //Guzzle Client object
+        $url=env("VALIDATEME_BE_ENDPOINT")."/doctype?$params";
+        $headers = [
+            'Content-Type' => 'application/json',
+            'authorization' => 'Basic '.env("VALIDATEME_BE_API_AUTH_KEY"),
+        ];
+        $data=['headers' => $headers,'http_errors' => false];
+        $response = $client->request('GET',$url, $data);
+        //echo "<pre/>";print_r(json_decode($response->getBody()->getContents(),true));die;
+        $finalResponse=$this->HeaderStatusCode($response->getStatusCode(),json_decode($response->getBody()->getContents(),true));
+       // echo "<pre/>";print_r($finalResponse);die;
+        return $finalResponse;       
+    }
+
 }

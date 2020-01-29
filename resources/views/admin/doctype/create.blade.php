@@ -6,7 +6,7 @@
     </div>
 
     <div class="card-body">
-        <form action="{{ route("admin.doctype.store") }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route("admin.doctype.store") }}" id="doctypeAdd" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
                 <label for="name">{{ trans('cruds.doctype.fields.name') }}*
@@ -25,7 +25,7 @@
             <div class="form-group {{ $errors->has('ref_data_field') ? 'has-error' : '' }}">
                 <label for="ref_data_field">{{ trans('cruds.doctype.fields.ref_data_field') }}*
                 </label>
-                <select name="ref_data_field" id="ref_data_field" class="form-control select2" required>
+                <select name="ref_data_field[]" id="ref_data_field" class="form-control select2" required>
                 </select>
                 @if($errors->has('ref_data_field'))
                     <em class="invalid-feedback">
@@ -36,32 +36,20 @@
                     {{ trans('cruds.doctype.fields.ref_data_field_helper') }}
                 </p>
             </div>
-
-            <!-- <div class="form-group {{ $errors->has('name_rule') ? 'has-error' : '' }}">
-                <label for="name_rule">{{ trans('cruds.doctype.fields.name_rule') }}*</label>
-                <input type="text" id="name_rule" name="name_rule" class="form-control" required>
-                @if($errors->has('name_rule'))
-                    <em class="invalid-feedback">
-                        {{ $errors->first('name_rule') }}
-                    </em>
-                @endif
-                <p class="helper-block">
-                    {{ trans('cruds.doctype.fields.name_rule_helper') }}
-                </p>
-            </div> -->
             <div class="form-group {{ $errors->has('name_rule') ? 'has-error' : '' }}">
                 <label for="name_rule">{{ trans('cruds.doctype.fields.name_rule') }}*</label>
+                <label id="name_rule_text" class="name_rule_text"></label>
                 <div>
-                    <ul id="sortable1" name="name_rule" class="connectedSortable" required>
+                    <ul id="sortable1" name="sortable1" class="connectedSortable">
                     </ul>
                     <ul id="sortable2" class="connectedSortable" required>
                     </ul>
+                    <label id="name_rule_error" class="name_rule_text"></label>
                 </div>
             </div>
             <div class="form-group category {{ $errors->has('category') ? 'has-error' : '' }}">
-                <label for="category">{{ trans('cruds.doctype.fields.category') }}*
-                </label>
-                <select name="category[]" id="category" class="form-control select2" multiple="multiple" required>
+                <label for="category">{{ trans('cruds.doctype.fields.category') }}*</label>
+                <select name="category" id="category" class="form-control select2" multiple="multiple" required>
                     @foreach($categories as $id => $category)
                         <option value="{{ $id }}" >{{ $category }}</option>
                     @endforeach

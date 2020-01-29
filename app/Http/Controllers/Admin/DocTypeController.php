@@ -7,6 +7,7 @@ use Auth;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use jeremykenedy\LaravelLogger\App\Http\Traits\ActivityLogger;
+use App\Http\Requests\StoreDocTypeRequest;
 use GuzzleHttp\Client;
 use App\Traits\BEAPITrait;
 
@@ -22,11 +23,10 @@ class DocTypeController extends Controller
     public function index()
     {
         $params="";$datas=array();
-        // $response=json_decode($this->getReferenceData($params),true);
-        // if(!empty($response) && isset($response['data']['refData'])){
-        //     $datas=$response['data']['refData'];
-        // }
-        
+        $response=json_decode($this->GetDoctypeListAPI($params),true);
+        if(!empty($response) && isset($response['data']['doctypeData'])){
+            $datas=$response['data']['doctypeData'];
+        }
         return view('admin.doctype.index',compact('datas'));
     }
 
@@ -37,7 +37,7 @@ class DocTypeController extends Controller
      */
     public function create()
     {
-        $categories=array();
+        $categories=array("123456789123"=>"Educational");
         return view('admin.doctype.create',compact('categories'));
     }
 
@@ -47,36 +47,35 @@ class DocTypeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreDocTypeRequest $request)
     {
         $loggedin_user_id = Auth::user()->id;
         try{
             $data=[
-                    "title"=>$request->title,
-                    "rdtKey"=>$request->RDT_key,
-                    "code"=>$request->code,
+                    "name"=>$request->name,
+                    "fields"=>str_replace('"', '', $request->ref_data_field),
+                    "nameRule"=>str_replace('"', '',$request->name_rule),
+                    "category"=>$request->category,
                     "createdBy"=>"'$loggedin_user_id'"
                 ];
-            $response= json_decode($this->refDataSaveAPI($request,$data),true);
+            $response= json_decode($this->DocTypeDataSaveAPI($request,$data),true);
             if(!empty($response) && ($response['status']===1)){
                 // /*****Log */
-                $log_string_serialize=json_encode(array("action"=>"Reference Data Added","target_user"=>"NA", "target_company"=>"NA")); 
+                $log_string_serialize=json_encode(array("action"=>"Document Data Added","target_user"=>"NA", "target_company"=>"NA")); 
                 ActivityLogger::activity($log_string_serialize);
                 /*****Log */
-                return redirect()->route('admin.refdata.index')->with('message', 'Reference Data has been added successfully.');
+                return redirect()->route('admin.doctype.index')->with('message', 'Reference Data has been added successfully.');
             }else{
                 // /*****Log */
-                $log_string_serialize=json_encode(array("action"=>"Reference Data failed","target_user"=>"NA", "target_company"=>"NA")); 
+                $log_string_serialize=json_encode(array("action"=>"Document Data failed","target_user"=>"NA", "target_company"=>"NA")); 
                 ActivityLogger::activity($log_string_serialize);
                 /*****Log */
                 return back()->with('message', $response['msg']);
             }
-
         }catch(Exception $e){
-
-            return back()->with('message', 'Exception found. Please try again.');
+            return back()->with('message','Exception found. Please try again.');
             /*****Log */
-            $log_string_serialize=json_encode(array("action"=>"Reference Data failed.","target_user"=>"NA", "target_company"=>"NA")); 
+            $log_string_serialize=json_encode(array("action"=>"Document Data failed.","target_user"=>"NA", "target_company"=>"NA")); 
             ActivityLogger::activity($log_string_serialize);
             // /*****Log */
         }

@@ -93,8 +93,8 @@ return [
         ],
     ],
     'log'              => [
-        'title'          => 'Logs',
-        'title_singular' => 'Log',
+        'title'          => 'Activity Logs',
+        'title_singular' => 'Activity Log',
         'fields'         => [
             'date'                       => 'Date',
             'date_helper'                => '',
@@ -127,21 +127,7 @@ return [
             'id_helper'                => '',
             'title'                    => 'Title',
             'title_helper'             => '',
-            'RDT_key'                  => 'RDT Key',
-            'RDT_key_helper'           => '',
-            'code'                     => 'Code',
-            'code_helper'              => ''
-        ],
-    ],
-    'refdata'              => [
-        'title'          => 'Reference Data',
-        'title_singular' => 'Reference Data',
-        'fields'         => [
-            'id'                       => 'ID',
-            'id_helper'                => '',
-            'title'                    => 'Title',
-            'title_helper'             => '',
-            'RDT_key'                  => 'RDT Key',
+            'RDT_key'                  => 'Reference Data Type Key',
             'RDT_key_helper'           => '',
             'code'                     => 'Code',
             'code_helper'              => '',
@@ -159,7 +145,7 @@ return [
             'code_helper'              => '',
             'title'                    => 'Title',
             'title_helper'             => '',
-            'RDT_key'                  => 'RDT Key',
+            'RDT_key'                  => 'Reference Data Type Key',
             'RDT_key_helper'           => '',
             'UXType'                   => 'UX Type',
             'UXType_helper'            => '',

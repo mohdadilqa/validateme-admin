@@ -7,6 +7,7 @@ use Auth;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use jeremykenedy\LaravelLogger\App\Http\Traits\ActivityLogger;
+use App\Http\Requests\StoreRefDataRequest;
 use GuzzleHttp\Client;
 use App\Traits\BEAPITrait;
 
@@ -46,7 +47,7 @@ class RefDataController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreRefDataRequest $request)
     {
         $loggedin_user_id = Auth::user()->id;
         try{
@@ -125,8 +126,6 @@ class RefDataController extends Controller
     {
         //
     }
-
-
     public function referenceDataKey(Request $request){
         try{
             $searchTerm=$request->term;

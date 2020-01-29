@@ -7,6 +7,7 @@ use Auth;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use jeremykenedy\LaravelLogger\App\Http\Traits\ActivityLogger;
+use App\Http\Requests\StoreRefDataFieldRequest;
 use GuzzleHttp\Client;
 use App\Traits\BEAPITrait;
 
@@ -23,7 +24,6 @@ class RefDataFieldController extends Controller
     {
         $params="";$datas=array();
         $response=json_decode($this->getReferenceFieldData($params),true);
-        //echo "<pre/>";print_r($response);die;
         $datas=$response['data']['doctypeFieldDefinationData'];
         return view('admin.refdatafield.index',compact('datas'));
     }
@@ -35,8 +35,7 @@ class RefDataFieldController extends Controller
      */
     public function create()
     {
-        //$uxtypes=array('text', 'number', 'select', 'multi-select', 'date');
-        $uxtypes=array("select"=>"select");
+        $uxtypes=array("text"=>"text","number"=>"number","select"=>"select","multi-select"=>"multi-select","date"=>"date");
         return view('admin.refdatafield.create',compact('uxtypes'));
     }
 
@@ -46,7 +45,7 @@ class RefDataFieldController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreRefDataFieldRequest $request)
     {
         $loggedin_user_id = Auth::user()->id;
         try{
@@ -126,7 +125,6 @@ class RefDataFieldController extends Controller
     {
         //
     }
-
     public function referenceDataKey(Request $request){
         try{
             $searchTerm=$request->term;
@@ -146,7 +144,6 @@ class RefDataFieldController extends Controller
             }
            
         }catch(Exception $e){
-            
             /*****Log */
             $log_string_serialize=json_encode(array("action"=>"RDTKey searching Failed->".$searchTerm,"target_user"=>"NA", "target_company"=>"NA")); 
             ActivityLogger::activity($log_string_serialize);
