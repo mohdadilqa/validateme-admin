@@ -22,6 +22,7 @@ class DocTypeController extends Controller
 
     public function index()
     {
+        abort_if(Gate::denies('doctype_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $params="";$datas=array();
         $response=json_decode($this->GetDoctypeListAPI($params),true);
         if(!empty($response) && isset($response['data']['doctypeData'])){
@@ -37,6 +38,7 @@ class DocTypeController extends Controller
      */
     public function create()
     {
+        abort_if(Gate::denies('doctype_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $categories=array("123456789123"=>"Educational");
         return view('admin.doctype.create',compact('categories'));
     }

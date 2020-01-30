@@ -22,6 +22,7 @@ class RefDataController extends Controller
 
     public function index()
     {
+        abort_if(Gate::denies('refdata_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $params="";$datas=array();
         $response=json_decode($this->getReferenceData($params),true);
         if(!empty($response) && isset($response['data']['refData'])){
@@ -38,6 +39,7 @@ class RefDataController extends Controller
      */
     public function create()
     {
+        abort_if(Gate::denies('refdata_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         return view('admin.refdata.create');
     }
 

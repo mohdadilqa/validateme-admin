@@ -22,6 +22,7 @@ class RefDataFieldController extends Controller
 
     public function index()
     {
+        abort_if(Gate::denies('refdatafield_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $params="";$datas=array();
         $response=json_decode($this->getReferenceFieldData($params),true);
         $datas=$response['data']['doctypeFieldDefinationData'];
@@ -35,6 +36,7 @@ class RefDataFieldController extends Controller
      */
     public function create()
     {
+        abort_if(Gate::denies('refdatafield_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $uxtypes=array("text"=>"text","number"=>"number","select"=>"select","multi-select"=>"multi-select","date"=>"date");
         return view('admin.refdatafield.create',compact('uxtypes'));
     }

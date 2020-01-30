@@ -160,7 +160,7 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'id'         => '26',
-                'title'      => 'log_index',
+                'title'      => 'log_access',
                 'created_at' => '2020-01-13 19:21:30',
                 'updated_at' => '2020-01-13 19:21:30',
             ],
