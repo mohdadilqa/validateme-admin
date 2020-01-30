@@ -55,7 +55,7 @@ class RefDataController extends Controller
         try{
             $data=[
                     "title"=>$request->title,
-                    "rdtKey"=>$request->RDT_key,
+                    "referenceDataTypeKey"=>$request->RDT_key,
                     "code"=>$request->code,
                     "createdBy"=>"'$loggedin_user_id'"
                 ];

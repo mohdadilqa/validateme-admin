@@ -2,7 +2,7 @@
 @section('content')
 <div class="card">
     <div class="card-header">
-        {{ trans('global.create') }} {{ trans('cruds.doctype.title_singular') }}
+        <i class="fas fa-plus-circle"></i>
     </div>
 
     <div class="card-body">

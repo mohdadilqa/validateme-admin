@@ -150,3 +150,22 @@ table.dataTable thead .sorting_desc {
   .name_rule_text{
       color:red;
   }
+h4{
+        font-size:22px;
+        line-height: 31px;
+    }
+html *
+    {   
+        font-family: "Open sans", sans-serif;
+    }
+    .login-form-center{
+        text-align:center;
+    }
+    .sidebar .nav-dropdown-items .nav-item {
+        padding-left: 10px;
+        list-style: none;
+    }   
+    .table-heading{
+        font-weight:bold;
+        font-size:14px;
+    } 

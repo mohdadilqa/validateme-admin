@@ -3,9 +3,8 @@
 
 <div class="card">
     <div class="card-header">
-        {{ trans('global.create') }} {{ trans('cruds.refdatafield.title_singular') }}
+    <p class="table-heading">{{ trans('global.create') }} {{ trans('cruds.refdatafield.title_singular') }}</p>
     </div>
-
     <div class="card-body">
         <form action="{{ route("admin.refdatafield.store") }}" method="POST" enctype="multipart/form-data">
             @csrf

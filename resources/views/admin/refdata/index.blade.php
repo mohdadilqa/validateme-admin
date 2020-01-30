@@ -4,14 +4,14 @@
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-lg-12">
             <a class="btn btn-success" href="{{ route("admin.refdata.create") }}">
-                {{ trans('global.add') }} {{ trans('cruds.refdata.title_singular') }}
+                <i class="fas fa-plus-circle"></i>
             </a>
         </div>
     </div>
 @endcan
 <div class="card">
     <div class="card-header">
-        {{ trans('cruds.refdata.title_singular') }} {{ trans('global.list') }}
+    <p class="table-heading"> {{ trans('cruds.refdata.title_singular') }} {{ trans('global.list') }}</p>
     </div>
 
     <div class="card-body">
@@ -44,7 +44,7 @@
                                 {{ $data['title'] ?? '' }}
                             </td>
                             <td>
-                                {{ $data['rdtKey']?? '' }}
+                                {{ $data['referenceDataTypeKey']?? '' }}
                             </td>
                             <td>
                                {{ $data['code'] ??''}}

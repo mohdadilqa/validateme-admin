@@ -54,7 +54,7 @@ class RefDataFieldController extends Controller
             $data=[
                     "code"=>$request->code,
                     "title"=>$request->title,
-                    "rdtKey"=>$request->RDT_key,
+                    "referenceDataTypeKey"=>$request->RDT_key,
                     "type"=>$request->UXType,
                     "createdBy"=>"'$loggedin_user_id'"
                 ];

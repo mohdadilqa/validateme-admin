@@ -49,7 +49,7 @@ trait BEAPITrait
      */
     public function RDTKeyAPI($request,$params){
         $client=$this->getGuzzleHttpInstance();   //Guzzle Client object
-        $url=env("VALIDATEME_BE_ENDPOINT")."/RDTkeys?key=$params";
+        $url=env("VALIDATEME_BE_ENDPOINT")."/referencedatatypekeys?key=$params";
         $headers = [
             'Content-Type' => 'application/json',
             'authorization' => 'Basic '.env("VALIDATEME_BE_API_AUTH_KEY"),

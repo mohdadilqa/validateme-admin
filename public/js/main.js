@@ -54,4 +54,7 @@ $(document).ready(function () {
       $(this).addClass('active')
     }
   })
+  //Find Active Navigation list item and open navigation bar
+ $('a.nav-link.active').closest('li').closest('ul').closest('li').addClass('open'); 
+
 })

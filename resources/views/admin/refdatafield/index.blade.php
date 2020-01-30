@@ -4,7 +4,7 @@
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-lg-12">
             <a class="btn btn-success" href="{{ route("admin.refdatafield.create") }}">
-                {{ trans('global.add') }} {{ trans('cruds.refdatafield.title_singular') }}
+                <i class="fas fa-plus-circle"></i>
             </a>
         </div>
     </div>
@@ -50,7 +50,7 @@
                                 {{ $data['title'] }}
                             </td>
                             <td>
-                                {{ $data['rdtKey'] }}
+                                {{ $data['referenceDataTypeKey'] }}
                             </td>
                             <td>
                                 {{ $data['type'] }}
