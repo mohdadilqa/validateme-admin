@@ -36,8 +36,6 @@ class RolesTableSeeder extends Seeder
                 Role::create($role);
             }
 
-
-
            // Role::updateOrCreate(['id' => $role['id']], $role);
         }
 
