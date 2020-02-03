@@ -11,7 +11,7 @@
 @endcan
 <div class="card">
     <div class="card-header">
-        {{ trans('cruds.refdatafield.title_singular') }} {{ trans('global.list') }}
+        <p class="table-heading"> {{ trans('cruds.refdatafield.title_singular') }} {{ trans('global.list') }}</p>
     </div>
 
     <div class="card-body">
