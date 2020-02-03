@@ -28,8 +28,18 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::resource('dashboard', 'DashboardController');
 
     //Log 
-
     Route::resource('log','LogController');
     
+    //Refrence Data
+    Route::resource('refdata','RefDataController');
+    Route::post('refdata/refDatakey','RefDataController@referenceDataKey');
+
+    //Refrence Data Field Definition
+    Route::resource('refdatafield','RefDataFieldController');
+    Route::post('refdatafield/refDatakey','RefDataController@referenceDataKey');
+
+    //DocType
+    Route::resource('doctype','DocTypeController');
+    Route::post('doctype/referenceDataField','DocTypeController@referenceDataField');
 });
 

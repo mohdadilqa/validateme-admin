@@ -3,7 +3,7 @@
 
 <div class="card">
     <div class="card-header">
-        {{ trans('global.create') }} {{ trans('cruds.user.title_singular') }}
+    <p class="table-heading"> {{ trans('global.create') }} {{ trans('cruds.user.title_singular') }}</p>
     </div>
 
     <div class="card-body">
@@ -118,7 +118,7 @@ $(document).ready(function(){
     $("#organization").select2({
         ajax: { 
             headers: {'x-csrf-token': _token},
-            url: "<?php echo url('/') ?>"+"/admin/users/allOrganization",
+            url: "<?php echo env('APP_URL') ?>"+"/admin/users/allOrganization",
             type: "POST",
             dataType: 'json',
             data: function (params) {

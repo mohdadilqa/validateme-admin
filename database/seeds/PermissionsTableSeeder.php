@@ -160,14 +160,109 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'id'         => '26',
-                'title'      => 'log_index',
+                'title'      => 'log_access',
                 'created_at' => '2020-01-13 19:21:30',
                 'updated_at' => '2020-01-13 19:21:30',
-            ]
+            ],
+            [
+                'id'         => '27',
+                'title'      => 'doctype_management_access',
+                'created_at' => '2020-01-13 19:21:30',
+                'updated_at' => '2020-01-13 19:21:30',
+            ],
+            [
+                'id'         => '28',
+                'title'      => 'refdata_access',
+                'created_at' => '2019-09-13 19:21:30',
+                'updated_at' => '2019-09-13 19:21:30',
+            ],
+            [
+                'id'         => '29',
+                'title'      => 'refdata_create',
+                'created_at' => '2019-09-13 19:21:30',
+                'updated_at' => '2019-09-13 19:21:30',
+            ],
+            [
+                'id'         => '30',
+                'title'      => 'refdata_edit',
+                'created_at' => '2019-09-13 19:21:30',
+                'updated_at' => '2019-09-13 19:21:30',
+            ],
+            [
+                'id'         => '31',
+                'title'      => 'refdata_show',
+                'created_at' => '2019-09-13 19:21:30',
+                'updated_at' => '2019-09-13 19:21:30',
+            ],
+            [
+                'id'         => '32',
+                'title'      => 'refdata_delete',
+                'created_at' => '2019-09-13 19:21:30',
+                'updated_at' => '2019-09-13 19:21:30',
+            ],
+            [
+                'id'         => '33',
+                'title'      => 'refdatafield_access',
+                'created_at' => '2019-09-13 19:21:30',
+                'updated_at' => '2019-09-13 19:21:30',
+            ],
+            [
+                'id'         => '34',
+                'title'      => 'refdatafield_create',
+                'created_at' => '2019-09-13 19:21:30',
+                'updated_at' => '2019-09-13 19:21:30',
+            ],
+            [
+                'id'         => '35',
+                'title'      => 'refdatafield_edit',
+                'created_at' => '2019-09-13 19:21:30',
+                'updated_at' => '2019-09-13 19:21:30',
+            ],
+            [
+                'id'         => '36',
+                'title'      => 'refdatafield_show',
+                'created_at' => '2019-09-13 19:21:30',
+                'updated_at' => '2019-09-13 19:21:30',
+            ],
+            [
+                'id'         => '37',
+                'title'      => 'refdatafield_delete',
+                'created_at' => '2019-09-13 19:21:30',
+                'updated_at' => '2019-09-13 19:21:30',
+            ],
+            [
+                'id'         => '38',
+                'title'      => 'doctype_access',
+                'created_at' => '2019-09-13 19:21:30',
+                'updated_at' => '2019-09-13 19:21:30',
+            ],
+            [
+                'id'         => '39',
+                'title'      => 'doctype_create',
+                'created_at' => '2019-09-13 19:21:30',
+                'updated_at' => '2019-09-13 19:21:30',
+            ],
+            [
+                'id'         => '40',
+                'title'      => 'doctype_edit',
+                'created_at' => '2019-09-13 19:21:30',
+                'updated_at' => '2019-09-13 19:21:30',
+            ],
+            [
+                'id'         => '41',
+                'title'      => 'doctype_show',
+                'created_at' => '2019-09-13 19:21:30',
+                'updated_at' => '2019-09-13 19:21:30',
+            ],
+            [
+                'id'         => '42',
+                'title'      => 'doctype_delete',
+                'created_at' => '2019-09-13 19:21:30',
+                'updated_at' => '2019-09-13 19:21:30',
+            ],
         ];
         foreach ($permissions as $permission) {
             Permission::updateOrCreate(['id' => $permission['id']], $permission);
         }
-       // Permission::updateOrCreate(['id' => $permissions['id']],$permissions);
     }
 }

@@ -113,7 +113,7 @@ class UsersController extends Controller
                 ActivityLogger::activity($log_string_serialize);
                 /*****Log */
             }
-            
+           
             return redirect()->route('admin.users.index')->with('message', 'User has been added successfully.');
             
         }else{
@@ -247,7 +247,6 @@ class UsersController extends Controller
      * 
      * 
      */
-
     public function allOrganization(Request $request){
         try{
             $queryString=$request->q;
@@ -256,14 +255,21 @@ class UsersController extends Controller
             $request = $client->get($url);
             $response = $request->getBody()->getContents();
             print_r($response);
+            /*****Log */
+            $log_string_serialize=json_encode(array("action"=>"Company search->".$queryString,"target_user"=>"NA", "target_company"=>"NA")); 
+            ActivityLogger::activity($log_string_serialize);
+            /*****Log */
             exit;
         }catch(Exception $e){
 
+            /*****Log */
+            $log_string_serialize=json_encode(array("action"=>"Company search->".$queryString,"target_user"=>"NA", "target_company"=>"NA")); 
+            ActivityLogger::activity($log_string_serialize);
+            /*****Log */
         }
     }
-
     /******
-     * Send Email using Nodejs notification API
+     * Send Email using Nodejs Notification API
      * 
      * 
      */
@@ -304,9 +310,8 @@ class UsersController extends Controller
                     "action"=> "#action#",
                     "actionCode"=> "SET_SOURCE",
                     "requestor"=> "#Requestor#"
-            ] 
+                ] 
             ]];
-        
             $response = $client->request('POST',$url, $data);
             $emailResponse=json_decode($response->getBody()->getContents());
             if(!empty($emailResponse) && !empty($emailResponse->response)){
@@ -314,14 +319,11 @@ class UsersController extends Controller
                 $log_string_serialize=json_encode(array("action"=>"Verfication email sent.","target_user"=>$user->name, "target_company"=>$user['organization']->organization_name)); 
                 ActivityLogger::activity($log_string_serialize);
                 /*****Log */
-
             }else{
-
                 /*****Log */
                 $log_string_serialize=json_encode(array("action"=>"Verfication email sent failed.","target_user"=>$user->name, "target_company"=>$user['organization']->organization_name)); 
                 ActivityLogger::activity($log_string_serialize);
                 /*****Log */
-
             }
         
         }catch(Exception $e){

@@ -2,8 +2,8 @@
 
 return [
     'userManagement'    => [
-        'title'          => 'User management',
-        'title_singular' => 'User management',
+        'title'          => 'User Management',
+        'title_singular' => 'User Management',
     ],
     'permission'        => [
         'title'          => 'Permissions',
@@ -93,8 +93,8 @@ return [
         ],
     ],
     'log'              => [
-        'title'          => 'Logs',
-        'title_singular' => 'Log',
+        'title'          => 'Activity Logs',
+        'title_singular' => 'Activity Log',
         'fields'         => [
             'date'                       => 'Date',
             'date_helper'                => '',
@@ -113,6 +113,62 @@ return [
 
             'effected_user_company'       => "Effected User's Company",
             'effected_user_company_helper'=> '',
+        ],
+    ],
+    'docTypeManagement'    => [
+        'title'          => 'Doc Management',
+        'title_singular' => 'Doc Management',
+    ],
+    'refdata'              => [
+        'title'          => 'Reference Data',
+        'title_singular' => 'Reference Data',
+        'fields'         => [
+            'id'                       => 'ID',
+            'id_helper'                => '',
+            'title'                    => 'Title',
+            'title_helper'             => '',
+            'RDT_key'                  => 'Reference Data Type Key',
+            'RDT_key_helper'           => '',
+            'code'                     => 'Code',
+            'code_helper'              => '',
+            'created_date'             => 'Created Date',
+            'created_date_helper'      => ''
+        ],
+    ],
+    'refdatafield'              => [
+        'title'          => 'Field Definition',
+        'title_singular' => 'Field Definition',
+        'fields'         => [
+            'id'                       => 'ID',
+            'id_helper'                => '',
+            'code'                     => 'Code',
+            'code_helper'              => '',
+            'title'                    => 'Title',
+            'title_helper'             => '',
+            'RDT_key'                  => 'Reference Data Type Key',
+            'RDT_key_helper'           => '',
+            'UXType'                   => 'UX Type',
+            'UXType_helper'            => '',
+            'created_date'             => 'Created Date',
+            'created_date_helper'      => ''
+        ],
+    ],
+    'doctype'              => [
+        'title'          => 'Document Definition',
+        'title_singular' => 'Document Definition',
+        'fields'         => [
+            'id'                       => 'ID',
+            'id_helper'                => '',
+            'name'                     => 'Name',
+            'name_helper'              => '',
+            'ref_data_field'           => 'Reference Data Field',
+            'ref_data_field_helper'    => '',
+            'name_rule'                => 'Name Rule',
+            'name_rule_helper'         => '',
+            'category'                 => 'Category',
+            'category_helper'            => '',
+            'created_date'             => 'Created Date',
+            'created_date_helper'      => ''
         ],
     ],
 ];

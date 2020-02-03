@@ -19,7 +19,7 @@ class LogController extends Controller
      */
     public function index()
     {
-        abort_if(Gate::denies('log_index'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('log_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $logs=array();
         $loggedin_user_role = Auth::user()->roles->first()->toArray();
         if(strtolower($loggedin_user_role['title'])===strtolower('superadmin')){    //if superadmin login

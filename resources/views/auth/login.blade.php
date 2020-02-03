@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <div class="row justify-content-center">
-    <div class="col-md-8">
+    <div class="col-md-5">
         <div class="card-group">
             <div class="card p-4">
                 <div class="card-body">
@@ -10,10 +10,10 @@
                             {{ \Session::get('message') }}
                         </p>
                     @endif
-                    <form method="POST" action="{{ route('login') }}">
+                    <form method="POST" class="login-form-center" action="{{ route('login') }}">
                         {{ csrf_field() }}
-                        <h1>{{ trans('panel.site_title') }}</h1>
-                        <p class="text-muted">{{ trans('global.login') }}</p>
+                        <h4><img src="https://static.validateme.online/vm-logo.png" height="50px" width="140px"></img></h4>
+                        <!-- <p class="text-muted">{{ trans('global.login') }}</p> -->
 
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
@@ -40,7 +40,6 @@
                                 </div>
                             @endif
                         </div>
-
                         <div class="input-group mb-4">
                             <div class="form-check checkbox">
                                 <input class="form-check-input" name="remember" type="checkbox" id="remember" style="vertical-align: middle;" />
@@ -51,18 +50,18 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-6">
+                            <div class="col-12">
                                 <button type="submit" class="btn btn-primary px-4">
                                     {{ trans('global.login') }}
                                 </button>
                             </div>
                            <div class="col-6 text-right">
-                                <a class="btn btn-link px-0" href="{{ route('password.request') }}">
+                                <!-- <a class="btn btn-link px-0" href="{{ route('password.request') }}">
                                     {{ trans('global.forgot_password') }}
-                                </a>
-                                <br><a class="btn btn-link px-0" href="{{ route('register') }}">
+                                </a> -->
+                                <!-- <br><a class="btn btn-link px-0" href="{{ route('register') }}">
                                     {{ trans('global.register') }}
-                                </a>
+                                </a> -->
                             </div>
                         </div>
                     </form>

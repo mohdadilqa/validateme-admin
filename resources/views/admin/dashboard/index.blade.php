@@ -10,7 +10,7 @@
             <div class="row content">
                 
                 <div class="col-sm-10 text-center"> 
-                    <h1 style="height:400px;">Validate Me</h1>
+                <h1 style="height:400px;">Validate Me</h1>
                 </div>
                 
             </div>

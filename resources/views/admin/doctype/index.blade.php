@@ -1,84 +1,63 @@
 @extends('layouts.admin')
 @section('content')
-@can('user_create')
+@can('doctype_create')
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-lg-12">
+            <a class="btn btn-success" href="{{ route('admin.doctype.create') }}">
+                <i class="fas fa-plus-circle"></i>
+            </a>
         </div>
     </div>
 @endcan
 <div class="card">
     <div class="card-header">
-    <p class="table-heading"> {{ trans('cruds.log.title_singular') }} {{ trans('global.list') }}</p>
+    <p class="table-heading"> {{ trans('cruds.doctype.title_singular') }} {{ trans('global.list') }}</p>
     </div>
 
     <div class="card-body">
         <div class="table-responsive">
-            <table class=" table table-bordered table-striped table-hover datatable datatable-User">
+            <table class=" table table-bordered table-striped table-hover datatable datatable-Role">
                 <thead>
                     <tr>
                         <th width="10">
-
                         </th>
                         <th>
-                            {{ trans('cruds.log.fields.date') }}
+                            {{ trans('cruds.doctype.fields.name') }}
                         </th>
                         <th>
-                            {{ trans('cruds.log.fields.user') }}
+                            {{ trans('cruds.doctype.fields.ref_data_field') }}
                         </th>
                         <th>
-                            {{ trans('cruds.log.fields.company') }}
+                            {{ trans('cruds.doctype.fields.name_rule') }}
                         </th>
                         <th>
-                            {{ trans('cruds.log.fields.action') }}
+                            {{ trans('cruds.doctype.fields.category') }}
                         </th>
                         <th>
-                            {{ trans('cruds.log.fields.effeted_user') }}
+                            {{ trans('cruds.doctype.fields.created_date') }}
                         </th>
-                        <th>
-                            {{ trans('cruds.log.fields.effected_user_company') }}
-                        </th>
-                        
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($logs as $key => $log)
-                        <?php  
-                        //echo "<pre/>";print_r($logs);
-                        $arr = ['Logged In','Logged Out','Failed Login Attempt','Locked Out','Reset Password'];
-                        if(!in_array($log->description, $arr))
-                        {$activity_data=json_decode($log->description,true);
-                        $action=$activity_data['action'];
-                        $target_user=$activity_data['target_user'];
-                        $target_company=$activity_data['target_company'];
-                        
-                        } else {
-                            $action=$log->description;
-                            $target_user="NA";
-                            $target_company="NA";
-                        } ?>
-                        <tr data-entry-id="{{ ++$key }}">
+                    @foreach($datas as $key => $data)
+                        <tr data-entry-id="{{ $data['_id'] }}">
                             <td>
-
                             </td>
                             <td>
-                            {{ date('d-M-Y h:i:s A',strtotime($log->created_at)) ?? '' }}
+                                {{ $data['name'] ?? ''}}
                             </td>
                             <td>
-                            {{ $log['user']->name ?? 'Guest' }}
+                                {{ implode(",",$data['fields']) ?? ''}}
                             </td>
                             <td>
-                            {{ $log['user']['organization']->organization_name ?? 'Validate Me' }}
+                               {{ implode(",",$data['nameRule']) ?? '' }}
                             </td>
                             <td>
-                            {{ $action ?? '' }}
+                               {{ $data['category'] ??'' }}
                             </td>
                             <td>
-                            {{ $target_user ?? '' }}
+                                {{ date("d-M-Y",strtotime($data['createdAt'])) ??''}}
                             </td>
-                            <td>
-                            {{ $target_company ?? '' }}
-                            </td>
-                            
                         </tr>
                     @endforeach
                 </tbody>
@@ -91,12 +70,13 @@
 @parent
 <script>
     $(function () {
-  let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
-@can('user_delete')
+    let dtButtons=[];
+  //let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
+@can('refdata_delete')
   let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
   let deleteButton = {
     text: deleteButtonTrans,
-    url: "{{ route('admin.users.massDestroy') }}",
+    url: "",
     className: 'btn-danger',
     action: function (e, dt, node, config) {
       var ids = $.map(dt.rows({ selected: true }).nodes(), function (entry) {
@@ -115,26 +95,27 @@
           method: 'POST',
           url: config.url,
           data: { ids: ids, _method: 'DELETE' }})
-          .done(function () { location.reload() })
+          .done(function () { 
+                $('.container-fluid').html('<div class="row mb-2"><div class="col-lg-12"><div class="alert alert-success" role="alert">Role has been deleted successfully.</div></div></div>');  
+                location.reload() 
+            })
       }
     }
   }
   //dtButtons.push(deleteButton)
+  $('.select-checkbox').css('display','none');
 @endcan
 
   $.extend(true, $.fn.dataTable.defaults, {
     order: [[ 1, 'asc' ]],
     pageLength: 10,
   });
-  $('.datatable-User:not(.ajaxTable)').DataTable({ buttons: dtButtons })
+  $('.datatable-Role:not(.ajaxTable)').DataTable({ buttons: dtButtons })
     $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
         $($.fn.dataTable.tables(true)).DataTable()
             .columns.adjust();
     });
     $('.select-checkbox').css('display','none');
 })
-
-
-
 </script>
 @endsection

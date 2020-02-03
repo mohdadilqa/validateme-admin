@@ -1,9 +1,9 @@
 @extends('layouts.admin')
 @section('content')
-@can('role_create')
+@can('refdatafield_create')
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route("admin.roles.create") }}">
+            <a class="btn btn-success" href="{{ route("admin.refdatafield.create") }}">
                 <i class="fas fa-plus-circle"></i>
             </a>
         </div>
@@ -11,7 +11,7 @@
 @endcan
 <div class="card">
     <div class="card-header">
-        <p class="table-heading">{{ trans('cruds.role.title_singular') }} {{ trans('global.list') }}</p>
+        <p class="table-heading"> {{ trans('cruds.refdatafield.title_singular') }} {{ trans('global.list') }}</p>
     </div>
 
     <div class="card-body">
@@ -20,62 +20,44 @@
                 <thead>
                     <tr>
                         <th width="10">
-
                         </th>
                         <th>
-                            {{ trans('cruds.role.fields.id') }}
+                            {{ trans('cruds.refdatafield.fields.code') }}
                         </th>
                         <th>
-                            {{ trans('cruds.role.fields.title') }}
+                            {{ trans('cruds.refdatafield.fields.title') }}
                         </th>
                         <th>
-                            {{ trans('cruds.role.fields.permissions') }}
+                            {{ trans('cruds.refdatafield.fields.RDT_key') }}
                         </th>
                         <th>
-                            &nbsp;
+                            {{ trans('cruds.refdatafield.fields.UXType') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.refdatafield.fields.created_date') }}
                         </th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($roles as $key => $role)
-                        <tr data-entry-id="{{ $role->id }}">
-                            <td>
-
+                    @foreach($datas as $key => $data)
+                        <tr data-entry-id="{{ $data['_id'] }}">
+                        <td>
                             </td>
                             <td>
-                                {{ ++$key ?? '' }}
+                                {{ $data['code'] ?? '' }}
                             </td>
                             <td>
-                                {{ $role->title ?? '' }}
+                                {{ $data['title'] }}
                             </td>
                             <td>
-                                @foreach($role->permissions as $key => $item)
-                                    <span class="badge badge-info">{{ $item->title }}</span>
-                                @endforeach
+                                {{ $data['referenceDataTypeKey'] }}
                             </td>
                             <td>
-                                @can('role_show')
-                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.roles.show', $role->id) }}">
-                                        <i class="fas fa-eye"></i>
-                                    </a>
-                                @endcan
-
-                                @can('role_edit')
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.roles.edit', $role->id) }}">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                @endcan
-
-                                @can('role_delete')
-                                    <form action="{{ route('admin.roles.destroy', $role->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
-                                        <input type="hidden" name="_method" value="DELETE">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <button type=submit class="btn btn-xs btn-danger"><i class="far fa-trash-alt"></i></button>
-                                    </form>
-                                @endcan
-
+                                {{ $data['type'] }}
                             </td>
-
+                            <td>
+                                {{ date("d-M-Y",strtotime($data['createdAt'])) }}
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -88,9 +70,9 @@
 @parent
 <script>
     $(function () {
-    let dtButtons=[];
   //let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
-@can('role_delete')
+  let dtButtons=[];
+@can('refdatafield_delete')
   let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
   let deleteButton = {
     text: deleteButtonTrans,
@@ -120,7 +102,8 @@
       }
     }
   }
-  dtButtons.push(deleteButton)
+  //dtButtons.push(deleteButton)
+  
 @endcan
 
   $.extend(true, $.fn.dataTable.defaults, {
@@ -132,6 +115,7 @@
         $($.fn.dataTable.tables(true)).DataTable()
             .columns.adjust();
     });
+    $('.select-checkbox').css('display','none');
 })
 
 </script>

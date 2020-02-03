@@ -104,7 +104,6 @@ class CompanyUsersController extends Controller
             $uid=$request->uid;
             $name=$request->name;
             $organization_name=$request->organization_name;
-           // print_r($uid);die;
             $url=env("VALIDATEME_BE_ENDPOINT")."/company/role/$uid";
             
             $headers = [
@@ -117,14 +116,17 @@ class CompanyUsersController extends Controller
             $response = $client->request('PUT',$url, $data);
             if($response){
                 $data=json_encode(array("message"=>"User has been verified.","status"=>1));
+                 /*****Log */
+                $log_string_serialize=json_encode(array("action"=>"Verified company user.","target_user"=>$name, "target_company"=>$organization_name)); 
+                ActivityLogger::activity($log_string_serialize);
+                /*****Log */
             }else{
                 $data=json_encode(array("message"=>"User verification failed.","status"=>0));
+                /*****Log */
+                $log_string_serialize=json_encode(array("action"=>"Verify company user failed.","target_user"=>$name, "target_company"=>$organization_name)); 
+                ActivityLogger::activity($log_string_serialize);
+                /*****Log */
             }
-            
-            /*****Log */
-            $log_string_serialize=json_encode(array("action"=>"Verified company user","target_user"=>$name, "target_company"=>$organization_name)); 
-            ActivityLogger::activity($log_string_serialize);
-            /*****Log */
             echo $data;die;
         }catch(Exception $e){
             
