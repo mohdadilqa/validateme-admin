@@ -36,6 +36,5 @@ class OrganizationsTableSeeder extends Seeder
         foreach ($organizations as $organization) {
             Organization::updateOrCreate(['id' => $organization['id']], $organization);
         }
-        //Organization::insert($organizations);
     }
 }

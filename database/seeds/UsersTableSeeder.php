@@ -20,7 +20,7 @@ class UsersTableSeeder extends Seeder
         ];
 
         foreach ($users as $user) {
-            User::updateOrCreate(['id' => $user['id']], $user);
+            User::withTrashed()->updateOrCreate(['id' => $user['id']], $user)->restore();
         }
        // User::insert($users);
     }

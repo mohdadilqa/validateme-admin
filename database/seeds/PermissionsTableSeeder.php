@@ -262,13 +262,7 @@ class PermissionsTableSeeder extends Seeder
             ],
         ];
         foreach ($permissions as $permission) {
-            $permissionQuery = Permission::find($permission['id']);
-            if ($permissionQuery) {
-                $permissionQuery->update($permission);  
-            } else {
-                Permission::create($permission);
-            }
-           // Permission::updateOrCreate(['id' => $permission['id']], $permission);
+           Permission::withTrashed()->updateOrCreate(['id' => $permission['id']], $permission)->restore();
         }
     }
 }

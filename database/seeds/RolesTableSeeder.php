@@ -28,17 +28,8 @@ class RolesTableSeeder extends Seeder
             ],
         ];
 
-        foreach ($roles as $role) {
-            $roleQuery = Role::find($role['id']);
-            if ($roleQuery) {
-                $roleQuery->update($role);  
-            } else {
-                Role::create($role);
-            }
-
-           // Role::updateOrCreate(['id' => $role['id']], $role);
+        foreach($roles as $role){
+            Role::withTrashed()->updateOrCreate(['id' => $role['id']], $role)->restore();
         }
-
-        //Role::insert($roles);
     }
 }
