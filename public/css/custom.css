@@ -182,3 +182,9 @@ html *
         background-color:#9ED1CE;
         color:white
     }
+    .add-button-align{
+        float:right;
+    }
+    .primary-button-class{
+        background-color:#0e8c84;
+    }

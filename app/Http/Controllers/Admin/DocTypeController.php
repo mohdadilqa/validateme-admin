@@ -74,14 +74,13 @@ class DocTypeController extends Controller
                     "category"=>$request->category,
                     "createdBy"=>"'$loggedin_user_id'"
                 ];
-            //print_r($data);die;
             $response= json_decode($this->DocTypeDataSaveAPI($request,$data),true);
             if(!empty($response) && ($response['status']===1)){
                 // /*****Log */
                 $log_string_serialize=json_encode(array("action"=>"Document Data Added","target_user"=>"NA", "target_company"=>"NA")); 
                 ActivityLogger::activity($log_string_serialize);
                 /*****Log */
-                return redirect()->route('admin.doctype.index')->with('message', 'Reference Data has been added successfully.');
+                return redirect()->route('admin.doctype.index')->with('message', 'Document definition has been added successfully.');
             }else{
                 // /*****Log */
                 $log_string_serialize=json_encode(array("action"=>"Document Data failed","target_user"=>"NA", "target_company"=>"NA")); 

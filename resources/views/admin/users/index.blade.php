@@ -1,26 +1,23 @@
 @extends('layouts.admin')
 @section('content')
 @can('user_create')
-    <div style="margin-bottom: 10px;" class="row">
-        <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route("admin.users.create") }}">
-            <i class="fas fa-plus-circle"></i>
-            </a>
-        </div>
-    </div>
 @endcan
 <div class="card">
     <div class="card-header">
-    <p class="table-heading"> {{trans('cruds.user.title_singular') }} {{ trans('global.list') }}</p>
-    </div>
+    <p class="table-heading"> 
+        {{trans('cruds.user.title_singular') }} {{ trans('global.list') }}
 
+        <a class="btn btn-success table-heading add-button-align primary-button-class"  href="{{ route("admin.users.create") }}">
+            <i class="fas fa-plus-circle"></i> <span >{{ trans('global.create') }} {{ trans('cruds.user.title_singular') }}</span>
+        </a>
+    </p>
+    </div>
     <div class="card-body">
         <div class="table-responsive">
-            <table class=" table table-bordered table-striped table-hover datatable datatable-User">
+            <table class="table table-bordered table-striped table-hover datatable datatable-User">
                 <thead>
                     <tr>
                         <th width="10">
-
                         </th>
                         <th>
                             {{ trans('cruds.user.fields.id') }}

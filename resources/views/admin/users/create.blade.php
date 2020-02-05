@@ -7,10 +7,11 @@
     </div>
 
     <div class="card-body">
-        <form action="{{ route("admin.users.store") }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route("admin.users.store") }}" method="POST" enctype="multipart/form-data" autocomplete="off">
             @csrf
             @if ((Auth::user()->roles->first()->toArray()['title'] ==='support staff'))
-                <div class="form-group {{ $errors->has('organization') ? 'has-error' : '' }}">
+              
+            <div class="form-group {{ $errors->has('organization') ? 'has-error' : '' }}">
                     <label for="organization">{{ trans('cruds.user.fields.organization') }}*
                     </label>
                     <select name="organization" id="organization" class="form-control select2" required>
@@ -43,7 +44,7 @@
 
             <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
                 <label for="name">{{ trans('cruds.user.fields.name') }}*</label>
-                <input type="text" id="name" name="name" class="form-control" value="{{ old('name', isset($user) ? $user->name : '') }}" required>
+                <input type="text" id="name" name="name" class="form-control" value="{{ old('name', isset($user) ? $user->name : '') }}"  required>
                 @if($errors->has('name'))
                     <em class="invalid-feedback">
                         {{ $errors->first('name') }}
@@ -55,7 +56,7 @@
             </div>
             <div class="form-group {{ $errors->has('email') ? 'has-error' : '' }}">
                 <label for="email">{{ trans('cruds.user.fields.email') }}*</label>
-                <input type="email" id="email" name="email" class="form-control" value="{{ old('email', isset($user) ? $user->email : '') }}" required>
+                <input type="email" id="email" name="email" class="form-control" value="{{ old('email', isset($user) ? $user->email : '') }}"  autocomplete="off" required>
                 @if($errors->has('email'))
                     <em class="invalid-feedback">
                         {{ $errors->first('email') }}
@@ -121,6 +122,7 @@ $(document).ready(function(){
             url: "<?php echo env('APP_URL') ?>"+"/admin/users/allOrganization",
             type: "POST",
             dataType: 'json',
+            cache: false,
             data: function (params) {
                 return {
                     q: params.term, // search term

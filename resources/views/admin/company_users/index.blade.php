@@ -1,17 +1,14 @@
 @extends('layouts.admin')
 @section('content')
-@can('company_user_create')
-    <div style="margin-bottom: 10px;" class="row">
-        <div class="col-lg-12">
-           <!-- <a class="btn btn-success" href="{{ route("admin.company-user.create") }}">
-                {{ trans('global.add') }} {{ trans('cruds.company_user.title_singular') }}
-            </a>-->
-        </div>
-    </div>
-@endcan
 <div class="card">
     <div class="card-header">
-        {{ trans('cruds.company_user.title_singular') }} {{ trans('global.list') }}
+        <p class="table-heading"> {{ trans('cruds.company_user.title_singular') }} {{ trans('global.list') }}
+            @can('company_user_create')
+                <!-- <a class="btn btn-success table-heading add-button-align primary-button-class"  href="{{ route("admin.company-user.create") }}">
+                    <i class="fas fa-plus-circle"></i> <span >{{ trans('global.create') }} {{ trans('cruds.company_user.title_singular') }}</span>
+                </a> -->
+            @endcan
+        </p>
     </div>
 
     <div class="card-body">
