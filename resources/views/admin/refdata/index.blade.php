@@ -50,7 +50,7 @@
                                {{ $data['code'] ??''}}
                             </td>
                             <td>
-                                {{ date("d-M-Y",strtotime($data['createdAt'])) ??''}}
+                                {{ isset($data['createdAt']) ? date("d-M-Y",strtotime($data['createdAt'])):''}}
                             </td>
                         </tr>
                     @endforeach

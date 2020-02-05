@@ -65,7 +65,7 @@ class RefDataController extends Controller
                 $log_string_serialize=json_encode(array("action"=>"Reference Data Added","target_user"=>"NA", "target_company"=>"NA")); 
                 ActivityLogger::activity($log_string_serialize);
                 /*****Log */
-                return redirect()->route('admin.refdata.index')->with('message', 'Reference Data has been added successfully.');
+                return redirect()->route('admin.refdata.index')->with('message', $response['msg']);
             }else{
                 // /*****Log */
                 $log_string_serialize=json_encode(array("action"=>"Reference Data failed","target_user"=>"NA", "target_company"=>"NA")); 

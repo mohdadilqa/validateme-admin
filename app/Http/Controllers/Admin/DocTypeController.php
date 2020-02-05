@@ -23,10 +23,20 @@ class DocTypeController extends Controller
     public function index()
     {
         abort_if(Gate::denies('doctype_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        $params="";$datas=array();
+        $params="";$i=0;$datas=array();
         $response=json_decode($this->GetDoctypeListAPI($params),true);
-        if(!empty($response) && isset($response['data']['doctypeData'])){
-            $datas=$response['data']['doctypeData'];
+        
+        if(!empty($response) && isset($response['data']['doctypeData']) && (!empty($response['data']['doctypeData']))){
+
+            foreach($response['data']['doctypeData'] as $key=> $val){
+                $datas[$i]['_id']=$val['_id'];
+                $datas[$i]['name']=$val['name'];
+                $datas[$i]['category']=$val['category']['label'];
+                $datas[$i]['fields']=$this->object_to_string($val['fields'], 'title');
+                $datas[$i]['nameRule']=$this->object_to_string($val['nameRule'], 'title');
+                $datas[$i]['createdAt']=$val['createdAt'];
+                $i++;
+            }
         }
         return view('admin.doctype.index',compact('datas'));
     }
@@ -39,7 +49,11 @@ class DocTypeController extends Controller
     public function create()
     {
         abort_if(Gate::denies('doctype_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        $categories=array("123456789123"=>"Educational");
+        $categories=array();
+        $categoryData=json_decode($this->getAllCategory(),true);
+        if(isset($categoryData['data']) && !empty($categoryData['data'])){
+            $categories=$categoryData['data'];
+        }
         return view('admin.doctype.create',compact('categories'));
     }
 
@@ -60,6 +74,7 @@ class DocTypeController extends Controller
                     "category"=>$request->category,
                     "createdBy"=>"'$loggedin_user_id'"
                 ];
+            //print_r($data);die;
             $response= json_decode($this->DocTypeDataSaveAPI($request,$data),true);
             if(!empty($response) && ($response['status']===1)){
                 // /*****Log */

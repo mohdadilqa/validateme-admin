@@ -42,12 +42,12 @@ $(document).ready(function(){
     });
     //Code generation for REFDATA
 
-    function regex (str){
+    function codeRegex (str){
         return str.replace(/(~|`| |!|@|#|$|%|^|&|\*|\(|\)|{|}|\[|\]|;|:|\"|'|<|,|\.|>|\?|\/|\\|\||-|_|\+|=)/g,"")
     }
     $("#title").keyup(function(){
         let title=$(this).val();
-        let code=regex(title).toLowerCase();
+        let code=codeRegex(title).toLowerCase();
         $("#code").val(code);
     });
 
@@ -140,6 +140,7 @@ $(document).ready(function(){
         });
         $("#name_rule_text").text(name_rule.slice(0,-1));
     });
+
     //disable all input fileds
     $('#sortable2').on('DOMSubtreeModified',function(event){
        
@@ -155,44 +156,3 @@ $(document).ready(function(){
         }
     });
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// var availableTags = [
-//     "ActionScript",
-//     "AppleScript",
-//     "Asp",
-//     "BASIC",
-//     "C",
-//     "C++",
-//     "Clojure",
-//     "COBOL",
-//     "ColdFusion",
-//     "Erlang",
-//     "Fortran",
-//     "Groovy",
-//     "Haskell",
-//     "Java",
-//     "JavaScript",
-//     "Lisp",
-//     "Perl",
-//     "PHP",
-//     "Python",
-//     "Ruby",
-//     "Scala",
-//     "Scheme"
-//   ];
-//   $("#RDT_key").autocomplete({
-//     source: availableTags
-//   });

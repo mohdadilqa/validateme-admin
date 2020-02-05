@@ -47,10 +47,10 @@
                                 {{ $data['name'] ?? ''}}
                             </td>
                             <td>
-                                {{ implode(",",$data['fields']) ?? ''}}
+                                {{ $data['fields'] ?? ''}}
                             </td>
                             <td>
-                               {{ implode(",",$data['nameRule']) ?? '' }}
+                               {{ $data['nameRule'] ?? '' }}
                             </td>
                             <td>
                                {{ $data['category'] ??'' }}

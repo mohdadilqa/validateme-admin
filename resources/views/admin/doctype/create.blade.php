@@ -49,9 +49,9 @@
             </div>
             <div class="form-group category {{ $errors->has('category') ? 'has-error' : '' }}">
                 <label for="category">{{ trans('cruds.doctype.fields.category') }}*</label>
-                <select name="category" id="category" class="form-control select2" multiple="multiple" required>
+                <select name="category" id="category" class="form-control select2" required>
                     @foreach($categories as $id => $category)
-                        <option value="{{ $id }}" >{{ $category }}</option>
+                        <option value="{{ $category['_id'] }}" >{{ $category['label'] }}</option>
                     @endforeach
                 </select>
                 @if($errors->has('category'))

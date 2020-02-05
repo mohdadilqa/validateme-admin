@@ -169,3 +169,16 @@ html *
         font-weight:bold;
         font-size:14px;
     } 
+
+    .select2-container .select2-selection--single {
+        box-sizing: border-box;
+        cursor: pointer;
+        display: block;
+        height: 34px;
+        user-select: none;
+        -webkit-user-select: none;
+    }
+    .disable-button{
+        background-color:#9ED1CE;
+        color:white
+    }

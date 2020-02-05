@@ -14,9 +14,11 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use jeremykenedy\LaravelLogger\App\Http\Traits\ActivityLogger;
 use GuzzleHttp\Client;
+use App\Traits\BEAPITrait;
 
 class CompanyUsersController extends Controller
 {
+    use BEAPITrait;
     public function index()
     {
         abort_if(Gate::denies('company_user_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
@@ -105,38 +107,29 @@ class CompanyUsersController extends Controller
             $uid=$request->uid;
             $name=$request->name;
             $organization_name=$request->organization_name;
-            $url=env("VALIDATEME_BE_ENDPOINT")."/company/role/$uid";
-            
-            $headers = [
-                'Content-Type' => 'application/json',
-                'authorization' => 'Basic '.env("VALIDATEME_BE_API_AUTH_KEY"),
-            ];
-
-            $data=['json' => ['verify'=>true],  'headers' => $headers];
-            
-            $response = $client->request('PUT',$url, $data);
-            if($response){
-                $data=json_encode(array("message"=>"User has been verified.","status"=>1));
+            $response= json_decode($this->verifyUserAPI($uid),true);
+            if($response && ($response['status']===1)){
                  /*****Log */
                 $log_string_serialize=json_encode(array("action"=>"Verified company user.","target_user"=>$name, "target_company"=>$organization_name)); 
                 ActivityLogger::activity($log_string_serialize);
                 /*****Log */
             }else{
-                $data=json_encode(array("message"=>"User verification failed.","status"=>0));
+                
                 /*****Log */
                 $log_string_serialize=json_encode(array("action"=>"Verify company user failed.","target_user"=>$name, "target_company"=>$organization_name)); 
                 ActivityLogger::activity($log_string_serialize);
                 /*****Log */
             }
-            echo $data;die;
+
+            echo json_encode($response);die;
         }catch(Exception $e){
             
             /*****Log */
             $log_string_serialize=json_encode(array("action"=>"Verified company user failed","target_user"=>$name, "target_company"=>$organization_name)); 
             ActivityLogger::activity($log_string_serialize);
             /*****Log */
-            $data=json_encode(array("message"=>"User verification failed.","status"=>0));
-            echo $data;die;
+            $response= $this->HeaderStatusCode(800,array());
+            echo $response;die;
         }
     }
 }

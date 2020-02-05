@@ -23,24 +23,75 @@ trait BEAPITrait
         return $client;
     }
 
+    /***
+     * convert Array of specific field to comma seprated string
+     * Input ->Array/Obejct,$field
+     * Output ->string
+     * 
+    */
+
+
+    public function object_to_string($objects, $field='', $glue=', ') {
+        $output = array();
+        if(!empty($field)){
+            if(!empty($objects) && count($objects) > 0) {
+                foreach($objects as $object) {
+                    if(is_array($object) && isset($object[$field])) {
+                        $output[] = $object[$field];
+                    } else  if(is_object($object) && isset($object->$field)) {
+                        $output[] = $object->$field;
+                    }
+                }
+            }
+        }
+        return join($glue, $output);
+    }
+
     public function HeaderStatusCode($statusCode,$data){
         switch($statusCode){
+           
            case 200:
-                return json_encode(array('status'=>1,'msg'=>'','data'=>$data['response']));
-                // break;
+                return json_encode(array('status'=>1,'msg'=>$data['message'],'data'=>$data['response']));
             case 400:
                 return json_encode(array('status'=>0,'msg'=>'Bad request. Please try again.','data'=>''));
-                // break;
             case 422:
                 return json_encode(array('status'=>0,'msg'=>'Unprocessable Entity. Please try again.','data'=>''));
-                // break;
             case 500:
-                return json_encode(array('status'=>0,'msg'=>'Server Error. Please try again.','data'=>''));
-                // break;
+                return json_encode(array('status'=>0,'msg'=>$data['error']['message'],'data'=>''));
+            case 800:
+                return json_encode(array('status'=>0,'msg'=>'Exception. Please try again.','data'=>''));
             default:
-                return json_encode(array('status'=>1,'msg'=>'','data'=>$data['response']));
+                return json_encode(array('status'=>1,'msg'=>'Exception. Please try again.','data'=>''));
         }
     }
+
+    /******
+     * Verify User API
+     * Inputs:UID
+     *    
+     * Output :Verified user
+     * 
+     */
+    public function verifyUserAPI($params){
+        
+        $client=$this->getGuzzleHttpInstance();   //Guzzle Client object
+        $url=env("VALIDATEME_BE_ENDPOINT")."/company/role/$params";
+        $headers = [
+            'Content-Type' => 'application/json',
+            'authorization' => 'Basic '.env("VALIDATEME_BE_API_AUTH_KEY"),
+        ];
+        $data=[
+                'json' => ['verify'=>true],
+                'headers' => $headers,
+                'http_errors' => false
+            ];
+        $response = $client->request('PUT',$url, $data);
+        $finalResponse=$this->HeaderStatusCode($response->getStatusCode(),json_decode($response->getBody()->getContents(),true));
+        return $finalResponse;       
+    }
+
+
+
     /*****
      * API for getting RDTKey
      * Request ->JSON DATA
@@ -98,7 +149,6 @@ trait BEAPITrait
         ];
         $data=['headers' => $headers,'http_errors' => false];
         $response = $client->request('GET',$url, $data);
-        //echo "<pre/>";print_r(json_decode($response->getBody()->getContents(),true));die;
         $finalResponse=$this->HeaderStatusCode($response->getStatusCode(),json_decode($response->getBody()->getContents(),true));
         return $finalResponse;       
     }
@@ -116,7 +166,6 @@ trait BEAPITrait
      * 
      */
     public function filedDataSaveAPI($request,$params){
-       // echo "<pre/>";print_r($params);die;
         $client=$this->getGuzzleHttpInstance();   //Guzzle Client object
         $url=env("VALIDATEME_BE_ENDPOINT")."/doctypefield";
         $headers = [
@@ -149,7 +198,6 @@ trait BEAPITrait
         ];
         $data=['headers' => $headers,'http_errors' => false];
         $response = $client->request('GET',$url, $data);
-        //echo "<pre/>";print_r(json_decode($response->getBody()->getContents(),true));die;
         $finalResponse=$this->HeaderStatusCode($response->getStatusCode(),json_decode($response->getBody()->getContents(),true));
         return $finalResponse;       
     }    
@@ -219,9 +267,28 @@ trait BEAPITrait
         ];
         $data=['headers' => $headers,'http_errors' => false];
         $response = $client->request('GET',$url, $data);
-        //echo "<pre/>";print_r(json_decode($response->getBody()->getContents(),true));die;
         $finalResponse=$this->HeaderStatusCode($response->getStatusCode(),json_decode($response->getBody()->getContents(),true));
-       // echo "<pre/>";print_r($finalResponse);die;
+        return $finalResponse;       
+    }
+
+
+    /******
+     * Get Category data
+     * 
+     * Output :Get all category data
+     * 
+     */
+
+    public function getAllCategory(){
+        $client=$this->getGuzzleHttpInstance();   //Guzzle Client object
+        $url=env("VALIDATEME_BE_ENDPOINT")."/category/all";
+        $headers = [
+            'Content-Type' => 'application/json',
+            'authorization' => 'Basic '.env("VALIDATEME_BE_API_AUTH_KEY"),
+        ];
+        $data=['headers' => $headers,'http_errors' => false];
+        $response = $client->request('GET',$url, $data);
+        $finalResponse=$this->HeaderStatusCode($response->getStatusCode(),json_decode($response->getBody()->getContents(),true));
         return $finalResponse;       
     }
 

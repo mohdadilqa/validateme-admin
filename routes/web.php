@@ -3,6 +3,7 @@
 Route::redirect('/', '/login');
 Route::redirect('/home', '/admin/dashboard');
 Auth::routes();
+//Route::get('/logout', 'Auth\LoginController@logout');
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth']], function () {
     Route::redirect('/', '/admin/dashboard');

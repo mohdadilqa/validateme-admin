@@ -81,7 +81,7 @@
 
                                 @can('company_user_disable')
                                     
-                                    <a class="btn btn-xs btn-info" <?php if(empty($disableAction)) echo "style='display:none;'" ?> id="<?php echo $val['uid'] ?>_disableAction" href="javascript:void(0)" disabled>
+                                    <a class="btn btn-xs btn-info disable-button" <?php if(empty($disableAction)) echo "style='display:none;'" ?> id="<?php echo $val['uid'] ?>_disableAction" href="javascript:void(0)" disabled>
                                         Disable
                                     </a>
                                     
@@ -89,7 +89,7 @@
 
                                 @can('company_user_view_activity')
                                     
-                                    <a class="btn btn-xs btn-info" <?php if(empty($viewActivityAction)) echo "style='display:none;'" ?> id="<?php echo $val['uid'] ?>_viewActvityAction" href="javascript:void(0)" disabled>
+                                    <a class="btn btn-xs btn-info disable-button" <?php if(empty($viewActivityAction)) echo "style='display:none;'" ?> id="<?php echo $val['uid'] ?>_viewActvityAction" href="javascript:void(0)" disabled>
                                         View Activity
                                     </a>
                                     
@@ -165,12 +165,16 @@ function verifyUser(uid){
             data:{'uid':uid,'name':name,'organization_name':orgName},
             success:function(response){
                 let result=($.parseJSON(response));
+                console.log(result)
                 let status=result.status;
                 if(status===1){
                     $("#"+uid+"_status").text("Verfied");
                     $("#"+uid+"_verifyAction").css("display", "none");
                     $("#"+uid+"_disableAction").css("display", "");
                     $("#"+uid+"_viewActvityAction").css("display", "");
+                    $(".main .container-fluid").prepend('<div class="row mb-2"><div class="col-lg-12"><div class="alert alert-success" role="alert">'+result.msg+'</div></div></div>');
+                }else{
+                    $(".main .container-fluid").prepend('<div class="row mb-2"><div class="col-lg-12"><div class="alert alert-danger" role="alert">'+result.msg+'</div></div></div>');
                 }
             }
         })
