@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use jeremykenedy\LaravelLogger\App\Http\Traits\ActivityLogger;
 use App\Http\Requests\StoreDocTypeRequest;
 use GuzzleHttp\Client;
-use App\Traits\BEAPITrait;
+use App\Traits\DocTypeAPITrait;
 
 class DocTypeController extends Controller
 {
@@ -18,7 +18,7 @@ class DocTypeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */    
-    use BEAPITrait;
+    use DocTypeAPITrait;
 
     public function index()
     {

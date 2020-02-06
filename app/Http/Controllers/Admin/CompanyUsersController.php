@@ -14,11 +14,11 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use jeremykenedy\LaravelLogger\App\Http\Traits\ActivityLogger;
 use GuzzleHttp\Client;
-use App\Traits\BEAPITrait;
+use App\Traits\CompanyUserAPITrait;
 
 class CompanyUsersController extends Controller
 {
-    use BEAPITrait;
+    use CompanyUserAPITrait;
     public function index()
     {
         abort_if(Gate::denies('company_user_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');

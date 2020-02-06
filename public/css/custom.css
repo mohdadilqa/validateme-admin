@@ -169,7 +169,6 @@ html *
         font-weight:bold;
         font-size:14px;
     } 
-
     .select2-container .select2-selection--single {
         box-sizing: border-box;
         cursor: pointer;
@@ -187,4 +186,7 @@ html *
     }
     .primary-button-class{
         background-color:#0e8c84;
+    }
+    .float-right{
+        float:right;
     }

@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use jeremykenedy\LaravelLogger\App\Http\Traits\ActivityLogger;
 use App\Http\Requests\StoreRefDataRequest;
 use GuzzleHttp\Client;
-use App\Traits\BEAPITrait;
+use App\Traits\RefDataAPITrait;
 
 class RefDataController extends Controller
 {
@@ -18,7 +18,7 @@ class RefDataController extends Controller
      *
      * @return \Illuminate\Http\Response
      */    
-    use BEAPITrait;
+    use RefDataAPITrait;
 
     public function index()
     {
@@ -128,6 +128,13 @@ class RefDataController extends Controller
     {
         //
     }
+
+    /*****
+     * Reference data key
+     * input->Search string
+     * output->list of all refrence data key
+     * 
+     */
     public function referenceDataKey(Request $request){
         try{
             $searchTerm=$request->term;
@@ -155,5 +162,36 @@ class RefDataController extends Controller
             $responseData=json_encode(array("message"=>"RDTKey searching Failed.","status"=>0));
         }
         echo $responseData;die;
+    }
+    /*****
+     * for saving Reference data
+     * input ->Json Data
+     * Output->remaing data not saved
+     * 
+     */
+    public function refDataUpload(Request $request){
+        try{
+            $data=$request->jsonData;
+            $response= json_decode($this->refDataUploadAPI($data),true);
+            if(!empty($response) && !empty($response['response'])){
+                 /*****Log */
+                $log_string_serialize=json_encode(array("action"=>"Upload Reference Data","target_user"=>"NA", "target_company"=>"NA")); 
+                ActivityLogger::activity($log_string_serialize);
+                /*****Log */
+            }else{
+                /*****Log */
+                $log_string_serialize=json_encode(array("action"=>"Reference data uploaded","target_user"=>"NA", "target_company"=>"NA")); 
+                ActivityLogger::activity($log_string_serialize);
+                /*****Log */
+            }
+            echo json_encode($response);die;
+        }catch(Exception $e){
+            /*****Log */
+            $log_string_serialize=json_encode(array("action"=>"Reference data uploaded failed","target_user"=>"NA", "target_company"=>"NA")); 
+            ActivityLogger::activity($log_string_serialize);
+            /*****Log */
+            $response= $this->BEAPIStatusCode('',array());
+            echo $response;die;
+        }
     }
 }

@@ -132,7 +132,9 @@ return [
             'code'                     => 'Code',
             'code_helper'              => '',
             'created_date'             => 'Created Date',
-            'created_date_helper'      => ''
+            'created_date_helper'      => '',
+            'upload'                   => 'Upload Reference Data',
+            'download'                 => 'Download Reference Data'
         ],
     ],
     'refdatafield'              => [
@@ -150,7 +152,9 @@ return [
             'UXType'                   => 'UX Type',
             'UXType_helper'            => '',
             'created_date'             => 'Created Date',
-            'created_date_helper'      => ''
+            'created_date_helper'      => '',
+            'upload'                   => 'Upload Field Data',
+            'download'                 => 'Download Field Data'
         ],
     ],
     'doctype'              => [

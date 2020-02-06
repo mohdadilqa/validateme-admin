@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use jeremykenedy\LaravelLogger\App\Http\Traits\ActivityLogger;
 use App\Http\Requests\StoreRefDataFieldRequest;
 use GuzzleHttp\Client;
-use App\Traits\BEAPITrait;
+use App\Traits\RefDataFieldAPITrait;
 
 class RefDataFieldController extends Controller
 {
@@ -18,7 +18,7 @@ class RefDataFieldController extends Controller
      *
      * @return \Illuminate\Http\Response
      */    
-    use BEAPITrait;
+    use RefDataFieldAPITrait;
 
     public function index()
     {
@@ -144,7 +144,6 @@ class RefDataFieldController extends Controller
                 ActivityLogger::activity($log_string_serialize);
                 /*****Log */
             }
-           
         }catch(Exception $e){
             /*****Log */
             $log_string_serialize=json_encode(array("action"=>"RDTKey searching Failed->".$searchTerm,"target_user"=>"NA", "target_company"=>"NA")); 
@@ -154,5 +153,37 @@ class RefDataFieldController extends Controller
             
         }
         echo $responseData;die;
+    }
+
+    /*****
+     * for saving Field data
+     * input ->Json Data
+     * Output->remaing data not saved
+     * 
+     */
+    public function fieldDataUpload(Request $request){
+        try{
+            $data=$request->jsonData;
+            $response= json_decode($this->fieldDataUploadAPI($data),true);
+            if(!empty($response) && !empty($response['response']) && ($response['response']==1)){
+                 /*****Log */
+                $log_string_serialize=json_encode(array("action"=>"Field data uploaded","target_user"=>"NA", "target_company"=>"NA")); 
+                ActivityLogger::activity($log_string_serialize);
+                /*****Log */
+            }else{
+                /*****Log */
+                $log_string_serialize=json_encode(array("action"=>"Field data uploaded failed","target_user"=>"NA", "target_company"=>"NA")); 
+                ActivityLogger::activity($log_string_serialize);
+                /*****Log */
+            }
+            echo json_encode($response);die;
+        }catch(Exception $e){
+            /*****Log */
+            $log_string_serialize=json_encode(array("action"=>"Field data uploaded failed","target_user"=>"NA", "target_company"=>"NA")); 
+            ActivityLogger::activity($log_string_serialize);
+            /*****Log */
+            $response= $this->BEAPIStatusCode('',array());
+            echo $response;die;
+        }
     }
 }

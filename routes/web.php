@@ -34,10 +34,12 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     //Refrence Data
     Route::resource('refdata','RefDataController');
     Route::post('refdata/refDatakey','RefDataController@referenceDataKey');
+    Route::post('refdata/upload','RefDataController@refDataUpload');
 
     //Refrence Data Field Definition
     Route::resource('refdatafield','RefDataFieldController');
     Route::post('refdatafield/refDatakey','RefDataController@referenceDataKey');
+    Route::post('refdatafield/upload','RefDataController@fieldDataUpload');
 
     //DocType
     Route::resource('doctype','DocTypeController');

@@ -1,15 +1,20 @@
 @extends('layouts.admin')
 @section('content')
+@include('modals.modal')
 <div class="card">
     <div class="card-header">
-        <p class="table-heading"> 
+        <span class="table-heading"> 
             {{ trans('cruds.refdatafield.title_singular') }} {{ trans('global.list') }}
+        </span>
+        <span class="table-heading add-button-align"> 
             @can('refdatafield_create')
-                <a class="btn btn-success table-heading add-button-align primary-button-class"  href="{{ route("admin.refdatafield.create") }}">
+                <a class="btn btn-success table-heading primary-button-class"  href="{{ route("admin.refdatafield.create") }}">
                     <i class="fas fa-plus-circle"></i> <span >{{ trans('global.create') }} {{ trans('cruds.refdatafield.title_singular') }}</span>
                 </a>
             @endcan
-        </p>
+            <button type="button" class="btn btn-success primary-button-class filedDataUpload"><i class="fa fa-upload" aria-hidden="true"></i> {{ trans('cruds.refdatafield.fields.upload') }}</button>
+            <button type="button" class="btn btn-success primary-button-class"><i class="fas fa-download"></i> {{ trans('cruds.refdatafield.fields.download') }}</button>
+        </span>
     </div>
 
     <div class="card-body">
@@ -64,6 +69,12 @@
     </div>
 </div>
 @endsection
+@push('modeljs')
+<script src="{{ asset('js/modal_popup.js')}}"></script>
+@endpush
+@push('docTypeScript')
+<script src="{{ asset('js/doctype.js')}}"></script>
+@endpush
 @section('scripts')
 @parent
 <script>

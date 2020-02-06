@@ -108,6 +108,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.js"></script>
     <script src="{{ asset('js/main.js') }}"></script>
     @stack('docTypeScript')
+    @stack('modeljs')
     <script>
         $(function() {
   let copyButtonTrans = '{{ trans('global.datatables.copy') }}'

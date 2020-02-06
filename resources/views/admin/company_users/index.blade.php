@@ -162,7 +162,6 @@ function verifyUser(uid){
             data:{'uid':uid,'name':name,'organization_name':orgName},
             success:function(response){
                 let result=($.parseJSON(response));
-                console.log(result)
                 let status=result.status;
                 if(status===1){
                     $("#"+uid+"_status").text("Verfied");
