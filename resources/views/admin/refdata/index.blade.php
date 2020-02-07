@@ -6,14 +6,18 @@
         <span class="table-heading"> 
             {{ trans('cruds.refdata.title_singular') }} {{ trans('global.list') }}
         </span>
-        <span class="table-heading add-button-align"> 
+        <span class="add-button-align"> 
             @can('refdata_create')
                 <a class="btn btn-success primary-button-class"  href="{{ route("admin.refdata.create") }}">
-                    <i class="fas fa-plus-circle"></i> <span>{{ trans('global.create') }} {{ trans('cruds.refdata.title_singular') }}</span>
+                    <i class="fas fa-plus-circle"></i>{{ trans('global.create') }} {{ trans('cruds.refdata.title_singular') }}
                 </a>        
             @endcan
-            <button type="button" class="btn btn-success primary-button-class referenceDataUplaod"><i class="fa fa-upload" aria-hidden="true"></i> {{ trans('cruds.refdata.fields.upload') }}</button>
+            @can('refdata_upload')
+            <button type="button" class="btn btn-success primary-button-class referenceDataUplaod"><i class="fa fa-upload" aria-hidden="true"></i>{{ trans('cruds.refdata.fields.upload') }}</button>
+            @endcan
+            @can('refdata_download')
             <button type="button" class="btn btn-success primary-button-class"><i class="fas fa-download"></i> {{ trans('cruds.refdata.fields.download') }}</button>
+            @endcan
         </span>
     </div>
 

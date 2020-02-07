@@ -6,14 +6,18 @@
         <span class="table-heading"> 
             {{ trans('cruds.refdatafield.title_singular') }} {{ trans('global.list') }}
         </span>
-        <span class="table-heading add-button-align"> 
+        <span class="add-button-align"> 
             @can('refdatafield_create')
                 <a class="btn btn-success table-heading primary-button-class"  href="{{ route("admin.refdatafield.create") }}">
-                    <i class="fas fa-plus-circle"></i> <span >{{ trans('global.create') }} {{ trans('cruds.refdatafield.title_singular') }}</span>
+                    <i class="fas fa-plus-circle"></i> {{ trans('global.create') }} {{ trans('cruds.refdatafield.title_singular') }}
                 </a>
             @endcan
-            <button type="button" class="btn btn-success primary-button-class filedDataUpload"><i class="fa fa-upload" aria-hidden="true"></i> {{ trans('cruds.refdatafield.fields.upload') }}</button>
-            <button type="button" class="btn btn-success primary-button-class"><i class="fas fa-download"></i> {{ trans('cruds.refdatafield.fields.download') }}</button>
+            @can('refdatafield_upload')
+                <button type="button" class="btn btn-success primary-button-class filedDataUpload"><i class="fa fa-upload" aria-hidden="true"></i> {{ trans('cruds.refdatafield.fields.upload') }}</button>
+            @endcan
+            @can('refdatafield_download')
+                <button type="button" class="btn btn-success primary-button-class"><i class="fas fa-download"></i> {{ trans('cruds.refdatafield.fields.download') }}</button>
+            @endcan
         </span>
     </div>
 

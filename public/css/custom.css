@@ -190,3 +190,11 @@ html *
     .float-right{
         float:right;
     }
+    .upload-data-success{
+        display:block;
+        color:green;
+    }
+    .upload-data-error{
+        display:block;
+        color:red;
+    }

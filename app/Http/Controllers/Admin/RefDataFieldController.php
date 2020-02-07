@@ -37,8 +37,8 @@ class RefDataFieldController extends Controller
     public function create()
     {
         abort_if(Gate::denies('refdatafield_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        $uxtypes=array("text"=>"text","number"=>"number","select"=>"select","multi-select"=>"multi-select","date"=>"date");
-        return view('admin.refdatafield.create',compact('uxtypes'));
+        $fieldTypes=array("select"=>"select","reference"=>"Reference CSV");
+        return view('admin.refdatafield.create',compact('fieldTypes'));
     }
 
     /**
@@ -55,7 +55,7 @@ class RefDataFieldController extends Controller
                     "code"=>$request->code,
                     "title"=>$request->title,
                     "referenceDataTypeKey"=>$request->RDT_key,
-                    "type"=>$request->UXType,
+                    "type"=>$request->field_type,
                     "createdBy"=>"'$loggedin_user_id'"
                 ];
             $response= json_decode($this->filedDataSaveAPI($request,$data),true);
@@ -158,7 +158,7 @@ class RefDataFieldController extends Controller
     /*****
      * for saving Field data
      * input ->Json Data
-     * Output->remaing data not saved
+     * Output->Dowload duplicate data
      * 
      */
     public function fieldDataUpload(Request $request){

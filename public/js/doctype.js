@@ -141,50 +141,46 @@ $(document).ready(function(){
 
 //Upload Reference Data function
 function uploadRefData(){
-    let jsonData=$("#refJsonData").val();
-    if(jsonData!='' && jsonData!=undefined){
+    let data=$("#refData").val();
+    if(data!='' && data!=undefined){
         $.ajax({
             headers: {'x-csrf-token': _token},
             url:base_url+"/admin/refdata/upload",
             type:'POST',
-            data:{'jsonData':jsonData},
+            data:{'jsonData':data},
             success:function(response){
                 let result=($.parseJSON(response));
                 if(result.status===1){
-                    $(".main .container-fluid").prepend('<div class="row mb-2"><div class="col-lg-12"><div class="alert alert-success" role="alert">'+result.msg+'</div></div></div>');
-                    $('#myModal').modal('hide');
+                    $("#refDataError").text(result.msg).addClass('upload-data-success').css('display', '');
                 }else{
-                    $(".main .container-fluid").prepend('<div class="row mb-2"><div class="col-lg-12"><div class="alert alert-danger" role="alert">'+result.msg+'</div></div></div>');
-                    $('#myModal').modal('hide');
+                    $("#refDataError").text(result.msg).addClass('upload-data-error').css('display', '');
                 }
             }
         })
     }else{
-        $("#refDataUploadError").text("Please enter JSON data").css('display','').css('color','red');
+        $("#refDataError").text("Please enter JSON data").addClass('upload-data-error').css('display', '');
     }
 }
 
 //Upload Field Data function
 function uploadFieldData(){
-    let jsonData=$("#refJsonData").val();
-    if(jsonData!='' && jsonData!=undefined){
+    let data=$("#fieldData").val();
+    if(data!='' && data!=undefined){
         $.ajax({
             headers: {'x-csrf-token': _token},
             url:base_url+"/admin/refdatafield/upload",
             type:'POST',
-            data:{'jsonData':jsonData},
+            data:{'jsonData':data},
             success:function(response){
                 let result=($.parseJSON(response));
                 if(result.status===1){
-                    $(".main .container-fluid").prepend('<div class="row mb-2"><div class="col-lg-12"><div class="alert alert-success" role="alert">'+result.msg+'</div></div></div>');
-                    $('#myModal').modal('hide');
+                    $("#fieldDataError").text(result.msg).addClass('upload-data-success').css('display', '');
                 }else{
-                    $(".main .container-fluid").prepend('<div class="row mb-2"><div class="col-lg-12"><div class="alert alert-danger" role="alert">'+result.msg+'</div></div></div>');
-                    $('#myModal').modal('hide');
+                    $("#fieldDataError").text(result.msg).addClass('upload-data-error').css('display', '');
                 }
             }
         })
     }else{
-        $("#fieldDataError").text("Please enter JSON data").css('display','').css('color','red');
+        $("#fieldDataError").text("Please enter JSON data").addClass('upload-data-error').css('display', '');
     }
 }

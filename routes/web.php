@@ -39,7 +39,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     //Refrence Data Field Definition
     Route::resource('refdatafield','RefDataFieldController');
     Route::post('refdatafield/refDatakey','RefDataController@referenceDataKey');
-    Route::post('refdatafield/upload','RefDataController@fieldDataUpload');
+    Route::post('refdatafield/upload','RefDataFieldController@fieldDataUpload');
 
     //DocType
     Route::resource('doctype','DocTypeController');

@@ -26,7 +26,7 @@ class StoreRefDataFieldRequest extends FormRequest
             'RDT_key' => [
                 'required',
             ],
-            'UXType'  => [
+            'field_type'  => [
                 'required',
             ]
         ];
@@ -35,10 +35,10 @@ class StoreRefDataFieldRequest extends FormRequest
     public function messages()
     {
         return [
-            'title.required'  => 'title is required',
-            'code.required'  => 'code is required',
+            'title.required'  => 'Title is required',
+            'code.required'  => 'Code is required',
             'RDT_key.required' => 'Reference Data Type Key is required',
-            'UXType.required'  => 'UXType is required',
+            'field_type.required'  => 'Field type is required',
         ];
     }
 }

@@ -18,16 +18,8 @@
                         {{ $errors->first('title') }}
                     </em>
                 @endif
-                <p class="helper-block">
-                    {{ trans('cruds.refdata.fields.title_helper') }}
-                </p>
             </div>
-
-            <div class="form-group ui-widget">
-                <label for="tags">Reference Data Type key: </label>
-                <input name="RDT_key" id="RDT_key" class="form-control" required>
-            </div>
-
+            
             <div class="form-group {{ $errors->has('code') ? 'has-error' : '' }}">
                 <label for="code">{{ trans('cruds.refdata.fields.code') }}*</label>
                 <input type="text" id="code" name="code" class="form-control" required readonly>
@@ -36,9 +28,11 @@
                         {{ $errors->first('code') }}
                     </em>
                 @endif
-                <p class="helper-block">
-                    {{ trans('cruds.refdata.fields.code_helper') }}
-                </p>
+            </div>
+
+            <div class="form-group ui-widget">
+                <label for="RDT_key">{{ trans('cruds.refdata.fields.RDT_key') }}*</label>
+                <input name="RDT_key" id="RDT_key" class="form-control" required>
             </div>
             <div>
                 <input class="btn btn-danger" type="submit" value="{{ trans('global.save') }}">

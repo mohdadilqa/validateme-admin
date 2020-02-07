@@ -35,13 +35,13 @@ trait CustomAPIFunctionTrait
            case 200:
                 return json_encode(array('status'=>1,'msg'=>$data['message'],'data'=>$data['response']));
             case 400:
-                return json_encode(array('status'=>0,'msg'=>'Bad request. Please try again.','data'=>''));
+                return json_encode(array('status'=>0,'msg'=>"Error. Please try again.",'data'=>''));
             case 422:
-                return json_encode(array('status'=>0,'msg'=>'Unprocessable Entity. Please try again.','data'=>''));
+                return json_encode(array('status'=>0,'msg'=>'Error. Please try again.','data'=>''));
             case 500:
-                return json_encode(array('status'=>0,'msg'=>$data['error']['message'],'data'=>''));
-            case 800:
-                return json_encode(array('status'=>0,'msg'=>'Exception. Please try again.','data'=>''));
+                return json_encode(array('status'=>0,'msg'=>'Error. Please try again.','data'=>''));
+            // case 800:
+            //     return json_encode(array('status'=>0,'msg'=>'Exception. Please try again.','data'=>''));
             default:
                 return json_encode(array('status'=>0,'msg'=>'Exception. Please try again.','data'=>''));
         }

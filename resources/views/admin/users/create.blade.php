@@ -68,7 +68,7 @@
             </div>
             @if ((Auth::user()->roles->first()->toArray()['title'] !=='support staff'))
                 <div class="form-group {{ $errors->has('password') ? 'has-error' : '' }}">
-                    <label for="password">{{ trans('cruds.user.fields.password') }}</label>
+                    <label for="password">{{ trans('cruds.user.fields.password') }}*</label>
                     <input type="password" id="password" name="password" class="form-control" required>
                     @if($errors->has('password'))
                         <em class="invalid-feedback">

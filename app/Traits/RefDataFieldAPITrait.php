@@ -59,12 +59,12 @@ trait RefDataFieldAPITrait
     }
 
     /*****
-     * API for saving Reference Data
+     * API for saving field Reference Data
      * Request ->JSON DATA
      */
     public function fieldDataUploadAPI($params){
         $client=$this->getGuzzleHttpInstance();   //Guzzle Client object
-        $url="http://10.0.9.93:3000/api/v1/doctypefield/bulk";
+        $url=env("VALIDATEME_BE_ENDPOINT")."/doctypefield/bulk";
         $headers = [
             'Content-Type' => 'application/json',
             'authorization' => 'Basic B64515a58399170c3AE0AB4ef6',

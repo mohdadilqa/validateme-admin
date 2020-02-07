@@ -4,12 +4,12 @@ $(document).ready(function(){
     //Uplaod Refrerence Json Data
     $('.referenceDataUplaod').on('click',function(){
         //upload JSON form
-        let title="Reference data upload";
+        let title="<b>Reference data upload</b>";
         let html='<form method="post" action=#'+
                     '<div class="form-group">'+
-                        '<label for="input"><b>Json Data:</b></label>'+
-                        '<textarea class="form-control" id="refJsonData" name="refJsonData" required></textarea>'+
-                    '</div><div style="display:none;" id="refDataUploadError"></div>'+
+                        '<label for="input"><b>Uplaod Data:</b></label>'+
+                        '<textarea class="form-control" id="refData" name="refData" required></textarea>'+
+                    '</div><div style="display:none;" id="refDataError"></div>'+
                     '<button type="button" class="btn btn-default float-right primary-button-class" onclick="uploadRefData()">Upload</button>'+
                 '</form>';
         //Load html to POPUP
@@ -21,7 +21,7 @@ $(document).ready(function(){
     //Uplaod Refrerence Json Data
     $('.filedDataUpload').on('click',function(){
         //upload JSON form
-        let title="Filed data upload";
+        let title="<b>Field data upload</b>";
         let html='<form method="post" action=#'+
                     '<div class="form-group">'+
                         '<label for="input"><b>Uplaod Data:</b></label>'+

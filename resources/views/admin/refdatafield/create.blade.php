@@ -17,11 +17,7 @@
                         {{ $errors->first('title') }}
                     </em>
                 @endif
-                <p class="helper-block">
-                    {{ trans('cruds.refdatafield.fields.title_helper') }}
-                </p>
             </div>
-
             <div class="form-group {{ $errors->has('code') ? 'has-error' : '' }}">
                 <label for="code">{{ trans('cruds.refdatafield.fields.code') }}*
                 </label>
@@ -31,32 +27,23 @@
                         {{ $errors->first('code') }}
                     </em>
                 @endif
-                <p class="helper-block">
-                    {{ trans('cruds.refdatafield.fields.code_helper') }}
-                </p>
             </div>
-
             <div class="form-group ui-widget">
-                <label for="RDT_key">Reference Data Type key: </label>
+                <label for="RDT_key">{{ trans('cruds.refdatafield.fields.RDT_key') }}*</label>
                 <input name="RDT_key" id="select_RDT_key" class="form-control" required>
             </div>
-
-
-            <div class="form-group {{ $errors->has('UXType') ? 'has-error' : '' }}">
-                <label for="UXType">{{ trans('cruds.refdatafield.fields.UXType') }}*</label>
-                <select name="UXType" id="UXType" class="select2" required>
-                    @foreach($uxtypes as $id => $uxtype)
-                        <option value="{{ $id }}">{{ $uxtype }}</option>
+            <div class="form-group {{ $errors->has('field_type') ? 'has-error' : '' }}">
+                <label for="field_type">{{ trans('cruds.refdatafield.fields.field_type') }}*</label>
+                <select name="field_type" id="field_type" class="select2" required>
+                    @foreach($fieldTypes as $key => $fieldType)
+                        <option value="{{ $key }}">{{ $fieldType }}</option>
                     @endforeach
                 </select>
-                @if($errors->has('UXType'))
+                @if($errors->has('field_type'))
                     <em class="invalid-feedback">
-                        {{ $errors->first('UXType') }}
+                        {{ $errors->first('field_type') }}
                     </em>
                 @endif
-                <p class="helper-block">
-                    {{ trans('cruds.refdatafield.fields.UXType_helper') }}
-                </p>
             </div>
             <div>
                 <input class="btn btn-danger" type="submit" value="{{ trans('global.save') }}">

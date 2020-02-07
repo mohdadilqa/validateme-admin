@@ -125,10 +125,10 @@ class CompanyUsersController extends Controller
         }catch(Exception $e){
             
             /*****Log */
-            $log_string_serialize=json_encode(array("action"=>"Verified company user failed","target_user"=>$name, "target_company"=>$organization_name)); 
+            $log_string_serialize=json_encode(array("action"=>"Verify company user failed","target_user"=>$name, "target_company"=>$organization_name)); 
             ActivityLogger::activity($log_string_serialize);
             /*****Log */
-            $response= $this->HeaderStatusCode(800,array());
+            $response= $this->BEAPIStatusCode("",array());
             echo $response;die;
         }
     }
