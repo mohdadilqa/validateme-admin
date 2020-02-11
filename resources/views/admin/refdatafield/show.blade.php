@@ -1,9 +1,8 @@
 @extends('layouts.admin')
 @section('content')
-
 <div class="card">
     <div class="card-header">
-        {{ trans('global.show') }} {{ trans('cruds.user.title') }}
+        <p class="table-heading">{{ trans('global.show') }} {{ trans('cruds.refdata.title') }}</p>
     </div>
     <div class="card-body">
         <div class="mb-2">
@@ -11,53 +10,41 @@
                 <tbody>
                     <tr>
                         <th>
-                            {{ trans('cruds.user.fields.id') }}
+                            {{ trans('cruds.refdata.fields.title') }}
                         </th>
                         <td>
-                            {{ $user->id }}
+                            {{ isset($data['title'])?$data['title']:'' }}
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.user.fields.name') }}
+                            {{ trans('cruds.refdata.fields.code') }}
                         </th>
                         <td>
-                            {{ $user->name }}
+                            {{ isset($data['code'])?$data['code']:'' }}
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.user.fields.email') }}
+                        {{ trans('cruds.refdata.fields.RDT_key') }}
                         </th>
                         <td>
-                            {{ $user->email }}
+                        {{ isset($data['referenceDataTypeKey'])?$data['referenceDataTypeKey']:'' }}
                         </td>
                     </tr>
                     <tr>
                         <th>
-                        {{ trans('cruds.user.fields.roles') }}
+                            {{ trans('cruds.refdata.fields.filed_type') }}
                         </th>
                         <td>
-                            @foreach($user->roles as $id => $roles)
-                                <span class="label label-info label-many">{{ $roles->title }}</span>
-                            @endforeach
+                            {{ isset($data['filed_type'])?$data['filed_type']:'' }}
                         </td>
                     </tr>
-                    <!--<tr>
-                        <th>
-                        {{ trans('cruds.user.fields.organization') }}
-                        </th>
-                        <td>
-                           
-                            <span class="label label-info label-many">{{ $user->title }}</span>
-                           
-                        </td>
-                    </tr>-->
                 </tbody>
             </table>
             <div class="float-right">
                 <a class="btn btn-success secondary-button-class" href="{{ url()->previous() }}">
-                        {{ trans('global.back') }}
+                    {{ trans('global.back') }}
                 </a>
             </div>
         </div>

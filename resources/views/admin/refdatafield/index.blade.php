@@ -29,10 +29,13 @@
                         <th width="10">
                         </th>
                         <th>
-                            {{ trans('cruds.refdatafield.fields.code') }}
+                            {{ trans('cruds.user.fields.s_no') }}
                         </th>
                         <th>
                             {{ trans('cruds.refdatafield.fields.title') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.refdatafield.fields.code') }}
                         </th>
                         <th>
                             {{ trans('cruds.refdatafield.fields.RDT_key') }}
@@ -43,18 +46,24 @@
                         <th>
                             {{ trans('cruds.refdatafield.fields.created_date') }}
                         </th>
+                        <th>
+                        {{ trans('global.actions') }}
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($datas as $key => $data)
                         <tr data-entry-id="{{ $data['_id'] }}">
-                        <td>
+                            <td>
                             </td>
                             <td>
-                                {{ $data['code'] ?? '' }}
+                                {{ ++$key ?? '' }}
                             </td>
                             <td>
                                 {{ $data['title'] }}
+                            </td>
+                            <td>
+                                {{ $data['code'] ?? '' }}
                             </td>
                             <td>
                                 {{ $data['referenceDataTypeKey'] }}
@@ -64,6 +73,25 @@
                             </td>
                             <td>
                                 {{ date("d-M-Y",strtotime($data['createdAt'])) }}
+                            </td>
+                            <td>
+                                @can('refdatafield_show')
+                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.refdatafield.show', $data['_id']) }}">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                @endcan
+                                @can('refdatafield_edit')
+                                    <a class="btn btn-xs btn-info" href="{{ route('admin.refdatafield.edit', $data['_id']) }}">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                @endcan
+                                @can('refdatafield_delete')
+                                    <form action="{{ route('admin.refdatafield.destroy', $data['_id']) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
+                                        <input type="hidden" name="_method" value="DELETE">
+                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                        <button type=submit class="btn btn-xs btn-danger"><i class="far fa-trash-alt"></i></button>
+                                    </form>
+                                @endcan
                             </td>
                         </tr>
                     @endforeach
@@ -86,7 +114,7 @@
   //let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
   let dtButtons=[];
 @can('refdatafield_delete')
-  let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
+  let deleteButtonTrans = '<i class="far fa-trash-alt"></i>'
   let deleteButton = {
     text: deleteButtonTrans,
     url: "{{ route('admin.roles.massDestroy') }}",
@@ -115,7 +143,7 @@
       }
     }
   }
-  //dtButtons.push(deleteButton)
+  dtButtons.push(deleteButton)
   
 @endcan
 
@@ -128,7 +156,6 @@
         $($.fn.dataTable.tables(true)).DataTable()
             .columns.adjust();
     });
-    $('.select-checkbox').css('display','none');
 })
 
 </script>

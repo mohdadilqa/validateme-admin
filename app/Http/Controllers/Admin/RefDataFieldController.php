@@ -96,7 +96,9 @@ class RefDataFieldController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data=array('_id'=>$id);
+        $fieldTypes=array("select"=>"Select","reference"=>"Reference");
+        return view('admin.refdatafield.edit',compact('data','fieldTypes'));
     }
 
     /**

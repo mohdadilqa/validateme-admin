@@ -83,7 +83,25 @@ class RefDataController extends Controller
      */
     public function show($id)
     {
-        //
+        $data=array();
+        if(!empty($id)){
+            try{
+                $response= json_decode($this->ReferenceDataViewAPI($id),true);
+                if(isset($response['data']) && isset($response['data']['refData'])){
+                    $data=$response['data']['refData'];
+                }
+                $log_string_serialize=json_encode(array("action"=>"View reference data","target_user"=>"NA", "target_company"=>"NA")); 
+                ActivityLogger::activity($log_string_serialize);
+            }catch(Exception $e){
+                $log_string_serialize=json_encode(array("action"=>"View reference data","target_user"=>"NA", "target_company"=>"NA")); 
+                ActivityLogger::activity($log_string_serialize);
+                $response= $this->BEAPIStatusCode('',array()); 
+                return back()->with('message', trans('cruds.refdata.messages.exception'));
+            }
+        }else{
+            return back()->with('message', trans('cruds.refdata.messages.error'));
+        }
+        return view('admin.refdata.show',compact('data'));
     }
 
     /**
@@ -94,7 +112,21 @@ class RefDataController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data=array();
+        if(!empty($id)){
+            try{
+                $response= json_decode($this->ReferenceDataViewAPI($id),true);
+                if(isset($response['data']) && isset($response['data']['refData'])){
+                    $data=$response['data']['refData'];
+                }
+            }catch(Exception $e){
+                return back()->with('message', trans('cruds.refdata.messages.exception'));
+            }
+        }else{
+            return back()->with('message', trans('cruds.refdata.messages.error'));
+        }
+
+        return view('admin.refdata.edit',compact('data'));
     }
 
     /**

@@ -20,7 +20,6 @@
             @endcan
         </span>
     </div>
-
     <div class="card-body">
         <div class="table-responsive">
             <table class=" table table-bordered table-striped table-hover datatable datatable-Role">
@@ -28,9 +27,9 @@
                     <tr>
                         <th width="10">
                         </th>
-                        <!-- <th>
+                        <th>
                             {{ trans('cruds.user.fields.s_no') }}
-                        </th> -->
+                        </th>
                         <th>
                             {{ trans('cruds.refdata.fields.title') }}
                         </th>
@@ -43,6 +42,9 @@
                         <th>
                             {{ trans('cruds.refdata.fields.created_date') }}
                         </th>
+                        <th>
+                        {{ trans('global.actions') }}
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -50,9 +52,9 @@
                         <tr data-entry-id="{{ $data['_id'] }}">
                             <td>
                             </td>
-                            <!-- <td>
+                            <td>
                                 {{ ++$key ?? '' }}
-                            </td> -->
+                            </td>
                             <td>
                                 {{ $data['title'] ?? '' }}
                             </td>
@@ -64,6 +66,25 @@
                             </td>
                             <td>
                                 {{ isset($data['createdAt']) ? date("d-M-Y",strtotime($data['createdAt'])):''}}
+                            </td>
+                            <td>
+                                @can('refdata_show')
+                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.refdata.show', $data['_id']) }}">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                @endcan
+                                @can('refdata_edit')
+                                    <a class="btn btn-xs btn-info" href="{{ route('admin.refdata.edit', $data['_id']) }}">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                @endcan
+                                @can('refdata_delete')
+                                    <form action="{{ route('admin.refdata.destroy', $data['_id']) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
+                                        <input type="hidden" name="_method" value="DELETE">
+                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                        <button type=submit class="btn btn-xs btn-danger"><i class="far fa-trash-alt"></i></button>
+                                    </form>
+                                @endcan
                             </td>
                         </tr>
                     @endforeach
@@ -86,7 +107,7 @@
     let dtButtons=[];
     //let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
 @can('refdata_delete')
-  let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
+  let deleteButtonTrans = '<i class="far fa-trash-alt"></i>'
   let deleteButton = {
     text: deleteButtonTrans,
     url: "",
@@ -95,13 +116,10 @@
       var ids = $.map(dt.rows({ selected: true }).nodes(), function (entry) {
           return $(entry).data('entry-id')
       });
-
-      if (ids.length === 0) {
+      if(ids.length === 0){
         alert('{{ trans('global.datatables.zero_selected') }}')
-
         return
       }
-
       if (confirm('{{ trans('global.areYouSure') }}')) {
         $.ajax({
           headers: {'x-csrf-token': _token},
@@ -115,7 +133,7 @@
       }
     }
   }
-  //dtButtons.push(deleteButton)
+  dtButtons.push(deleteButton)
 @endcan
 
   $.extend(true, $.fn.dataTable.defaults, {
@@ -127,7 +145,7 @@
         $($.fn.dataTable.tables(true)).DataTable()
             .columns.adjust();
     });
-    $('.select-checkbox').css('display','none');
+    //$('.select-checkbox').css('display','none');
 })
 </script>
 @endsection

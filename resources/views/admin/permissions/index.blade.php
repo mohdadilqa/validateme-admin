@@ -81,7 +81,7 @@
   //let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
 
 @can('permission_delete')
-  let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
+  let deleteButtonTrans = '<i class="far fa-trash-alt"></i>'
   let deleteButton = {
     text: deleteButtonTrans,
     url: "{{ route('admin.permissions.massDestroy') }}",
@@ -90,13 +90,10 @@
       var ids = $.map(dt.rows({ selected: true }).nodes(), function (entry) {
           return $(entry).data('entry-id')
       });
-
       if (ids.length === 0) {
         alert('{{ trans('global.datatables.zero_selected') }}')
-
         return
       }
-
       if (confirm('{{ trans('global.areYouSure') }}')) {
         $.ajax({
           headers: {'x-csrf-token': _token},
