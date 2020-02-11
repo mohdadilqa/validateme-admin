@@ -20,7 +20,7 @@
                         <th width="10">
                         </th>
                         <th>
-                            {{ trans('cruds.permission.fields.id') }}
+                            {{ trans('cruds.permission.fields.s_no') }}
                         </th>
                         <th>
                             {{ trans('cruds.permission.fields.title') }}

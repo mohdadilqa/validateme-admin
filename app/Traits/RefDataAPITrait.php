@@ -54,8 +54,7 @@ trait RefDataAPITrait
                 'http_errors' => false
             ];
         $response = $client->request('POST',$url, $data);
-        $finalResponse=$this->BEAPIStatusCode($response->getStatusCode(),json_decode($response->getBody()->getContents(),true));
-        return $finalResponse;
+        return $this->BEAPIStatusCode($response->getStatusCode(),json_decode($response->getBody()->getContents(),true));
     }
     /******
      * Get reference data
@@ -73,8 +72,7 @@ trait RefDataAPITrait
         ];
         $data=['headers' => $headers,'http_errors' => false];
         $response = $client->request('GET',$url, $data);
-        $finalResponse=$this->BEAPIStatusCode($response->getStatusCode(),json_decode($response->getBody()->getContents(),true));
-        return $finalResponse;       
+        return $this->BEAPIStatusCode($response->getStatusCode(),json_decode($response->getBody()->getContents(),true));      
     }
 
     
@@ -92,7 +90,6 @@ trait RefDataAPITrait
         ];
         $data=['headers' => $headers,'http_errors' => false];
         $response = $client->request('GET',$url, $data);
-        $resBody=$response->getBody()->getContents();
-        return $resBody;
+        return $this->BEAPIStatusCode($response->getStatusCode(),json_decode($response->getBody()->getContents(),true)); 
     }
 }

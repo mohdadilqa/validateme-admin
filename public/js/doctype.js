@@ -33,6 +33,14 @@ $(document).ready(function(){
         $("#code").val(code);
     });
 
+    //Remove special characters from code 
+
+    $("#code").on("keyup",function(event) {
+        let code=$(this).val().replace(/[^a-z0-9]/gi,'').toLowerCase();
+       $("#code").val(code);
+    });
+
+
     //Only Selectable RDT Key
     $("#select_RDT_key").autocomplete({
         source: function(request, response) {
@@ -151,14 +159,14 @@ function uploadRefData(){
             success:function(response){
                 let result=($.parseJSON(response));
                 if(result.status===1){
-                    $("#refDataError").text(result.msg).addClass('upload-data-success').css('display', '');
+                    $("#refDataError").text(result.msg).attr('class','upload-data-success').css('display', '');
                 }else{
-                    $("#refDataError").text(result.msg).addClass('upload-data-error').css('display', '');
+                    $("#refDataError").text(result.msg).attr('class','upload-data-error').css('display', '');
                 }
             }
         })
     }else{
-        $("#refDataError").text("Please enter JSON data").addClass('upload-data-error').css('display', '');
+        $("#refDataError").text("Please enter JSON data").attr('class','upload-data-error').css('display', '');
     }
 }
 
@@ -174,13 +182,13 @@ function uploadFieldData(){
             success:function(response){
                 let result=($.parseJSON(response));
                 if(result.status===1){
-                    $("#fieldDataError").text(result.msg).addClass('upload-data-success').css('display', '');
+                    $("#fieldDataError").text(result.msg).attr('class','upload-data-success').css('display', '');
                 }else{
-                    $("#fieldDataError").text(result.msg).addClass('upload-data-error').css('display', '');
+                    $("#fieldDataError").text(result.msg).attr('class','upload-data-error').css('display', '');
                 }
             }
         })
     }else{
-        $("#fieldDataError").text("Please enter JSON data").addClass('upload-data-error').css('display', '');
+        $("#fieldDataError").text("Please enter JSON data").attr('class','upload-data-error').css('display', '');
     }
 }

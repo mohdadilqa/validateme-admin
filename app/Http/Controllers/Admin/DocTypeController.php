@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use jeremykenedy\LaravelLogger\App\Http\Traits\ActivityLogger;
 use App\Http\Requests\StoreDocTypeRequest;
-use GuzzleHttp\Client;
 use App\Traits\DocTypeAPITrait;
 
 class DocTypeController extends Controller
@@ -25,9 +24,7 @@ class DocTypeController extends Controller
         abort_if(Gate::denies('doctype_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $params="";$i=0;$datas=array();
         $response=json_decode($this->GetDoctypeListAPI($params),true);
-        
         if(!empty($response) && isset($response['data']['doctypeData']) && (!empty($response['data']['doctypeData']))){
-
             foreach($response['data']['doctypeData'] as $key=> $val){
                 $datas[$i]['_id']=$val['_id'];
                 $datas[$i]['name']=$val['name'];
@@ -75,25 +72,19 @@ class DocTypeController extends Controller
                     "createdBy"=>"'$loggedin_user_id'"
                 ];
             $response= json_decode($this->DocTypeDataSaveAPI($request,$data),true);
-            if(!empty($response) && ($response['status']===1)){
-                // /*****Log */
+            if(!empty($response) && isset($response['status']) && ($response['status']===1)){
                 $log_string_serialize=json_encode(array("action"=>"Document Data Added","target_user"=>"NA", "target_company"=>"NA")); 
                 ActivityLogger::activity($log_string_serialize);
-                /*****Log */
-                return redirect()->route('admin.doctype.index')->with('message', 'Document definition has been added successfully.');
+                return redirect()->route('admin.doctype.index')->with('message', $response['msg']);
             }else{
-                // /*****Log */
-                $log_string_serialize=json_encode(array("action"=>"Document Data failed","target_user"=>"NA", "target_company"=>"NA")); 
+                $log_string_serialize=json_encode(array("action"=>"Document Data Add failed","target_user"=>"NA", "target_company"=>"NA")); 
                 ActivityLogger::activity($log_string_serialize);
-                /*****Log */
                 return back()->with('message', $response['msg']);
             }
         }catch(Exception $e){
-            return back()->with('message','Exception found. Please try again.');
-            /*****Log */
-            $log_string_serialize=json_encode(array("action"=>"Document Data failed.","target_user"=>"NA", "target_company"=>"NA")); 
+            $log_string_serialize=json_encode(array("action"=>"Document Data Add failed.","target_user"=>"NA", "target_company"=>"NA")); 
             ActivityLogger::activity($log_string_serialize);
-            // /*****Log */
+            return back()->with('message',trans('cruds.doctype.messages.exception'));
         }
     }
 
@@ -145,27 +136,13 @@ class DocTypeController extends Controller
     public function referenceDataField(Request $request){
         try{
             $searchTerm=$request->q;
-            $response= json_decode($this->GetReferenceDataFieldAPI($searchTerm),true);
-            if(!empty($response) && isset($response['data'])){
-                $responseData=json_encode(array("status"=>1,"data"=>$response['data']));
-                 /*****Log */
-                $log_string_serialize=json_encode(array("action"=>"Reference data field searching->".$searchTerm,"target_user"=>"NA", "target_company"=>"NA")); 
-                ActivityLogger::activity($log_string_serialize);
-                /*****Log */
-            }else{
-                $responseData=json_encode(array("status"=>0,"data"=>''));
-                /*****Log */
-                $log_string_serialize=json_encode(array("action"=>"Reference data field searching->".$searchTerm,"target_user"=>"NA", "target_company"=>"NA")); 
-                ActivityLogger::activity($log_string_serialize);
-                /*****Log */
-            }
-        }catch(Exception $e){
-            /*****Log */
-            $log_string_serialize=json_encode(array("action"=>"Reference data field searching Failed->".$searchTerm,"target_user"=>"NA", "target_company"=>"NA")); 
+            $response= $this->GetReferenceDataFieldAPI($searchTerm);
+            $log_string_serialize=json_encode(array("action"=>"Reference data field searching->".$searchTerm,"target_user"=>"NA", "target_company"=>"NA")); 
             ActivityLogger::activity($log_string_serialize);
-            /*****Log */
-            $responseData=json_encode(array("status"=>0,"data"=>''));
+            echo $response;die;
+        }catch(Exception $e){
+            $response= $this->BEAPIStatusCode('',array()); 
         }
-        echo $responseData;die;
+        echo $response;die;
     }
 }

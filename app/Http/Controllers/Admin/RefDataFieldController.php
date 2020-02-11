@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use jeremykenedy\LaravelLogger\App\Http\Traits\ActivityLogger;
 use App\Http\Requests\StoreRefDataFieldRequest;
-use GuzzleHttp\Client;
 use App\Traits\RefDataFieldAPITrait;
 
 class RefDataFieldController extends Controller
@@ -25,7 +24,9 @@ class RefDataFieldController extends Controller
         abort_if(Gate::denies('refdatafield_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $params="";$datas=array();
         $response=json_decode($this->getReferenceFieldData($params),true);
-        $datas=$response['data']['doctypeFieldDefinationData'];
+        if(!empty($response) && isset($response['data']['doctypeFieldDefinationData'])){
+            $datas=$response['data']['doctypeFieldDefinationData'];
+        }
         return view('admin.refdatafield.index',compact('datas'));
     }
 
@@ -37,7 +38,7 @@ class RefDataFieldController extends Controller
     public function create()
     {
         abort_if(Gate::denies('refdatafield_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        $fieldTypes=array("select"=>"select","reference"=>"Reference CSV");
+        $fieldTypes=array("select"=>"Select","reference"=>"Reference");
         return view('admin.refdatafield.create',compact('fieldTypes'));
     }
 
@@ -59,27 +60,20 @@ class RefDataFieldController extends Controller
                     "createdBy"=>"'$loggedin_user_id'"
                 ];
             $response= json_decode($this->filedDataSaveAPI($request,$data),true);
-            if(!empty($response) && !empty(($response['status']===1))){
-                // /*****Log */
+            if(!empty($response) && isset($response['status']) && ($response['status']===1)){
+
                 $log_string_serialize=json_encode(array("action"=>"Field Definition Added","target_user"=>"NA", "target_company"=>"NA")); 
                 ActivityLogger::activity($log_string_serialize);
-                /*****Log */
-                return redirect()->route('admin.refdatafield.index')->with('message', 'Field Definition has been created successfully.');
+                return redirect()->route('admin.refdatafield.index')->with('message', $response['msg']);
             }else{
-                // /*****Log */
                 $log_string_serialize=json_encode(array("action"=>"Field Definition failed","target_user"=>"NA", "target_company"=>"NA")); 
                 ActivityLogger::activity($log_string_serialize);
-                /*****Log */
                 return back()->with('message', $response['msg']);
             }
-
         }catch(Exception $e){
-
-            return back()->with('message', 'Exception found. Please try again.');
-            /*****Log */
             $log_string_serialize=json_encode(array("action"=>"Reference Data Field Definition failed.","target_user"=>"NA", "target_company"=>"NA")); 
             ActivityLogger::activity($log_string_serialize);
-            // /*****Log */
+            return back()->with('message', trans('cruds.refdatafield.messages.exception'));
         }
     }
 
@@ -131,28 +125,14 @@ class RefDataFieldController extends Controller
         try{
             $searchTerm=$request->term;
             $response= $this->RDTKeyAPI($request,$searchTerm);
-            if($response){
-                $responseData=json_encode(array("status"=>1,"data"=>$response));
-                 /*****Log */
-                $log_string_serialize=json_encode(array("action"=>"RDTKey searching->".$searchTerm,"target_user"=>"NA", "target_company"=>"NA")); 
-                ActivityLogger::activity($log_string_serialize);
-                /*****Log */
-            }else{
-                $responseData=json_encode(array("status"=>0,"data"=>''));
-                /*****Log */
-                $log_string_serialize=json_encode(array("action"=>"RDTKey searching->".$searchTerm,"target_user"=>"NA", "target_company"=>"NA")); 
-                ActivityLogger::activity($log_string_serialize);
-                /*****Log */
-            }
+            $log_string_serialize=json_encode(array("action"=>"RDTKey searching->".$searchTerm,"target_user"=>"NA", "target_company"=>"NA")); 
+            ActivityLogger::activity($log_string_serialize);
         }catch(Exception $e){
-            /*****Log */
             $log_string_serialize=json_encode(array("action"=>"RDTKey searching Failed->".$searchTerm,"target_user"=>"NA", "target_company"=>"NA")); 
             ActivityLogger::activity($log_string_serialize);
-            /*****Log */
-            $responseData=json_encode(array("message"=>"RDTKey searching Failed.","status"=>0));
-            
+            $response= $this->BEAPIStatusCode('',array()); 
         }
-        echo $responseData;die;
+        echo $response;die;
     }
 
     /*****
@@ -165,23 +145,17 @@ class RefDataFieldController extends Controller
         try{
             $data=$request->jsonData;
             $response= json_decode($this->fieldDataUploadAPI($data),true);
-            if(!empty($response) && !empty($response['response']) && ($response['response']==1)){
-                 /*****Log */
+            if(!empty($response) && isset($response['response']) && ($response['response']===1)){
                 $log_string_serialize=json_encode(array("action"=>"Field data uploaded","target_user"=>"NA", "target_company"=>"NA")); 
                 ActivityLogger::activity($log_string_serialize);
-                /*****Log */
             }else{
-                /*****Log */
                 $log_string_serialize=json_encode(array("action"=>"Field data uploaded failed","target_user"=>"NA", "target_company"=>"NA")); 
                 ActivityLogger::activity($log_string_serialize);
-                /*****Log */
             }
             echo json_encode($response);die;
         }catch(Exception $e){
-            /*****Log */
             $log_string_serialize=json_encode(array("action"=>"Field data uploaded failed","target_user"=>"NA", "target_company"=>"NA")); 
             ActivityLogger::activity($log_string_serialize);
-            /*****Log */
             $response= $this->BEAPIStatusCode('',array());
             echo $response;die;
         }

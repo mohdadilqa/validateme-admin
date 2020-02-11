@@ -198,3 +198,13 @@ html *
         display:block;
         color:red;
     }
+    .secondary-button-class{
+        background-color:transparent;
+        color:#0e8c84
+    }
+    .dataTables_wrapper .dataTables_scroll div.dataTables_scrollBody>table>tbody>tr>td {
+        vertical-align:top
+    }
+    .action-column{
+        width: 100px;
+    }

@@ -21,7 +21,7 @@
             <div class="form-group {{ $errors->has('code') ? 'has-error' : '' }}">
                 <label for="code">{{ trans('cruds.refdatafield.fields.code') }}*
                 </label>
-                <input type="text" id="code" name="code" class="form-control" required readonly>
+                <input type="text" id="code" name="code" class="form-control" required>
                 @if($errors->has('code'))
                     <em class="invalid-feedback">
                         {{ $errors->first('code') }}
@@ -45,8 +45,11 @@
                     </em>
                 @endif
             </div>
-            <div>
-                <input class="btn btn-danger" type="submit" value="{{ trans('global.save') }}">
+            <div class="float-right">
+                <a class="btn btn-success secondary-button-class" href="{{ url()->previous() }}">
+                    {{ trans('global.cancel') }}
+                </a>
+                <input class="btn btn-success primary-button-class" type="submit" value="{{ trans('global.save') }}">
             </div>
         </form>
     </div>

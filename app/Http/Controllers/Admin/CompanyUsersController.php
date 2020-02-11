@@ -22,7 +22,6 @@ class CompanyUsersController extends Controller
     public function index()
     {
         abort_if(Gate::denies('company_user_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        
         try{
             $i=0;$datas=array();
             $loggedin_user_id = Auth::user()->id;
@@ -40,7 +39,7 @@ class CompanyUsersController extends Controller
             ];
             $response = $client->request('GET',$url, ['headers'=>$headers]);
             $result=json_decode($response->getBody()->getContents(),true);
-            if(!empty($result)){
+            if(!empty($result) && isset($result["response"])){
                 foreach($result["response"] as $key=>$value){
                     $datas[$i]["uid"]=$value["uid"];
                     $datas[$i]["name"]=$value["name"];
@@ -51,17 +50,11 @@ class CompanyUsersController extends Controller
                     $i++;
                 }
             }
-
-            /*****Log */
             $log_string_serialize=json_encode(array("action"=>"Navigate to company users","target_user"=>"NA", "target_company"=>$user['organization']->organization_name)); 
             ActivityLogger::activity($log_string_serialize);
-            /*****Log */
-
         }catch(Exception $e){
-            /*****Log */
             $log_string_serialize=json_encode(array("action"=>"Navigate to company users failed","target_user"=>"NA", "target_company"=>$user['organization']->organization_name)); 
             ActivityLogger::activity($log_string_serialize);
-            /*****Log */
         }
         return view('admin.company_users.index',compact('datas'));
     }
@@ -101,33 +94,23 @@ class CompanyUsersController extends Controller
     }
 
     public function verifyUser(Request $request){
-
         try{
             $client = new Client();//Guzzle Client object
             $uid=$request->uid;
             $name=$request->name;
             $organization_name=$request->organization_name;
             $response= json_decode($this->verifyUserAPI($uid),true);
-            if($response && ($response['status']===1)){
-                 /*****Log */
+            if(!empty($response) && isset($response['status']) &&($response['status']===1)){
                 $log_string_serialize=json_encode(array("action"=>"Verified company user.","target_user"=>$name, "target_company"=>$organization_name)); 
                 ActivityLogger::activity($log_string_serialize);
-                /*****Log */
             }else{
-                
-                /*****Log */
                 $log_string_serialize=json_encode(array("action"=>"Verify company user failed.","target_user"=>$name, "target_company"=>$organization_name)); 
                 ActivityLogger::activity($log_string_serialize);
-                /*****Log */
             }
-
             echo json_encode($response);die;
         }catch(Exception $e){
-            
-            /*****Log */
             $log_string_serialize=json_encode(array("action"=>"Verify company user failed","target_user"=>$name, "target_company"=>$organization_name)); 
             ActivityLogger::activity($log_string_serialize);
-            /*****Log */
             $response= $this->BEAPIStatusCode("",array());
             echo $response;die;
         }

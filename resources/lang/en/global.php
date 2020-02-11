@@ -7,6 +7,7 @@ return [
     'areYouSure'                           => 'Are you sure?',
     'clickHereToVerify'                    => 'Click here to verify',
     'create'                               => 'Create',
+    'cancel'                               => 'Cancel',
     'dashboard'                            => 'Dashboard',
     'delete'                               => 'Delete',
     'downloadFile'                         => 'Download file',
@@ -85,6 +86,7 @@ return [
     'attachment'                           => 'Attachment',
     'axis'                                 => 'Axis',
     'back_to_list'                         => 'Back to list',
+    'back'                                 => 'Back',
     'basic_crm'                            => 'Basic CRM',
     'budget'                               => 'Budget',
     'calendar_sources'                     => 'Calendar sources',
@@ -248,4 +250,14 @@ return [
     'no_alerts'                            => 'No alerts',
     'calendar'                             => 'Calendar',
     'messenger'                            => 'Messenger',
+    'web_messages'                             => [
+        '200'                                       => 'Success',
+        '400'                                       => 'Error. Please try again.',
+        '422'                                       => 'Error. Please try again.',
+        '500'                                       => 'Error. Please try again.',
+        'success'                                   => 'Success',
+        'error'                                     => 'Error. Please try again.',
+        'exception'                                 => 'Exception. Please try again.',
+    ]
+                               
 ];

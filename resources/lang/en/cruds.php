@@ -11,6 +11,7 @@ return [
         'fields'         => [
             'id'                => 'ID',
             'id_helper'         => '',
+            's_no'              => 'S.No',
             'title'             => 'Title',
             'title_helper'      => '',
             'created_at'        => 'Created at',
@@ -20,6 +21,14 @@ return [
             'deleted_at'        => 'Deleted at',
             'deleted_at_helper' => '',
         ],
+        'messages'                      =>[
+            'success_add'                   =>'Permission has been added successfully.',
+            'success_edit'                  =>'Permission has been updated successfully.',
+            'success_delete'                =>'Permission has been deleted successfully.',
+            'permission_duplicate'          =>'Permisssion has already created.',
+            'error'                         =>'Error. Please try again.',
+            'exception'                     =>'Excetption. Please try again',
+        ]
     ],
     'role'              => [
         'title'          => 'Roles',
@@ -27,6 +36,7 @@ return [
         'fields'         => [
             'id'                 => 'ID',
             'id_helper'          => '',
+            's_no'               => 'S.No',
             'title'              => 'Title',
             'title_helper'       => '',
             'permissions'        => 'Permissions',
@@ -38,6 +48,14 @@ return [
             'deleted_at'         => 'Deleted at',
             'deleted_at_helper'  => '',
         ],
+        'messages'                      =>[
+            'success_add'                   =>'Role has been added successfully.',
+            'success_edit'                  =>'Role has been updated successfully.',
+            'success_delete'                =>'Role has been deleted successfully.',
+            'role_duplicate'                =>'Role has already created.',
+            'error'                         =>'Error. Please try again.',
+            'exception'                     =>'Excetption. Please try again',
+        ]
     ],
     'user'              => [
         'title'          => 'Users',
@@ -45,6 +63,7 @@ return [
         'fields'         => [
             'id'                       => 'ID',
             'id_helper'                => '',
+            's_no'                     => 'S.No',
             'name'                     => 'Name',
             'name_helper'              => '',
             'email'                    => 'Email',
@@ -63,11 +82,19 @@ return [
             'updated_at_helper'        => '',
             'deleted_at'               => 'Deleted at',
             'deleted_at_helper'        => '',
-            'organization'               => 'Organization',
-            'organization_helper'        => '',
-            'organization_domain'               => 'Organization Domain',
-            'organization_domain_helper'        => '',
+            'organization'             => 'Organization',
+            'organization_helper'      => '',
+            'organization_domain'      => 'Organization Domain',
+            'organization_domain_helper'=> '',
         ],
+        'messages'                      =>[
+            'success_add'                   =>'User has been added successfully.',
+            'success_edit'                  =>'User has been updated successfully.',
+            'success_delete'                =>'User has been deleted successfully.',
+            'email_duplicate'               =>'User has been already registered with this email. Please try with another email.',
+            'error'                         =>'Error. Please try again.',
+            'exception'                     =>'Excetption. Please try again',
+        ]
     ],
     'company_user'              => [
         'title'          => 'Users',
@@ -75,6 +102,7 @@ return [
         'fields'         => [
             'id'                       => 'ID',
             'id_helper'                => '',
+            's_no'                     => 'S.No',
             'name'                     => 'Name',
             'name_helper'              => '',
             'email'                    => 'Email',
@@ -88,8 +116,7 @@ return [
     'dashboard'              => [
         'title'          => 'Dashboard',
         'title_singular' => 'Dashboard',
-        'fields'         => [
-            
+        'fields'         => [ 
         ],
     ],
     'log'              => [
@@ -125,6 +152,7 @@ return [
         'fields'         => [
             'id'                       => 'ID',
             'id_helper'                => '',
+            's_no'                     => 'S.No',
             'title'                    => 'Title',
             'title_helper'             => '',
             'RDT_key'                  => 'Reference Data Type Key',
@@ -136,6 +164,13 @@ return [
             'upload'                   => 'Upload Reference Data',
             'download'                 => 'Download Reference Data'
         ],
+        'messages'                      =>[
+            'success_add'                   =>'Reference data has been added successfully.',
+            'success_edit'                  =>'Reference data has been updated successfully.',
+            'success_delete'                =>'Reference data has been deleted successfully.',
+            'error'                         =>'Error. Please try again.',
+            'exception'                     =>'Excetption. Please try again',
+        ]
     ],
     'refdatafield'              => [
         'title'          => 'Field Definition',
@@ -143,6 +178,7 @@ return [
         'fields'         => [
             'id'                       => 'ID',
             'id_helper'                => '',
+            's_no'                     => 'S.No',
             'code'                     => 'Code',
             'code_helper'              => '',
             'title'                    => 'Title',
@@ -156,6 +192,13 @@ return [
             'upload'                   => 'Upload Field Data',
             'download'                 => 'Download Field Data'
         ],
+        'messages'                      =>[
+            'success_add'                   =>'Reference field has been added successfully.',
+            'success_edit'                  =>'Reference field has been updated successfully.',
+            'success_delete'                =>'Reference field has been deleted successfully.',
+            'error'                         =>'Error. Please try again.',
+            'exception'                     =>'Excetption. Please try again',
+        ]
     ],
     'doctype'              => [
         'title'          => 'Document Definition',
@@ -163,6 +206,7 @@ return [
         'fields'         => [
             'id'                       => 'ID',
             'id_helper'                => '',
+            's_no'                     => 'S.No',
             'name'                     => 'Name',
             'name_helper'              => '',
             'ref_data_field'           => 'Reference Data Field',
@@ -174,5 +218,12 @@ return [
             'created_date'             => 'Created Date',
             'created_date_helper'      => ''
         ],
+        'messages'                      =>[
+            'success_add'                   =>'Document has been added successfully.',
+            'success_edit'                  =>'Document has been updated successfully.',
+            'success_delete'                =>'Document has been deleted successfully.',
+            'error'                         =>'Error. Please try again.',
+            'exception'                     =>'Excetption. Please try again',
+        ]
     ],
 ];

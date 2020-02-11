@@ -28,7 +28,6 @@ class RefDataController extends Controller
         if(!empty($response) && isset($response['data']['refData'])){
             $datas=$response['data']['refData'];
         }
-        
         return view('admin.refdata.index',compact('datas'));
     }
 
@@ -61,26 +60,18 @@ class RefDataController extends Controller
                 ];
             $response= json_decode($this->refDataSaveAPI($request,$data),true);
             if(!empty($response) && ($response['status']===1)){
-                // /*****Log */
                 $log_string_serialize=json_encode(array("action"=>"Reference Data Added","target_user"=>"NA", "target_company"=>"NA")); 
                 ActivityLogger::activity($log_string_serialize);
-                /*****Log */
                 return redirect()->route('admin.refdata.index')->with('message', $response['msg']);
             }else{
-                // /*****Log */
-                $log_string_serialize=json_encode(array("action"=>"Reference Data failed","target_user"=>"NA", "target_company"=>"NA")); 
+                $log_string_serialize=json_encode(array("action"=>"Reference Data Add failed","target_user"=>"NA", "target_company"=>"NA")); 
                 ActivityLogger::activity($log_string_serialize);
-                /*****Log */
                 return back()->with('message', $response['msg']);
             }
-
         }catch(Exception $e){
-
-            return back()->with('message', 'Exception found. Please try again.');
-            /*****Log */
-            $log_string_serialize=json_encode(array("action"=>"Reference Data failed.","target_user"=>"NA", "target_company"=>"NA")); 
+            $log_string_serialize=json_encode(array("action"=>"Reference Data Add failed.","target_user"=>"NA", "target_company"=>"NA")); 
             ActivityLogger::activity($log_string_serialize);
-            // /*****Log */
+            return back()->with('message', trans('cruds.refdata.messages.exception'));
         }
     }
 
@@ -138,30 +129,15 @@ class RefDataController extends Controller
     public function referenceDataKey(Request $request){
         try{
             $searchTerm=$request->term;
-            $response= json_decode($this->RDTKeyAPI($request,$searchTerm),true);
-            if(!empty($response) && !empty($response['response'])){
-                $responseData=json_encode(array("status"=>1,"data"=>$response['response']));
-                 /*****Log */
-                $log_string_serialize=json_encode(array("action"=>"RDTKey searching->".$searchTerm,"target_user"=>"NA", "target_company"=>"NA")); 
-                ActivityLogger::activity($log_string_serialize);
-                /*****Log */
-            }else{
-                $responseData=json_encode(array("status"=>0,"data"=>''));
-                /*****Log */
-                $log_string_serialize=json_encode(array("action"=>"RDTKey searching->".$searchTerm,"target_user"=>"NA", "target_company"=>"NA")); 
-                ActivityLogger::activity($log_string_serialize);
-                /*****Log */
-            }
-           
+            $response= $this->RDTKeyAPI($request,$searchTerm);
+            $log_string_serialize=json_encode(array("action"=>"RDTKey searching->".$searchTerm,"target_user"=>"NA", "target_company"=>"NA")); 
+            ActivityLogger::activity($log_string_serialize);
         }catch(Exception $e){
-            
-            /*****Log */
             $log_string_serialize=json_encode(array("action"=>"RDTKey searching Failed->".$searchTerm,"target_user"=>"NA", "target_company"=>"NA")); 
             ActivityLogger::activity($log_string_serialize);
-            /*****Log */
-            $responseData=json_encode(array("message"=>"RDTKey searching Failed.","status"=>0));
+            $response= $this->BEAPIStatusCode('',array()); 
         }
-        echo $responseData;die;
+        echo $response;die;
     }
     /*****
      * for saving Reference data
@@ -173,23 +149,17 @@ class RefDataController extends Controller
         try{
             $data=$request->jsonData;
             $response= json_decode($this->refDataUploadAPI($data),true);
-            if(!empty($response) && !empty($response['response'])){
-                 /*****Log */
-                $log_string_serialize=json_encode(array("action"=>"Upload Reference Data","target_user"=>"NA", "target_company"=>"NA")); 
-                ActivityLogger::activity($log_string_serialize);
-                /*****Log */
-            }else{
-                /*****Log */
+            if(!empty($response) && isset($response['response']) && !empty($response['response'])){
                 $log_string_serialize=json_encode(array("action"=>"Reference data uploaded","target_user"=>"NA", "target_company"=>"NA")); 
                 ActivityLogger::activity($log_string_serialize);
-                /*****Log */
+            }else{
+                $log_string_serialize=json_encode(array("action"=>"Reference data upload falied","target_user"=>"NA", "target_company"=>"NA")); 
+                ActivityLogger::activity($log_string_serialize);
             }
             echo json_encode($response);die;
         }catch(Exception $e){
-            /*****Log */
-            $log_string_serialize=json_encode(array("action"=>"Reference data uploaded failed","target_user"=>"NA", "target_company"=>"NA")); 
+            $log_string_serialize=json_encode(array("action"=>"Reference data upload failed","target_user"=>"NA", "target_company"=>"NA")); 
             ActivityLogger::activity($log_string_serialize);
-            /*****Log */
             $response= $this->BEAPIStatusCode('',array());
             echo $response;die;
         }

@@ -20,7 +20,7 @@
                         <th width="10">
                         </th>
                         <th>
-                            {{ trans('cruds.user.fields.id') }}
+                            {{ trans('cruds.user.fields.s_no') }}
                         </th>
                         <th>
                             {{ trans('cruds.user.fields.name') }}
@@ -45,7 +45,6 @@
                     @foreach($users as $key => $user)
                         <tr data-entry-id="{{ $user->id }}">
                             <td>
-
                             </td>
                             <td>
                                 {{ ++$key ?? '' }}

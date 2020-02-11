@@ -21,7 +21,7 @@
 
                         </th>
                         <th>
-                            {{ trans('cruds.role.fields.id') }}
+                            {{ trans('cruds.role.fields.s_no') }}
                         </th>
                         <th>
                             {{ trans('cruds.role.fields.title') }}
@@ -29,7 +29,7 @@
                         <th>
                             {{ trans('cruds.role.fields.permissions') }}
                         </th>
-                        <th>
+                        <th class="action-column">
                             &nbsp;
                         </th>
                     </tr>
@@ -38,7 +38,6 @@
                     @foreach($roles as $key => $role)
                         <tr data-entry-id="{{ $role->id }}">
                             <td>
-
                             </td>
                             <td>
                                 {{ ++$key ?? '' }}
@@ -51,7 +50,7 @@
                                     <span class="badge badge-info">{{ $item->title }}</span>
                                 @endforeach
                             </td>
-                            <td>
+                            <td class="action-column">
                                 @can('role_show')
                                     <a class="btn btn-xs btn-primary" href="{{ route('admin.roles.show', $role->id) }}">
                                         <i class="fas fa-eye"></i>

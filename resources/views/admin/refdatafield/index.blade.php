@@ -38,7 +38,7 @@
                             {{ trans('cruds.refdatafield.fields.RDT_key') }}
                         </th>
                         <th>
-                            {{ trans('cruds.refdatafield.fields.UXType') }}
+                            {{ trans('cruds.refdatafield.fields.field_type') }}
                         </th>
                         <th>
                             {{ trans('cruds.refdatafield.fields.created_date') }}

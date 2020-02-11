@@ -22,8 +22,11 @@
                     {{ trans('cruds.permission.fields.title_helper') }}
                 </p>
             </div>
-            <div>
-                <input class="btn btn-danger" type="submit" value="{{ trans('global.save') }}">
+            <div class="float-right">
+                <a class="btn btn-success secondary-button-class" href="{{ url()->previous() }}">
+                    {{ trans('global.cancel') }}
+                </a>
+                <input class="btn btn-success primary-button-class" type="submit" value="{{ trans('global.save') }}">
             </div>
         </form>
 
