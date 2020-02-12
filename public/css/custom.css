@@ -211,3 +211,4 @@ html *
     .table-th-width{
         width:207px;
     }
+    .tooltip-style{background:rgba(0,0,0,0.9)!important; font-size:12px!important;color:#fff !important; border-radius:4px!important; padding:8px 10px !important;}

@@ -28,6 +28,11 @@ return [
             'permission_duplicate'          =>'Permisssion has already created.',
             'error'                         =>'Error. Please try again.',
             'exception'                     =>'Excetption. Please try again',
+        ],
+        'tooltip'                      =>[
+            'view'                          =>'View Permission',
+            'update'                        =>'Update Permission',
+            'delete'                        =>'Delete Permission'
         ]
     ],
     'role'              => [
@@ -55,6 +60,11 @@ return [
             'role_duplicate'                =>'Role has already created.',
             'error'                         =>'Error. Please try again.',
             'exception'                     =>'Excetption. Please try again',
+        ],
+        'tooltip'                      =>[
+            'view'                          =>'View Role',
+            'update'                        =>'Update Role',
+            'delete'                        =>'Delete Role'
         ]
     ],
     'user'              => [
@@ -94,6 +104,11 @@ return [
             'email_duplicate'               =>'User has been already registered with this email. Please try with another email.',
             'error'                         =>'Error. Please try again.',
             'exception'                     =>'Excetption. Please try again',
+        ],
+        'tooltip'                      =>[
+            'view'                          =>'View User',
+            'update'                        =>'Update User',
+            'delete'                        =>'Delete User'
         ]
     ],
     'company_user'              => [
@@ -170,6 +185,11 @@ return [
             'success_delete'                =>'Reference data has been deleted successfully.',
             'error'                         =>'Error. Please try again.',
             'exception'                     =>'Excetption. Please try again',
+        ],
+        'tooltip'                      =>[
+            'view'                          =>'View Reference Data',
+            'update'                        =>'Update Reference Data',
+            'delete'                        =>'Delete Reference Data'
         ]
     ],
     'refdatafield'              => [
@@ -198,6 +218,11 @@ return [
             'success_delete'                =>'Reference field has been deleted successfully.',
             'error'                         =>'Error. Please try again.',
             'exception'                     =>'Excetption. Please try again',
+        ],
+        'tooltip'                      =>[
+            'view'                          =>'View Reference Field',
+            'update'                        =>'Update Reference Field',
+            'delete'                        =>'Delete Reference Field'
         ]
     ],
     'doctype'              => [
@@ -224,6 +249,11 @@ return [
             'success_delete'                =>'Document has been deleted successfully.',
             'error'                         =>'Error. Please try again.',
             'exception'                     =>'Excetption. Please try again',
+        ],
+        'tooltip'                      =>[
+            'view'                          =>'View Reference Document',
+            'update'                        =>'Update Reference Document',
+            'delete'                        =>'Delete Reference Document'
         ]
     ],
 ];

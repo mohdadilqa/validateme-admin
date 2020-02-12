@@ -2,7 +2,7 @@
 @section('content')
 <div class="card">
     <div class="card-header">
-        <p class="table-heading">{{ trans('global.show') }} {{ trans('cruds.refdata.title') }}</p>
+        <p class="table-heading">{{ trans('global.show') }} {{ trans('cruds.doctype.title') }}</p>
     </div>
     <div class="card-body">
         <div class="mb-2">
@@ -10,34 +10,34 @@
                 <tbody>
                     <tr>
                         <th>
-                            {{ trans('cruds.refdatafield.fields.title') }}
+                            {{ trans('cruds.doctype.fields.name') }}
                         </th>
                         <td>
-                            {{ isset($data['title'])?$data['title']:'' }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.refdatafield.fields.code') }}
-                        </th>
-                        <td>
-                            {{ isset($data['code'])?$data['code']:'' }}
+                            {{ isset($data['name'])?$data['name']:'' }}
                         </td>
                     </tr>
                     <tr>
                         <th class="table-th-width">
-                        {{ trans('cruds.refdatafield.fields.RDT_key') }}
+                            {{ trans('cruds.doctype.fields.ref_data_field') }}
                         </th>
                         <td>
-                        {{ isset($data['referenceDataTypeKey'])?$data['referenceDataTypeKey']:'' }}
+                            {{ isset($data['reference_data_field'])?$data['reference_data_field']:'' }}
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.refdatafield.fields.field_type') }}
+                        {{ trans('cruds.doctype.fields.name_rule') }}
                         </th>
                         <td>
-                            {{ isset($data['type'])?$data['type']:'' }}
+                        {{ isset($data['name_rule'])?$data['name_rule']:'' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                        {{ trans('cruds.doctype.fields.category') }}
+                        </th>
+                        <td>
+                        {{ isset($data['category'])?$data['category']:'' }}
                         </td>
                     </tr>
                 </tbody>

@@ -69,12 +69,12 @@
                             </td>
                             <td>
                                 @can('refdata_show')
-                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.refdata.show', $data['_id']) }}">
+                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.refdata.show', $data['_id']) }}" title="{{ trans('cruds.refdata.tooltip.view') }}">
                                         <i class="fas fa-eye"></i>
                                     </a>
                                 @endcan
                                 @can('refdata_edit')
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.refdata.edit', $data['_id']) }}">
+                                    <a class="btn btn-xs btn-info" href="{{ route('admin.refdata.edit', $data['_id']) }}" title="{{ trans('cruds.refdata.tooltip.update') }}">
                                         <i class="fas fa-edit"></i>
                                     </a>
                                 @endcan
@@ -82,7 +82,7 @@
                                     <form action="{{ route('admin.refdata.destroy', $data['_id']) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
                                         <input type="hidden" name="_method" value="DELETE">
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <button type=submit class="btn btn-xs btn-danger"><i class="far fa-trash-alt"></i></button>
+                                        <button type=submit class="btn btn-xs btn-danger" title="{{ trans('cruds.refdata.tooltip.delete') }}"><i class="far fa-trash-alt"></i></button>
                                     </form>
                                 @endcan
                             </td>
@@ -133,7 +133,7 @@
       }
     }
   }
-  dtButtons.push(deleteButton)
+  //dtButtons.push(deleteButton)
 @endcan
 
   $.extend(true, $.fn.dataTable.defaults, {
@@ -145,7 +145,7 @@
         $($.fn.dataTable.tables(true)).DataTable()
             .columns.adjust();
     });
-    //$('.select-checkbox').css('display','none');
+    $('.select-checkbox').css('display','none');
 })
 </script>
 @endsection

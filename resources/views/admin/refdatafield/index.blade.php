@@ -76,12 +76,12 @@
                             </td>
                             <td>
                                 @can('refdatafield_show')
-                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.refdatafield.show', $data['_id']) }}">
+                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.refdatafield.show', $data['_id']) }}" title="{{ trans('cruds.refdatafield.tooltip.view') }}">
                                         <i class="fas fa-eye"></i>
                                     </a>
                                 @endcan
                                 @can('refdatafield_edit')
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.refdatafield.edit', $data['_id']) }}">
+                                    <a class="btn btn-xs btn-info" href="{{ route('admin.refdatafield.edit', $data['_id']) }}" title="{{ trans('cruds.refdatafield.tooltip.update') }}">
                                         <i class="fas fa-edit"></i>
                                     </a>
                                 @endcan
@@ -89,7 +89,7 @@
                                     <form action="{{ route('admin.refdatafield.destroy', $data['_id']) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
                                         <input type="hidden" name="_method" value="DELETE">
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <button type=submit class="btn btn-xs btn-danger"><i class="far fa-trash-alt"></i></button>
+                                        <button type=submit class="btn btn-xs btn-danger" title="{{ trans('cruds.refdatafield.tooltip.delete') }}"><i class="far fa-trash-alt"></i></button>
                                     </form>
                                 @endcan
                             </td>
@@ -143,7 +143,7 @@
       }
     }
   }
-  dtButtons.push(deleteButton)
+ // dtButtons.push(deleteButton)
   
 @endcan
 
@@ -156,6 +156,7 @@
         $($.fn.dataTable.tables(true)).DataTable()
             .columns.adjust();
     });
+    $('.select-checkbox').css('display','none');
 })
 
 </script>

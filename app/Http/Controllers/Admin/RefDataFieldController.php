@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use jeremykenedy\LaravelLogger\App\Http\Traits\ActivityLogger;
 use App\Http\Requests\StoreRefDataFieldRequest;
+use App\Http\Requests\UpdateRefDataFieldRequest;
 use App\Traits\RefDataFieldAPITrait;
 
 class RefDataFieldController extends Controller
@@ -85,7 +86,26 @@ class RefDataFieldController extends Controller
      */
     public function show($id)
     {
-        //
+        abort_if(Gate::denies('refdatafield_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $data=array();
+        if(!empty($id)){
+            try{
+                $response= json_decode($this->ReferenceFieldDataViewAPI($id),true);
+                if(isset($response['data']) && isset($response['data'])){
+                    $data=$response['data'];
+                }
+                $log_string_serialize=json_encode(array("action"=>"View reference field data","target_user"=>"NA", "target_company"=>"NA")); 
+                ActivityLogger::activity($log_string_serialize);
+                return view('admin.refdatafield.show',compact('data'));
+            }catch(Exception $e){
+                $log_string_serialize=json_encode(array("action"=>"View reference field data failed","target_user"=>"NA", "target_company"=>"NA")); 
+                ActivityLogger::activity($log_string_serialize);
+                $response= $this->BEAPIStatusCode('',array()); 
+                return back()->with('message', trans('cruds.refdatafield.messages.exception'));
+            }
+        }else{
+            return back()->with('message', trans('cruds.refdatafield.messages.error'));
+        }
     }
 
     /**
@@ -96,9 +116,20 @@ class RefDataFieldController extends Controller
      */
     public function edit($id)
     {
+        abort_if(Gate::denies('refdatafield_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $data=array('_id'=>$id);
-        $fieldTypes=array("select"=>"Select","reference"=>"Reference");
-        return view('admin.refdatafield.edit',compact('data','fieldTypes'));
+        try{
+            $fieldTypes=array("select"=>"Select","reference"=>"Reference");
+            $response= json_decode($this->ReferenceFieldDataViewAPI($id),true);
+            if(isset($response['data']) && isset($response['data'])){
+                $data=$response['data'];
+                return view('admin.refdatafield.edit',compact('data','fieldTypes')); 
+            }else{
+                return back()->with('message', trans('cruds.refdata.messages.error'));
+            }
+        }catch(Exception $e){
+            return back()->with('message', trans('cruds.refdata.messages.exception'));
+        }
     }
 
     /**
@@ -108,9 +139,31 @@ class RefDataFieldController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateRefDataFieldRequest $request, $id)
     {
-        //
+        try{ 
+            $loggedin_user_id = Auth::user()->id;
+            $data=[
+                "id"=>$id,
+                "type"=>$request->field_type,
+                "referenceDataTypeKey"=>$request->RDT_key,
+                "title"=>$request->course,
+                "code"=>$request->code,
+                "updatedBy"=>"'$loggedin_user_id'"
+            ];
+            $response= json_decode($this->ReferenceFieldDataUpdateAPI($data),true);
+            if(isset($response['status']) && $response['status']===1){
+                $log_string_serialize=json_encode(array("action"=>"Reference field updated.","target_user"=>"NA", "target_company"=>"NA")); 
+                ActivityLogger::activity($log_string_serialize);
+                return redirect()->route('admin.refdatafield.index')->with('message', $response['msg']);
+            }else{
+                $log_string_serialize=json_encode(array("action"=>"Reference field update failed.","target_user"=>"NA", "target_company"=>"NA")); 
+                ActivityLogger::activity($log_string_serialize);
+                return redirect()->route('admin.refdatafield.index')->with('message', $response['msg']);
+            }  
+        }catch(Exception $e){
+            return redirect()->route('admin.refdatafield.index')->with('message', trans('cruds.refdata.messages.exception'));
+        }
     }
 
     /**
@@ -121,8 +174,19 @@ class RefDataFieldController extends Controller
      */
     public function destroy($id)
     {
-        //
+        abort_if(Gate::denies('refdatafield_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        if(!empty($id)){
+            try{
+                $response= json_decode($this->ReferenceFieldDataDeleteAPI($id),true);
+                return redirect()->route('admin.refdatafield.index')->with('message', $response['msg']);
+            }catch(Exception $e){
+                return back()->with('message', trans('cruds.refdatafield.messages.exception'));
+            }
+        }else{
+            return back()->with('message', trans('cruds.refdatafield.messages.error'));
+        }
     }
+
     public function referenceDataKey(Request $request){
         try{
             $searchTerm=$request->term;

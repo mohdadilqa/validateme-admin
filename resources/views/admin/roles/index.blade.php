@@ -51,13 +51,13 @@
                             </td>
                             <td class="action-column">
                                 @can('role_show')
-                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.roles.show', $role->id) }}">
+                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.roles.show', $role->id) }}" title="{{ trans('cruds.role.tooltip.view') }}">
                                         <i class="fas fa-eye"></i>
                                     </a>
                                 @endcan
 
                                 @can('role_edit')
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.roles.edit', $role->id) }}">
+                                    <a class="btn btn-xs btn-info" href="{{ route('admin.roles.edit', $role->id) }}" title="{{ trans('cruds.role.tooltip.update') }}">
                                         <i class="fas fa-edit"></i>
                                     </a>
                                 @endcan
@@ -66,7 +66,7 @@
                                     <form action="{{ route('admin.roles.destroy', $role->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
                                         <input type="hidden" name="_method" value="DELETE">
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <button type=submit class="btn btn-xs btn-danger"><i class="far fa-trash-alt"></i></button>
+                                        <button type=submit class="btn btn-xs btn-danger" title="{{ trans('cruds.role.tooltip.delete') }}"><i class="far fa-trash-alt"></i></button>
                                     </form>
                                 @endcan
 

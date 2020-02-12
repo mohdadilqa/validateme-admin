@@ -18,22 +18,22 @@ class DocTypeController extends Controller
      * @return \Illuminate\Http\Response
      */    
     use DocTypeAPITrait;
-
     public function index()
     {
         abort_if(Gate::denies('doctype_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        $params="";$i=0;$datas=array();
+        $params="";$datas=array();
         $response=json_decode($this->GetDoctypeListAPI($params),true);
         if(!empty($response) && isset($response['data']['doctypeData']) && (!empty($response['data']['doctypeData']))){
-            foreach($response['data']['doctypeData'] as $key=> $val){
-                $datas[$i]['_id']=$val['_id'];
-                $datas[$i]['name']=$val['name'];
-                $datas[$i]['category']=$val['category']['label'];
-                $datas[$i]['fields']=$this->object_to_string($val['fields'], 'title');
-                $datas[$i]['nameRule']=$this->object_to_string($val['nameRule'], 'title');
-                $datas[$i]['createdAt']=$val['createdAt'];
-                $i++;
-            }
+            $datas=$response['data']['doctypeData'];
+            // foreach($response['data']['doctypeData'] as $key=> $val){
+            //     $datas[$i]['_id']=$val['_id'];
+            //     $datas[$i]['name']=$val['name'];
+            //     $datas[$i]['category']=$val['category']['label'];
+            //     $datas[$i]['fields']=$this->object_to_string($val['fields'], 'title');
+            //     $datas[$i]['nameRule']=$this->object_to_string($val['nameRule'], 'title');
+            //     $datas[$i]['createdAt']=$val['createdAt'];
+            //     $i++;
+            // }
         }
         return view('admin.doctype.index',compact('datas'));
     }
@@ -96,7 +96,25 @@ class DocTypeController extends Controller
      */
     public function show($id)
     {
-        //
+        $data=array();
+        if(!empty($id)){
+            try{
+                /*$response= json_decode($this->ReferenceDataViewAPI($id),true);
+                if(isset($response['data']) && isset($response['data']['refData'])){
+                    $data=$response['data']['refData'];
+                }
+                $log_string_serialize=json_encode(array("action"=>"View reference data","target_user"=>"NA", "target_company"=>"NA")); 
+                ActivityLogger::activity($log_string_serialize);*/
+            }catch(Exception $e){
+               /* $log_string_serialize=json_encode(array("action"=>"View reference data","target_user"=>"NA", "target_company"=>"NA")); 
+                ActivityLogger::activity($log_string_serialize);
+                $response= $this->BEAPIStatusCode('',array()); */
+                return back()->with('message', trans('cruds.doctype.messages.exception'));
+            }
+        }else{
+            return back()->with('message', trans('cruds.doctype.messages.error'));
+        }
+        return view('admin.doctype.show',compact('data'));
     }
 
     /**
@@ -107,7 +125,22 @@ class DocTypeController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data=array('_id'=>$id);$categories=array();
+        $categoryData=json_decode($this->getAllCategory(),true);
+        if(isset($categoryData['data']) && !empty($categoryData['data'])){
+            $categories=$categoryData['data'];
+        }
+        if(!empty($id)){
+            try{
+               
+            }catch(Exception $e){
+                return back()->with('message', trans('cruds.doctype.messages.exception'));
+            }
+        }else{
+            return back()->with('message', trans('cruds.doctype.messages.error'));
+        }
+
+        return view('admin.doctype.edit',compact('data','categories'));
     }
 
     /**

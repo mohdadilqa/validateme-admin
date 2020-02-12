@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use jeremykenedy\LaravelLogger\App\Http\Traits\ActivityLogger;
 use App\Http\Requests\StoreRefDataRequest;
+use App\Http\Requests\UpdateRefDataRequest;
 use GuzzleHttp\Client;
 use App\Traits\RefDataAPITrait;
 
@@ -83,17 +84,19 @@ class RefDataController extends Controller
      */
     public function show($id)
     {
+        abort_if(Gate::denies('refdata_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $data=array();
         if(!empty($id)){
             try{
                 $response= json_decode($this->ReferenceDataViewAPI($id),true);
-                if(isset($response['data']) && isset($response['data']['refData'])){
-                    $data=$response['data']['refData'];
+                if(isset($response['data']) && isset($response['data'])){
+                    $data=$response['data'];
                 }
                 $log_string_serialize=json_encode(array("action"=>"View reference data","target_user"=>"NA", "target_company"=>"NA")); 
                 ActivityLogger::activity($log_string_serialize);
+                return view('admin.refdata.show',compact('data'));
             }catch(Exception $e){
-                $log_string_serialize=json_encode(array("action"=>"View reference data","target_user"=>"NA", "target_company"=>"NA")); 
+                $log_string_serialize=json_encode(array("action"=>"View reference data failed","target_user"=>"NA", "target_company"=>"NA")); 
                 ActivityLogger::activity($log_string_serialize);
                 $response= $this->BEAPIStatusCode('',array()); 
                 return back()->with('message', trans('cruds.refdata.messages.exception'));
@@ -101,7 +104,7 @@ class RefDataController extends Controller
         }else{
             return back()->with('message', trans('cruds.refdata.messages.error'));
         }
-        return view('admin.refdata.show',compact('data'));
+       
     }
 
     /**
@@ -112,21 +115,18 @@ class RefDataController extends Controller
      */
     public function edit($id)
     {
-        $data=array();
-        if(!empty($id)){
-            try{
-                $response= json_decode($this->ReferenceDataViewAPI($id),true);
-                if(isset($response['data']) && isset($response['data']['refData'])){
-                    $data=$response['data']['refData'];
-                }
-            }catch(Exception $e){
-                return back()->with('message', trans('cruds.refdata.messages.exception'));
+        abort_if(Gate::denies('refdata_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        try{
+            $response= json_decode($this->ReferenceDataViewAPI($id),true);
+            if(isset($response['data']) && isset($response['data'])){
+                $data=$response['data'];
+                return view('admin.refdata.edit',compact('data'));
+            }else{
+                return back()->with('message', trans('cruds.refdata.messages.error'));
             }
-        }else{
-            return back()->with('message', trans('cruds.refdata.messages.error'));
+        }catch(Exception $e){
+            return back()->with('message', trans('cruds.refdata.messages.exception'));
         }
-
-        return view('admin.refdata.edit',compact('data'));
     }
 
     /**
@@ -136,9 +136,30 @@ class RefDataController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateRefDataRequest $request, $id)
     {
-        //
+        try{
+            $loggedin_user_id = Auth::user()->id;
+            $data=[
+                "id"=>$id,
+                "title"=>$request->title,
+                "referenceDataTypeKey"=>$request->RDT_key,
+                "code"=>$request->code,
+                "updatedBy"=>"'$loggedin_user_id'"
+            ];
+            $response= json_decode($this->ReferenceDataUpdateAPI($data),true);
+            if(isset($response['status']) && $response['status']===1){
+                $log_string_serialize=json_encode(array("action"=>"Reference data updated.","target_user"=>"NA", "target_company"=>"NA")); 
+                ActivityLogger::activity($log_string_serialize);
+                return redirect()->route('admin.refdata.index')->with('message', $response['msg']);
+            }else{
+                $log_string_serialize=json_encode(array("action"=>"Reference data update failed.","target_user"=>"NA", "target_company"=>"NA")); 
+                ActivityLogger::activity($log_string_serialize);
+                return redirect()->route('admin.refdata.index')->with('message', $response['msg']);
+            }  
+        }catch(Exception $e){
+            return redirect()->route('admin.refdata.index')->with('message', trans('cruds.refdata.messages.exception'));
+        }
     }
 
     /**
@@ -149,7 +170,17 @@ class RefDataController extends Controller
      */
     public function destroy($id)
     {
-        //
+        abort_if(Gate::denies('refdata_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        if(!empty($id)){
+            try{
+                $response= json_decode($this->ReferenceDataDeleteAPI($id),true);
+                return redirect()->route('admin.refdata.index')->with('message', $response['msg']);
+            }catch(Exception $e){
+                return back()->with('message', trans('cruds.refdata.messages.exception'));
+            }
+        }else{
+            return back()->with('message', trans('cruds.refdata.messages.error'));
+        }
     }
 
     /*****

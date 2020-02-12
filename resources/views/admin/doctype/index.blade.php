@@ -11,13 +11,15 @@
             @endcan
         </p>
     </div>
-
     <div class="card-body">
         <div class="table-responsive">
-            <table class=" table table-bordered table-striped table-hover datatable datatable-Role">
+            <table class="table table-bordered table-striped table-hover datatable datatable-Role">
                 <thead>
                     <tr>
                         <th width="10">
+                        </th>
+                        <th>
+                            {{ trans('cruds.user.fields.s_no') }}
                         </th>
                         <th>
                             {{ trans('cruds.doctype.fields.name') }}
@@ -34,6 +36,9 @@
                         <th>
                             {{ trans('cruds.doctype.fields.created_date') }}
                         </th>
+                        <th>
+                        {{ trans('global.actions') }}
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -42,19 +47,41 @@
                             <td>
                             </td>
                             <td>
-                                {{ $data['name'] ?? ''}}
+                                {{ ++$key ?? '' }}
                             </td>
                             <td>
-                                {{ $data['fields'] ?? ''}}
+                                {{ isset($data['name'])?$data['name']:""}}
                             </td>
                             <td>
-                               {{ $data['nameRule'] ?? '' }}
+                                {{ Helper::object_to_string($data['fields'],'title') }}
                             </td>
                             <td>
-                               {{ $data['category'] ??'' }}
+                                {{ Helper::object_to_string($data['nameRule'],'title') }}
                             </td>
                             <td>
-                                {{ date("d-M-Y",strtotime($data['createdAt'])) ??''}}
+                               {{ isset($data['category']['name'])?$data['category']['name']:""}}
+                            </td>
+                            <td>
+                                {{ isset($data['createdAt'])?date("d-M-Y",strtotime($data['createdAt'])):"" ??''}}
+                            </td>
+                            <td>
+                                @can('refdata_show')
+                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.doctype.show', $data['_id']) }}" data-toggle="tooltip" title="{{ trans('cruds.doctype.tooltip.view') }}">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                @endcan
+                                @can('refdata_edit')
+                                    <a class="btn btn-xs btn-info" href="{{ route('admin.doctype.edit', $data['_id']) }}" data-toggle="tooltip" title="{{ trans('cruds.doctype.tooltip.update') }}">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                @endcan
+                                @can('refdata_delete')
+                                    <form action="{{ route('admin.doctype.destroy', $data['_id']) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
+                                        <input type="hidden" name="_method" value="DELETE">
+                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                        <button type=submit class="btn btn-xs btn-danger" data-toggle="tooltip" title="{{ trans('cruds.doctype.tooltip.delete') }}"><i class="far fa-trash-alt"></i></button>
+                                    </form>
+                                @endcan
                             </td>
                         </tr>
                     @endforeach
@@ -71,7 +98,7 @@
     let dtButtons=[];
   //let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
 @can('refdata_delete')
-  let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
+  let deleteButtonTrans = '<i class="far fa-trash-alt"></i>'
   let deleteButton = {
     text: deleteButtonTrans,
     url: "",
@@ -83,7 +110,6 @@
 
       if (ids.length === 0) {
         alert('{{ trans('global.datatables.zero_selected') }}')
-
         return
       }
 
@@ -101,7 +127,6 @@
     }
   }
   //dtButtons.push(deleteButton)
-  $('.select-checkbox').css('display','none');
 @endcan
 
   $.extend(true, $.fn.dataTable.defaults, {

@@ -11,7 +11,7 @@
             @method('PUT')
             <div class="form-group {{ $errors->has('title') ? 'has-error' : '' }}">
                 <label for="title">{{ trans('cruds.refdatafield.fields.title') }}*</label>
-                <input type="text" id="title" name="title" class="form-control" value="{{ old('name', isset($data['title']) ? $data['title'] : '') }}" required>
+                <input type="text" id="title" name="title" class="form-control" value="{{ old('title', isset($data['title']) ? $data['title'] : '') }}" required>
                 @if($errors->has('title'))
                     <em class="invalid-feedback">
                         {{ $errors->first('title') }}
@@ -20,7 +20,7 @@
             </div>
             <div class="form-group {{ $errors->has('code') ? 'has-error' : '' }}">
                 <label for="code">{{ trans('cruds.refdatafield.fields.code') }}*</label>
-                <input type="text" id="code" name="code" class="form-control" value="{{ old('email', isset($data['code']) ? $data['code'] : '') }}" required>
+                <input type="text" id="code" name="code" class="form-control" value="{{ old('code', isset($data['code']) ? $data['code'] : '') }}" required>
                 @if($errors->has('code'))
                     <em class="invalid-feedback">
                         {{ $errors->first('code') }}
@@ -29,7 +29,7 @@
             </div>
             <div class="form-group ui-widget">
                 <label for="RDT_key">{{ trans('cruds.refdata.fields.RDT_key') }}*</label>
-                <input name="RDT_key" id="select_RDT_key" class="form-control" required>
+                <input name="RDT_key" id="select_RDT_key" class="form-control" value="{{ old('referenceDataTypeKey', isset($data['referenceDataTypeKey']) ? $data['referenceDataTypeKey'] : '') }}" required>
             </div>
             <div class="form-group {{ $errors->has('field_type') ? 'has-error' : '' }}">
                 <label for="field_type">{{ trans('cruds.refdatafield.fields.field_type') }}*</label>
@@ -54,3 +54,6 @@
     </div>
 </div>
 @endsection
+@push('docTypeScript')
+<script src="{{ asset('js/doctype.js')}}"></script>
+@endpush

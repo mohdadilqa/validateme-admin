@@ -67,13 +67,13 @@
                             @endif
                             <td>
                                 @can('user_show')
-                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.users.show', $user->id) }}">
+                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.users.show', $user->id) }}" title="{{ trans('cruds.user.tooltip.view') }}">
                                         <i class="fas fa-eye"></i>
                                     </a>
                                 @endcan
 
                                 @can('user_edit')
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.users.edit', $user->id) }}">
+                                    <a class="btn btn-xs btn-info" href="{{ route('admin.users.edit', $user->id) }}" title="{{ trans('cruds.user.tooltip.update') }}">
                                         <i class="fas fa-edit"></i>
                                     </a>
                                 @endcan
@@ -82,7 +82,7 @@
                                     <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
                                         <input type="hidden" name="_method" value="DELETE">
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <button type=submit class="btn btn-xs btn-danger"><i class="far fa-trash-alt"></i></button>
+                                        <button type=submit class="btn btn-xs btn-danger" title="{{ trans('cruds.user.tooltip.delete') }}"><i class="far fa-trash-alt"></i></button>
                                     </form>
                                 @endcan
 
@@ -144,10 +144,7 @@
         $($.fn.dataTable.tables(true)).DataTable()
             .columns.adjust();
     });
-    
 })
-
-
 
 </script>
 @endsection

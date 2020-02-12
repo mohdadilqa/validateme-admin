@@ -2,23 +2,21 @@
 @section('content')
 <div class="card">
     <div class="card-header">
-        <p class="table-heading">{{ trans('global.create') }} {{ trans('cruds.doctype.title_singular') }}</p>
+    <p class="table-heading"> {{ trans('global.edit') }} {{ trans('cruds.doctype.title_singular') }}</p>
     </div>
-
     <div class="card-body">
-        <form action="{{ route("admin.doctype.store") }}" id="doctypeAdd" method="POST" enctype="multipart/form-data">
+        <form action="{{ route("admin.doctype.update", [$data['_id']]) }}" method="POST" enctype="multipart/form-data">
             @csrf
+            @method('PUT')
             <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
-                <label for="name">{{ trans('cruds.doctype.fields.name') }}*
-                </label>
-                <input type="text" id="name" name="name" class="form-control" required>
+                <label for="name">{{ trans('cruds.doctype.fields.name') }}*</label>
+                <input type="text" id="name" name="name" class="form-control" value="{{ old('name', isset($data['title']) ? $data['title'] : '') }}" required>
                 @if($errors->has('name'))
                     <em class="invalid-feedback">
                         {{ $errors->first('name') }}
                     </em>
                 @endif
             </div>
-
             <div class="form-group {{ $errors->has('ref_data_field') ? 'has-error' : '' }}">
                 <label for="ref_data_field">{{ trans('cruds.doctype.fields.ref_data_field') }}*
                 </label>
@@ -67,5 +65,3 @@
 @push('docTypeScript')
 <script src="{{ asset('js/doctype.js')}}"></script>
 @endpush
-@section('scripts')
-@endsection

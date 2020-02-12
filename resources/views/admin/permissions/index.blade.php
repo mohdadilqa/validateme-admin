@@ -43,13 +43,13 @@
                             </td>
                             <td>
                                 @can('permission_show')
-                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.permissions.show', $permission->id) }}">    
+                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.permissions.show', $permission->id) }}" title="{{ trans('cruds.permission.tooltip.view') }}">    
                                     <i class="fas fa-eye"></i>
                                     </a>
                                 @endcan
 
                                 @can('permission_edit')
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.permissions.edit', $permission->id) }}">
+                                    <a class="btn btn-xs btn-info" href="{{ route('admin.permissions.edit', $permission->id) }}" title="{{ trans('cruds.permission.tooltip.update') }}">
                                     <i class="fas fa-edit"></i>
                                     </a>
                                 @endcan
@@ -58,8 +58,7 @@
                                     <form action="{{ route('admin.permissions.destroy', $permission->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
                                         <input type="hidden" name="_method" value="DELETE">
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <button type=submit class="btn btn-xs btn-danger"><i class="far fa-trash-alt"></i></button>
-                                        <!-- <input type="submit" class="btn btn-xs btn-danger"><i class="far fa-trash"></i> -->
+                                        <button type=submit class="btn btn-xs btn-danger" title="{{ trans('cruds.permission.tooltip.delete') }}"><i class="far fa-trash-alt"></i></button>
                                     </form>
                                 @endcan
                             </td>

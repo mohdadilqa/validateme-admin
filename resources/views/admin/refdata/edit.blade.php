@@ -1,6 +1,5 @@
 @extends('layouts.admin')
 @section('content')
-
 <div class="card">
     <div class="card-header">
     <p class="table-heading"> {{ trans('global.edit') }} {{ trans('cruds.refdata.title_singular') }}</p>
@@ -29,7 +28,7 @@
             </div>
             <div class="form-group ui-widget">
                 <label for="RDT_key">{{ trans('cruds.refdata.fields.RDT_key') }}*</label>
-                <input name="RDT_key" id="RDT_key" class="form-control" value="{{ isset($data['referenceDataTypeKey']) ? $data['referenceDataTypeKey'] : '' }}" required>
+                <input name="referenceDataTypeKey" id="RDT_key" class="form-control" value="{{ isset($data['referenceDataTypeKey']) ? $data['referenceDataTypeKey'] : '' }}" required>
             </div>
             <div class="float-right">
                 <a class="btn btn-success secondary-button-class" href="{{ url()->previous() }}">
@@ -41,3 +40,6 @@
     </div>
 </div>
 @endsection
+@push('docTypeScript')
+<script src="{{ asset('js/doctype.js')}}"></script>
+@endpush
