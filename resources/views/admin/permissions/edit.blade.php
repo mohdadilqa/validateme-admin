@@ -7,10 +7,10 @@
     </div>
 
     <div class="card-body">
-        <form action="{{ route("admin.permissions.update", [$permission->id]) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route("admin.permissions.update", [$permission->id]) }}" method="POST" enctype="multipart/form-data" class="row">
             @csrf
             @method('PUT')
-            <div class="form-group {{ $errors->has('title') ? 'has-error' : '' }}">
+            <div class="form-group {{ $errors->has('title') ? 'has-error' : '' }} col-md-6">
                 <label for="title">{{ trans('cruds.permission.fields.title') }}*</label>
                 <input type="text" id="title" name="title" class="form-control" value="{{ old('title', isset($permission) ? $permission->title : '') }}" required>
                 @if($errors->has('title'))
@@ -22,11 +22,12 @@
                     {{ trans('cruds.permission.fields.title_helper') }}
                 </p>
             </div>
-            <div class="float-right">
-                <a class="btn btn-success secondary-button-class" href="{{ url()->previous() }}">
+            <div class="float-right col-md-12">
+                <input class="btn btn-success primary-button-class" type="submit" value="{{ trans('global.save') }}">
+                <a class="btn btn-success secondary-button-class" onclick="goBack()">
                     {{ trans('global.cancel') }}
                 </a>
-                <input class="btn btn-success primary-button-class" type="submit" value="{{ trans('global.save') }}">
+                
             </div>
         </form>
 

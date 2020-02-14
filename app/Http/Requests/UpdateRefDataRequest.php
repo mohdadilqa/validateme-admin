@@ -24,7 +24,7 @@ class UpdateRefDataRequest extends FormRequest
             'code' => [
                 'required',
             ],
-            'referenceDataTypeKey' => [
+            'RDT_key' => [
                 'required',
             ]
         ];
@@ -35,7 +35,7 @@ class UpdateRefDataRequest extends FormRequest
         return [
             'title.required'  => 'title is required',
             'code.required'  => 'code is required',
-            'referenceDataTypeKey.required' => 'Reference Data Type Key is required'
+            'RDT_key.required' => 'Reference Data Type Key is required'
         ];
     }
 }

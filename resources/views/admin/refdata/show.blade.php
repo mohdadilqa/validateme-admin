@@ -35,7 +35,7 @@
                 </tbody>
             </table>
             <div class="float-right">
-                <a class="btn btn-success secondary-button-class" href="{{ url()->previous() }}">
+                <a class="btn btn-success secondary-button-class" onclick="goBack()">
                     {{ trans('global.back') }}
                 </a>
             </div>

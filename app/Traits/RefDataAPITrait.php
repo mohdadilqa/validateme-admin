@@ -54,6 +54,7 @@ trait RefDataAPITrait
                 'http_errors' => false
             ];
         $response = $client->request('POST',$url, $data);
+        echo "<pre/>";print_r(json_decode($response->getBody()->getContents(),true));die;
         return $this->BEAPIStatusCode($response->getStatusCode(),json_decode($response->getBody()->getContents(),true));
     }
     /******
@@ -100,12 +101,10 @@ trait RefDataAPITrait
      */
     public function ReferenceDataViewAPI($params){
         $client=$this->getGuzzleHttpInstance();
-        //$url=env("VALIDATEME_BE_ENDPOINT")."/referencedata/$params";
-        $url="http://10.0.9.93:3000/api/v1/referencedata/5e3becd54e07b0684b27354f";
+        $url=env("VALIDATEME_BE_ENDPOINT")."/referencedata/$params";
         $headers = [
             'Content-Type' => 'application/json',
-            'authorization' => 'Basic B64515a58399170c3AE0AB4ef6',
-            //'authorization' => 'Basic '.env("VALIDATEME_BE_API_AUTH_KEY"),
+            'authorization' => 'Basic '.env("VALIDATEME_BE_API_AUTH_KEY"),
         ];
         $data=['headers' => $headers,'http_errors' => false];
         $response = $client->request('GET',$url, $data);
@@ -120,18 +119,15 @@ trait RefDataAPITrait
 
     public function ReferenceDataDeleteAPI($params){
         $client=$this->getGuzzleHttpInstance();   //Guzzle Client object
-        //$url=env("VALIDATEME_BE_ENDPOINT")."/referencedata/$params";
-        $url="http://10.0.9.93:3000/api/v1/referencedata/$params";
+        $url=env("VALIDATEME_BE_ENDPOINT")."/referencedata/$params";
         $headers = [
             'Content-Type' => 'application/json',
-            'authorization' => 'Basic B64515a58399170c3AE0AB4ef6',
-            //'authorization' => 'Basic '.env("VALIDATEME_BE_API_AUTH_KEY"),
+            'authorization' => 'Basic '.env("VALIDATEME_BE_API_AUTH_KEY"),
         ];
         $data=['headers' => $headers,'http_errors' => false];
         $response = $client->request('DELETE',$url, $data);
         return $this->BEAPIStatusCode($response->getStatusCode(),json_decode($response->getBody()->getContents(),true)); 
     }
-
     /*****
      * API for deleting Reference Data 
      * input ->$id
@@ -140,12 +136,10 @@ trait RefDataAPITrait
 
     public function ReferenceDataUpdateAPI($params){
         $client=$this->getGuzzleHttpInstance();   //Guzzle Client object
-        //$url=env("VALIDATEME_BE_ENDPOINT")."/referencedata/$params";
-        $url="http://10.0.9.93:3000/api/v1/referencedata";
+        $url=env("VALIDATEME_BE_ENDPOINT")."/referencedata";
         $headers = [
             'Content-Type' => 'application/json',
-            'authorization' => 'Basic B64515a58399170c3AE0AB4ef6',
-            //'authorization' => 'Basic '.env("VALIDATEME_BE_API_AUTH_KEY"),
+            'authorization' => 'Basic '.env("VALIDATEME_BE_API_AUTH_KEY"),
         ];
         $data=[
             'json' => $params,

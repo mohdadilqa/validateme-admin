@@ -89,12 +89,10 @@ trait RefDataFieldAPITrait
      */
     public function ReferenceFieldDataViewAPI($params){
         $client=$this->getGuzzleHttpInstance();
-        //$url=env("VALIDATEME_BE_ENDPOINT")."/referencedata/$params";
-        $url="http://10.0.9.93:3000/api/v1/doctypefield/5e32bfb6fe84726250e06754";
+        $url=env("VALIDATEME_BE_ENDPOINT")."/doctypefield/$params";
         $headers = [
             'Content-Type' => 'application/json',
-            'authorization' => 'Basic B64515a58399170c3AE0AB4ef6',
-            //'authorization' => 'Basic '.env("VALIDATEME_BE_API_AUTH_KEY"),
+            'authorization' => 'Basic '.env("VALIDATEME_BE_API_AUTH_KEY"),
         ];
         $data=['headers' => $headers,'http_errors' => false];
         $response = $client->request('GET',$url, $data);
@@ -106,15 +104,12 @@ trait RefDataFieldAPITrait
      * input ->$data
      * output ->success message
      */
-
     public function ReferenceFieldDataUpdateAPI($params){
         $client=$this->getGuzzleHttpInstance();   //Guzzle Client object
-        //$url=env("VALIDATEME_BE_ENDPOINT")."/referencedata/$params";
-        $url="http://10.0.9.93:3000/api/v1/doctypefield";
+        $url=env("VALIDATEME_BE_ENDPOINT")."/doctypefield";
         $headers = [
             'Content-Type' => 'application/json',
-            'authorization' => 'Basic B64515a58399170c3AE0AB4ef6',
-            //'authorization' => 'Basic '.env("VALIDATEME_BE_API_AUTH_KEY"),
+            'authorization' => 'Basic '.env("VALIDATEME_BE_API_AUTH_KEY"),
         ];
         $data=[
             'json' => $params,
@@ -133,12 +128,10 @@ trait RefDataFieldAPITrait
 
     public function ReferenceFieldDataDeleteAPI($params){
         $client=$this->getGuzzleHttpInstance();   //Guzzle Client object
-        //$url=env("VALIDATEME_BE_ENDPOINT")."/referencedata/$params";
-        $url="http://10.0.9.93:3000/api/v1/doctypefield/$params";
+        $url=env("VALIDATEME_BE_ENDPOINT")."/doctypefield/$params";
         $headers = [
             'Content-Type' => 'application/json',
-            'authorization' => 'Basic B64515a58399170c3AE0AB4ef6',
-            //'authorization' => 'Basic '.env("VALIDATEME_BE_API_AUTH_KEY"),
+            'authorization' => 'Basic '.env("VALIDATEME_BE_API_AUTH_KEY"),
         ];
         $data=['headers' => $headers,'http_errors' => false];
         $response = $client->request('DELETE',$url, $data);

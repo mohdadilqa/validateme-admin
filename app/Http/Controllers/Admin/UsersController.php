@@ -26,12 +26,8 @@ class UsersController extends Controller
         $users=array();
         $loggedin_user_role = Auth::user()->roles->first()->toArray();
         if(strtolower($loggedin_user_role['title'])===strtolower('superadmin')){    //if superadmin login
-            $users=User::whereHas('roles',function($query){
-                $query->where('title','=','support staff');
-            })->get();
-
+            $users=User::get();
         }else if(strtolower($loggedin_user_role['title'])===strtolower('support staff')){
-
             $users=User::with('organization')->whereHas('roles',function($query){
                 $query->where('title','=','company admin');
             })->get();
@@ -47,7 +43,7 @@ class UsersController extends Controller
         $roles=$organizations=array();
         $loggedin_user_role = Auth::user()->roles->first()->toArray();
         if(strtolower($loggedin_user_role['title'])===strtolower('superadmin')){//if superadmin login
-            $roles = Role::where('title','=','support staff')->get()->pluck('title', 'id');//show Support staff role
+            $roles = Role::get()->pluck('title', 'id');
         }else if(strtolower($loggedin_user_role['title'])===strtolower('support staff')){
             $roles = Role::where('title','=','company admin')->get()->pluck('title','id');
         }
@@ -63,29 +59,20 @@ class UsersController extends Controller
                 'email' => [
                     Rule::unique('users'),
                 ]]);
-            $loggedin_user_role = Auth::user()->roles->first()->toArray();
             if(!$validation->fails()){
-
-                if(strtolower($loggedin_user_role['title'])===strtolower('support staff')){
-                
-                    /***Check Organization exist*/
+                if(isset($data['organization_name']) && isset($data['organization_domain'])){
                     $org_record = Organization::where([['organization_name','=',$data['organization_name']],['organization_domain','=', $data['organization_domain']]])->first();
                     if($org_record === null){
                         // Organization doesn't exist
-                        $organization_id=Organization::create($data)->id;
-                        $data['organization_id']=$organization_id;
+                        $data['organization_id']=Organization::create($data)->id;
                     }else{
-                        $organization_id=$org_record['id'];
-                        $data['organization_id']=$organization_id;
+                        $data['organization_id']=$org_record['id'];
                     }
-                    /******End Organization check */
-                    //generate a random password
-                    $data['password']=rand();
                 }
                 $data['created_by']=$loggedin_user_id;
                 $user = User::create($data);
                 $user->roles()->sync($request->input('roles', []));
-                if(strtolower($loggedin_user_role['title'])===strtolower('support staff')){
+                if(isset($data['organization_name']) && isset($data['organization_domain'])){
                     $log_string_serialize=json_encode(array("action"=>"User Added.","target_user"=>$request->name, "target_company"=>$data['organization_name']));
                     ActivityLogger::activity($log_string_serialize);
                     //Trigger Mail for reset password
@@ -95,7 +82,6 @@ class UsersController extends Controller
                     ActivityLogger::activity($log_string_serialize);
                 }
                 return redirect()->route('admin.users.index')->with('message', trans('cruds.user.messages.success_add'));
-                
             }else{
                 return back()->with('message', trans('cruds.user.messages.email_duplicate'));
             }
@@ -110,14 +96,13 @@ class UsersController extends Controller
         $roles=array();
         $loggedin_user_role = Auth::user()->roles->first()->toArray();
         if(strtolower($loggedin_user_role['title'])===strtolower('superadmin')){//if superadmin login
-            $roles = Role::where('title','=','support staff')->get()->pluck('title', 'id');//show Support staff role
+            $roles = Role::get()->pluck('title', 'id');
         }else if(strtolower($loggedin_user_role['title'])===strtolower('support staff')){
             $roles = Role::where('title','=','company admin')->get()->pluck('title', 'id');
         }
         $user->load('roles');
         return view('admin.users.edit', compact('roles', 'user'));
     }
-
     public function update(UpdateUserRequest $request, User $user)
     {
         try{

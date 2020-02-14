@@ -37,7 +37,7 @@
                         </th>
                         @endif
                         <th>
-                            &nbsp;
+                            {{ trans('global.actions') }}
                         </th>
                     </tr>
                 </thead>

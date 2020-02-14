@@ -7,9 +7,9 @@
     </div>
 
     <div class="card-body">
-        <form action="{{ route("admin.refdata.store") }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route("admin.refdata.store") }}" method="POST" enctype="multipart/form-data" class="row">
             @csrf
-            <div class="form-group {{ $errors->has('title') ? 'has-error' : '' }}">
+            <div class="form-group {{ $errors->has('title') ? 'has-error' : '' }} col-md-6">
                 <label for="title">{{ trans('cruds.refdata.fields.title') }}*
                 </label>
                 <input type="text" id="title" name="title" class="form-control" required>
@@ -20,7 +20,7 @@
                 @endif
             </div>
             
-            <div class="form-group {{ $errors->has('code') ? 'has-error' : '' }}">
+            <div class="form-group {{ $errors->has('code') ? 'has-error' : '' }} col-md-6">
                 <label for="code">{{ trans('cruds.refdata.fields.code') }}*</label>
                 <input type="text" id="code" name="code" class="form-control" required>
                 @if($errors->has('code'))
@@ -30,15 +30,15 @@
                 @endif
             </div>
 
-            <div class="form-group ui-widget">
+            <div class="form-group ui-widget col-md-6">
                 <label for="RDT_key">{{ trans('cruds.refdata.fields.RDT_key') }}*</label>
                 <input name="RDT_key" id="RDT_key" class="form-control" required>
             </div>
-            <div class="float-right">
-                <a class="btn btn-success secondary-button-class" href="{{ url()->previous() }}">
+            <div class="float-right col-md-12">
+                <input class="btn btn-success primary-button-class" type="submit" value="{{ trans('global.save') }}">
+                <a class="btn btn-success secondary-button-class" onclick="goBack()">
                     {{ trans('global.cancel') }}
                 </a>
-                <input class="btn btn-success primary-button-class" type="submit" value="{{ trans('global.save') }}">
             </div>
         </form>
     </div>

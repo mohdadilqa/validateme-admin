@@ -250,6 +250,7 @@ return [
     'no_alerts'                            => 'No alerts',
     'calendar'                             => 'Calendar',
     'messenger'                            => 'Messenger',
+    'welcome'                              => 'Welcome',
     'web_messages'                             => [
         '200'                                       => 'Success',
         '400'                                       => 'Error. Please try again.',

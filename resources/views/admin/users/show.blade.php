@@ -6,57 +6,19 @@
         {{ trans('global.show') }} {{ trans('cruds.user.title') }}
     </div>
     <div class="card-body">
-        <div class="mb-2">
-            <table class="table table-bordered table-striped">
-                <tbody>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.user.fields.id') }}
-                        </th>
-                        <td>
-                            {{ $user->id }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.user.fields.name') }}
-                        </th>
-                        <td>
-                            {{ $user->name }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.user.fields.email') }}
-                        </th>
-                        <td>
-                            {{ $user->email }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                        {{ trans('cruds.user.fields.roles') }}
-                        </th>
-                        <td>
-                            @foreach($user->roles as $id => $roles)
-                                <span class="label label-info label-many">{{ $roles->title }}</span>
-                            @endforeach
-                        </td>
-                    </tr>
-                    <!--<tr>
-                        <th>
-                        {{ trans('cruds.user.fields.organization') }}
-                        </th>
-                        <td>
-                           
-                            <span class="label label-info label-many">{{ $user->title }}</span>
-                           
-                        </td>
-                    </tr>-->
-                </tbody>
-            </table>
-            <div class="float-right">
-                <a class="btn btn-success secondary-button-class" href="{{ url()->previous() }}">
+        <div class="mb-2 row">
+            <ul class ="col-md-3 list-style-heading">
+                <li> {{ trans('cruds.user.fields.name') }}</li>
+                <li> {{ trans('cruds.user.fields.email') }}</li>
+                <li> {{ trans('cruds.user.fields.roles') }}</li>
+            </ul>
+            <ul class="col-md-9 list-style">
+                <li> {{ $user->name }}</li>
+                <li> {{ $user->email }}</li>
+                <li> {{ isset($user->roles[0]->title)?$user->roles[0]->title:"" }}</li>
+            </ul>
+            <div class="float-right col-md-12 mt-3">
+                <a class="btn btn-success secondary-button-class" onclick="goBack()">
                         {{ trans('global.back') }}
                 </a>
             </div>

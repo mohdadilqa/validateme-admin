@@ -30,37 +30,31 @@
         <button class="navbar-toggler sidebar-toggler d-lg-none mr-auto" type="button" data-toggle="sidebar-show">
             <span class="navba-toggler-icon"></span>
         </button>
+        <button class="navbar-toggler sidebar-toggler d-md-down-none" type="button" data-toggle="sidebar-lg-show">
+            <span class="navbar-toggler-icon"></span>
+        </button>
         <a class="navbar-brand" hrefr="#">
             <span class="navbar-brand-full"><img src="https://static.validateme.online/vm-logo.png" height="50px" width="140px"></img></span>
             <span class="navbar-brand-minimized"><img src="https://static.validateme.online/vm-logo.png" height="50px" width="140px"></img></span>
         </a>
-        <button class="navbar-toggler sidebar-toggler d-md-down-none" type="button" data-toggle="sidebar-lg-show">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <ul class="nav navbar-nav ml-auto">
-            @if(count(config('panel.available_languages', [])) > 1)
-                <li class="nav-item dropdown d-md-down-none">
-                    <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                        {{ strtoupper(app()->getLocale()) }}
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right">
-                        @foreach(config('panel.available_languages') as $langLocale => $langName)
-                            <a class="dropdown-item" href="{{ url()->current() }}?change_language={{ $langLocale }}">{{ strtoupper($langLocale) }} ({{ $langName }})</a>
-                        @endforeach
-                    </div>
-                </li>
-            @endif
-
-
-        </ul>
-    </header>
-
+        
+          <ul class="nav navbar-nav ml-auto nav-bar-profile">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                  <i class="fas fa-user profile-icon"></i>  
+              </a>
+              <div class="dropdown-menu dropdown-menu-right dropdown-default" aria-labelledby="navbarDropdownMenuLink-333">
+                  <p class="nav-bar-loggedin_username dropdown-item profile-detail"><i class="fas fa-user user-icon"></i> <span>{{ trans('global.welcome')}},<br/> <?php echo ucfirst(auth()->user()->name); ?></span></p>    
+                  <a href="#" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logoutform').submit();">
+                      {{ trans('global.logout') }}
+                  </a>
+              </div>
+            </li>
+          </ul>
+      </header>
     <div class="app-body">
         @include('partials.menu')
         <main class="main">
-
-
             <div style="padding-top: 20px" class="container-fluid">
                 @if(session('message'))
                     <div class="row mb-2">
@@ -109,6 +103,7 @@
     <script src="{{ asset('js/main.js') }}"></script>
     @stack('docTypeScript')
     @stack('modeljs')
+    @stack('manageuserjs')
     <script>
         $(function() {
   let copyButtonTrans = '{{ trans('global.datatables.copy') }}'

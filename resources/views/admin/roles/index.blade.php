@@ -28,8 +28,8 @@
                         <th>
                             {{ trans('cruds.role.fields.permissions') }}
                         </th>
-                        <th class="action-column">
-                            &nbsp;
+                        <th>
+                            {{ trans('global.actions') }}
                         </th>
                     </tr>
                 </thead>

@@ -26,7 +26,7 @@
                             {{ trans('cruds.permission.fields.title') }}
                         </th>
                         <th>
-                            &nbsp;
+                            {{ trans('global.actions') }}
                         </th>
                     </tr>
                 </thead>

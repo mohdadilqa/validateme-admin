@@ -131,6 +131,8 @@ return [
     'dashboard'              => [
         'title'          => 'Dashboard',
         'title_singular' => 'Dashboard',
+        'heading'        => 'Welcome To Validate Me Dashboard',
+        'heading_text'   => 'Manage your users and check their activity here',
         'fields'         => [ 
         ],
     ],

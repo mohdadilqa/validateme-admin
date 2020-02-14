@@ -211,4 +211,53 @@ html *
     .table-th-width{
         width:207px;
     }
-    .tooltip-style{background:rgba(0,0,0,0.9)!important; font-size:12px!important;color:#fff !important; border-radius:4px!important; padding:8px 10px !important;}
+    .tooltip-style{
+        background:rgba(0,0,0,0.9)!important; font-size:12px!important;color:#fff !important; border-radius:4px!important; padding:8px 10px !important;
+    }
+    .nav-bar-profile{
+        padding-right: 45px;
+    }
+    .nav-bar-loggedin_username{
+        font-weight:bold;
+    }
+    .profile-icon{
+    color: #fff !important;
+    background: #248c84;
+    float: left;
+    padding: 10px;
+    height: 30px;
+    width: 30px !important;
+    line-height: 10px;
+    text-align: center;
+    border-radius: 50px;
+    font-size: 12px;
+    }
+    .user-icon{
+        color: #fff !important;
+        background: #248c84;
+        float: left;
+        padding: 10px;
+        text-align: center;
+        border-radius: 50px;
+        line-height: 20px;
+        width: 40px!important;
+        height: 40px;
+        font-size: 15px;
+    }
+    .profile-detail{
+        margin-bottom: 0;
+        background: #d0e8e7;
+        font-weight: normal;
+        word-spacing: 5px;
+    }
+
+    .permission-dropdown + span{
+        height: 100px;
+        overflow: auto;
+    }
+    .list-style-heading{
+        list-style:none;font-weight:bold;
+    }
+    .list-style{
+        list-style:none;
+    }

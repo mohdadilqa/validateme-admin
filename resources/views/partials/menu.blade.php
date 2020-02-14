@@ -106,28 +106,16 @@
                 @endcan
 
                 @can('log_index')
-                    @if ((Auth::user()->roles->first()->toArray()['title'] ==='superadmin') || (Auth::user()->roles->first()->toArray()['title'] ==='support staff'))
                     <li class="nav-item">
                         <a href="{{ route("admin.log.index") }}" class="nav-link {{ request()->is('admin/log') || request()->is('admin/log/*') ? 'active' : '' }}">
                             <i class="fa-fw fas fa-unlock-alt nav-icon">
-
                             </i>
                             {{ trans('cruds.log.title') }}
                         </a>
                     </li>
-                    @endif
                 @endcan
             @endcan
-            <li class="nav-item">
-                <a href="#" class="nav-link" onclick="event.preventDefault(); document.getElementById('logoutform').submit();">
-                    <i class="nav-icon fas fa-fw fa-sign-out-alt">
-
-                    </i>
-                    {{ trans('global.logout') }}
-                </a>
-            </li>
         </ul>
-
     </nav>
     <button class="sidebar-minimizer brand-minimizer" type="button"></button>
 </div>

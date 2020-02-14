@@ -12,9 +12,7 @@
                     @endif
                     <form method="POST" class="login-form-center" action="{{ route('login') }}">
                         {{ csrf_field() }}
-                        <h4><img src="https://static.validateme.online/vm-logo.png" height="50px" width="140px"></img></h4>
-                        <!-- <p class="text-muted">{{ trans('global.login') }}</p> -->
-
+                        <h4><a href="<?php echo env('VALIDATEME_FE_HOST') ?>"><img src="https://static.validateme.online/vm-logo.png" height="50px" width="140px"></img></a></h4>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">

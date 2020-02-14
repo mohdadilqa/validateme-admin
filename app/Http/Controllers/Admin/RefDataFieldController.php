@@ -117,7 +117,7 @@ class RefDataFieldController extends Controller
     public function edit($id)
     {
         abort_if(Gate::denies('refdatafield_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        $data=array('_id'=>$id);
+        $data=array();
         try{
             $fieldTypes=array("select"=>"Select","reference"=>"Reference");
             $response= json_decode($this->ReferenceFieldDataViewAPI($id),true);
@@ -147,7 +147,7 @@ class RefDataFieldController extends Controller
                 "id"=>$id,
                 "type"=>$request->field_type,
                 "referenceDataTypeKey"=>$request->RDT_key,
-                "title"=>$request->course,
+                "title"=>$request->title,
                 "code"=>$request->code,
                 "updatedBy"=>"'$loggedin_user_id'"
             ];

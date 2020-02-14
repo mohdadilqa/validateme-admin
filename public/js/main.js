@@ -61,5 +61,9 @@ $(document).ready(function () {
   $(document).tooltip({
     tooltipClass: "tooltip-style"
   });
-
 })
+
+function goBack() {
+  window.history.back()
+}
+
