@@ -19,5 +19,21 @@ class Helper
         }
         return join($glue, $output);
     }
+
+    /****
+     * Function to return name rule on selected fields value
+     * Input ->array
+     * Output->String (name Rule)
+     * 
+    */
+    public static function nameRuleFunction($fieldsArray){
+        $nameRule="";
+        if(!empty($fieldsArray)){
+            foreach($fieldsArray as $key=>$val){
+                $nameRule.="{".$val['title']."}_";
+            }
+        }
+        return rtrim($nameRule,"_");
+    }
 }
 ?>

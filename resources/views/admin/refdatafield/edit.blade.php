@@ -35,7 +35,7 @@
                 <label for="field_type">{{ trans('cruds.refdatafield.fields.field_type') }}*</label>
                 <select name="field_type" id="field_type" class="select2" required>
                     @foreach($fieldTypes as $key => $fieldType)
-                        <option value="{{ $key }}">{{ $fieldType }}</option>
+                        <option value="{{ $key }}" {{ (isset($data['type']) && $key==$data['type']) ? 'selected' : '' }}>{{ $fieldType }}</option>
                     @endforeach
                 </select>
                 @if($errors->has('field_type'))

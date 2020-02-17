@@ -232,18 +232,13 @@ return [
         'title_singular' => 'Document Definition',
         'fields'         => [
             'id'                       => 'ID',
-            'id_helper'                => '',
             's_no'                     => 'S.No',
             'name'                     => 'Name',
-            'name_helper'              => '',
             'ref_data_field'           => 'Reference Data Field',
-            'ref_data_field_helper'    => '',
             'name_rule'                => 'Name Rule',
-            'name_rule_helper'         => '',
             'category'                 => 'Category',
-            'category_helper'            => '',
             'created_date'             => 'Created Date',
-            'created_date_helper'      => ''
+            'updated_date'             => 'Updated Date',
         ],
         'messages'                      =>[
             'success_add'                   =>'Document has been added successfully.',
@@ -253,9 +248,9 @@ return [
             'exception'                     =>'Excetption. Please try again',
         ],
         'tooltip'                      =>[
-            'view'                          =>'View Reference Document',
-            'update'                        =>'Update Reference Document',
-            'delete'                        =>'Delete Reference Document'
+            'view'                          =>'View Document',
+            'update'                        =>'Update Document',
+            'delete'                        =>'Delete Document'
         ]
     ],
 ];

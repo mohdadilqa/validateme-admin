@@ -34,7 +34,7 @@
                     </tr>
                 </tbody>
             </table>
-            <div class="float-right">
+            <div class="">
                 <a class="btn btn-success secondary-button-class" onclick="goBack()">
                     {{ trans('global.back') }}
                 </a>

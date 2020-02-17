@@ -105,7 +105,7 @@
                 </li>
                 @endcan
 
-                @can('log_index')
+                @can('log_access')
                     <li class="nav-item">
                         <a href="{{ route("admin.log.index") }}" class="nav-link {{ request()->is('admin/log') || request()->is('admin/log/*') ? 'active' : '' }}">
                             <i class="fa-fw fas fa-unlock-alt nav-icon">

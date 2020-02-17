@@ -43,13 +43,13 @@
                 <tbody>
                     @foreach($logs as $key => $log)
                         <?php  
-                        //echo "<pre/>";print_r($logs);
                         $arr = ['Logged In','Logged Out','Failed Login Attempt','Locked Out','Reset Password'];
                         if(!in_array($log->description, $arr))
-                        {$activity_data=json_decode($log->description,true);
-                        $action=$activity_data['action'];
-                        $target_user=$activity_data['target_user'];
-                        $target_company=$activity_data['target_company'];
+                        {
+                            $activity_data=json_decode($log->description,true);
+                            $action=$activity_data['action'];
+                            $target_user=$activity_data['target_user'];
+                            $target_company=$activity_data['target_company'];
                         
                         } else {
                             $action=$log->description;
@@ -58,7 +58,6 @@
                         } ?>
                         <tr data-entry-id="{{ ++$key }}">
                             <td>
-
                             </td>
                             <td>
                             {{ date('d-M-Y h:i:s A',strtotime($log->created_at)) ?? '' }}
@@ -91,7 +90,8 @@
 @parent
 <script>
     $(function () {
-  let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
+  //let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
+  let dtButtons=[];
 @can('user_delete')
   let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
   let deleteButton = {
