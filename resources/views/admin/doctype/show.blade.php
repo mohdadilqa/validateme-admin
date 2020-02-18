@@ -48,14 +48,14 @@
                         {{ isset($data['createdAt'])?date("d-M-Y",strtotime($data['createdAt'])):'' }}
                         </td>
                     </tr>
-                    <tr>
+                    <!-- <tr>
                         <th>
                         {{ trans('cruds.doctype.fields.updated_date') }}
                         </th>
                         <td>
                         {{ isset($data['updatedAt'])?date("d-M-Y",strtotime($data['updatedAt'])):'' }}
                         </td>
-                    </tr>
+                    </tr> -->
                 </tbody>
             </table>
             <div class="">

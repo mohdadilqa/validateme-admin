@@ -12,14 +12,6 @@
                 <tbody>
                     <tr>
                         <th>
-                            {{ trans('cruds.role.fields.id') }}
-                        </th>
-                        <td>
-                            {{ $role->id }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
                             {{ trans('cruds.role.fields.title') }}
                         </th>
                         <td>
@@ -36,6 +28,22 @@
                             @endforeach
                         </td>
                     </tr>
+                    <tr>
+                        <th class="table-th-width">
+                            {{ trans('cruds.role.fields.created_at') }}
+                        </th>
+                        <td>
+                            {{ date("d-M-Y",strtotime($role->created_at)) }}
+                        </td>
+                    </tr>
+                    <!-- <tr>
+                        <th>
+                            {{ trans('cruds.role.fields.updated_at') }}
+                        </th>
+                        <td>
+                            {{ date("d-M-Y",strtotime($role->updated_at)) }}
+                        </td>
+                    </tr> -->
                 </tbody>
             </table>
             <div class="float-right">

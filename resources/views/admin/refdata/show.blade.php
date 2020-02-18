@@ -32,6 +32,14 @@
                         {{ isset($data['referenceDataTypeKey'])?$data['referenceDataTypeKey']:'' }}
                         </td>
                     </tr>
+                    <tr>
+                        <th>
+                        {{ trans('cruds.doctype.fields.created_date') }}
+                        </th>
+                        <td>
+                        {{ isset($data['updatedAt'])?date("d-M-Y",strtotime($data['createdAt'])):'' }}
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <div class="">

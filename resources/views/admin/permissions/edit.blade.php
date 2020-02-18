@@ -18,20 +18,14 @@
                         {{ $errors->first('title') }}
                     </em>
                 @endif
-                <p class="helper-block">
-                    {{ trans('cruds.permission.fields.title_helper') }}
-                </p>
             </div>
             <div class="float-right col-md-12">
                 <input class="btn btn-success primary-button-class" type="submit" value="{{ trans('global.save') }}">
                 <a class="btn btn-success secondary-button-class" onclick="goBack()">
                     {{ trans('global.cancel') }}
                 </a>
-                
             </div>
         </form>
-
-
     </div>
 </div>
 @endsection

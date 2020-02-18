@@ -18,9 +18,6 @@
                         {{ $errors->first('title') }}
                     </em>
                 @endif
-                <p class="helper-block">
-                    {{ trans('cruds.role.fields.title_helper') }}
-                </p>
             </div>
             <div class="form-group {{ $errors->has('permissions') ? 'has-error' : '' }} col-md-6">
                 <label for="permissions">{{ trans('cruds.role.fields.permissions') }}*
@@ -36,9 +33,6 @@
                         {{ $errors->first('permissions') }}
                     </em>
                 @endif
-                <p class="helper-block">
-                    {{ trans('cruds.role.fields.permissions_helper') }}
-                </p>
             </div>
             <div class="float-right col-md-12">
             <input class="btn btn-success primary-button-class" type="submit" value="{{ trans('global.save') }}">

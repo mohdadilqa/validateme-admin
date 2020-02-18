@@ -40,6 +40,14 @@
                             {{ isset($data['type'])?$data['type']:'' }}
                         </td>
                     </tr>
+                    <tr>
+                        <th>
+                        {{ trans('cruds.refdatafield.fields.created_date') }}
+                        </th>
+                        <td>
+                        {{ isset($data['updatedAt'])?date("d-M-Y",strtotime($data['createdAt'])):'' }}
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <div class="">

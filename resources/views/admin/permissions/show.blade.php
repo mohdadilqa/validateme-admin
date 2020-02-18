@@ -12,20 +12,28 @@
                 <tbody>
                     <tr>
                         <th>
-                            {{ trans('cruds.permission.fields.id') }}
-                        </th>
-                        <td>
-                            {{ $permission->id }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
                             {{ trans('cruds.permission.fields.title') }}
                         </th>
                         <td>
                             {{ $permission->title }}
                         </td>
                     </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.permission.fields.created_at') }}
+                        </th>
+                        <td>
+                            {{ date("d-M-Y",strtotime($permission->created_at)) }}
+                        </td>
+                    </tr>
+                    <!-- <tr>
+                        <th>
+                            {{ trans('cruds.permission.fields.updated_at') }}
+                        </th>
+                        <td>
+                            {{ date("d-M-Y",strtotime($permission->updated_at)) }}
+                        </td>
+                    </tr> -->
                 </tbody>
             </table>
             <div class="">

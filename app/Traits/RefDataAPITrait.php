@@ -54,7 +54,6 @@ trait RefDataAPITrait
                 'http_errors' => false
             ];
         $response = $client->request('POST',$url, $data);
-        echo "<pre/>";print_r(json_decode($response->getBody()->getContents(),true));die;
         return $this->BEAPIStatusCode($response->getStatusCode(),json_decode($response->getBody()->getContents(),true));
     }
     /******

@@ -2,7 +2,7 @@
 @section('content')
 <div class="card">
     <div class="card-header">
-        {{ trans('global.show') }} {{ trans('cruds.user.title') }}
+        <p class="table-heading"> {{ trans('global.show') }} {{ trans('cruds.user.title') }}</p>
     </div>
     <div class="card-body">
         <!-- <div class="mb-2 row">
@@ -46,6 +46,14 @@
                     </th>
                     <td>
                     {{ isset($user->roles[0]->title)?$user->roles[0]->title:'' }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        {{ trans('cruds.user.fields.created_at') }}
+                    </th>
+                    <td>
+                        {{ date("d-M-Y",strtotime($user->created_at)) }}
                     </td>
                 </tr>
             </tbody>
