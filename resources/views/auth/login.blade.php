@@ -6,13 +6,13 @@
             <div class="card p-4">
                 <div class="card-body">
                     @if(\Session::has('message'))
-                        <p class="alert alert-info">
+                        <p class="alert alert-info fade-message">
                             {{ \Session::get('message') }}
                         </p>
                     @endif
                     <form method="POST" class="login-form-center" action="{{ route('login') }}">
                         {{ csrf_field() }}
-                        <h4><a href="<?php echo env('VALIDATEME_FE_HOST') ?>"><img src="https://static.validateme.online/vm-logo.png" height="50px" width="140px"></img></a></h4>
+                        <h4><a href="<?php echo env('VALIDATEME_FE_HOST') ?>"><img src="<?php echo env('VALiDATEME_LOGO_URL');?>" height="50px" width="140px"></img></a></h4>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">
@@ -26,7 +26,6 @@
                                 </div>
                             @endif
                         </div>
-
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fa fa-lock"></i></span>
@@ -45,21 +44,15 @@
                                     {{ trans('global.remember_me') }}
                                 </label>
                             </div>
+                            <a class="btn btn-link" style="float:right" href="{{ route('password.reset') }}">
+                                {{ trans('global.forgot_password') }}
+                            </a>
                         </div>
-
                         <div class="row">
                             <div class="col-12">
-                                <button type="submit" class="btn btn-primary px-4">
+                                <button type="submit" class="btn btn-success primary-button-class px-4">
                                     {{ trans('global.login') }}
                                 </button>
-                            </div>
-                           <div class="col-6 text-right">
-                                <!-- <a class="btn btn-link px-0" href="{{ route('password.request') }}">
-                                    {{ trans('global.forgot_password') }}
-                                </a> -->
-                                <!-- <br><a class="btn btn-link px-0" href="{{ route('register') }}">
-                                    {{ trans('global.register') }}
-                                </a> -->
                             </div>
                         </div>
                     </form>

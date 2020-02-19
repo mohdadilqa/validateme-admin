@@ -34,8 +34,8 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <a class="navbar-brand" hrefr="#">
-            <span class="navbar-brand-full"><img src="https://static.validateme.online/vm-logo.png" height="50px" width="140px"></img></span>
-            <span class="navbar-brand-minimized"><img src="https://static.validateme.online/vm-logo.png" height="50px" width="140px"></img></span>
+            <span class="navbar-brand-full"><img src="<?php echo env('VALiDATEME_LOGO_URL');?>" height="50px" width="140px"></img></span>
+            <span class="navbar-brand-minimized"><img src="<?php echo env('VALiDATEME_LOGO_URL');?>" height="50px" width="140px"></img></span>
         </a>
         
           <ul class="nav navbar-nav ml-auto nav-bar-profile">
@@ -44,7 +44,13 @@
                   <i class="fas fa-user profile-icon"></i>  
               </a>
               <div class="dropdown-menu dropdown-menu-right dropdown-default" aria-labelledby="navbarDropdownMenuLink-333">
-                  <p class="nav-bar-loggedin_username dropdown-item profile-detail"><i class="fas fa-user user-icon"></i> <span>{{ trans('global.welcome')}},<br/> <?php echo ucfirst(auth()->user()->name); ?></span></p>    
+                  <p class="nav-bar-loggedin_username dropdown-item profile-detail">
+                    <i class="fas fa-user user-icon"></i> 
+                    <span>
+                        <?php echo ucfirst(auth()->user()->name); ?>
+                        <span class="small profile-organization-name"><?php $user=auth()->user();(!empty($user->organization['organization_name']))? print_r($user->organization['organization_name']): print_r(__('cruds.user.fields.default_company'))?></span>
+                    </span>
+                  </p>    
                   <a href="#" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logoutform').submit();">
                       {{ trans('global.logout') }}
                   </a>

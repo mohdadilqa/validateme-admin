@@ -13,6 +13,8 @@ use Auth;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use jeremykenedy\LaravelLogger\App\Http\Traits\ActivityLogger;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class RolesController extends Controller
 {
@@ -41,11 +43,19 @@ class RolesController extends Controller
     public function store(StoreRoleRequest $request)
     {
         try{
-            $role = Role::create($request->all());
-            $role->permissions()->sync($request->input('permissions', []));
-            $log_string_serialize=(json_encode(array("action"=>"Added new role -> ".$request->title,"target_user"=>'NA', "target_company"=>'NA')));
-            ActivityLogger::activity($log_string_serialize);
-            return redirect()->route('admin.roles.index')->with('message', trans('cruds.role.messages.success_add'));
+            $validation=Validator::make($request->all(), [
+                'title' => [
+                    Rule::unique('roles'),
+                ]]);
+            if(!$validation->fails()){
+                $role = Role::create($request->all());
+                $role->permissions()->sync($request->input('permissions', []));
+                $log_string_serialize=(json_encode(array("action"=>"Added new role -> ".$request->title,"target_user"=>'NA', "target_company"=>'NA')));
+                ActivityLogger::activity($log_string_serialize);
+                return redirect()->route('admin.roles.index')->with('message', trans('cruds.role.messages.success_add'));
+            }else{
+                return back()->with('message', trans('cruds.role.messages.role_duplicate'));
+            }
         }catch(Exception $e){
             return back()->with('message', trans('cruds.role.messages.exception'));
         }
@@ -62,11 +72,20 @@ class RolesController extends Controller
     public function update(UpdateRoleRequest $request, Role $role)
     {
         try{
-            $role->update($request->all());
-            $role->permissions()->sync($request->input('permissions', []));
-            $log_string_serialize=(json_encode(array("action"=>"Role Updated -> ".$request->title,"target_user"=>'NA', "target_company"=>'NA')));
-            ActivityLogger::activity($log_string_serialize);
-            return redirect()->route('admin.roles.index')->with('message', trans('cruds.role.messages.success_edit'));
+            $validate=Validator::make($request->all(), [
+                'title' => 'required|unique:roles,title,'.$role->id,
+                ]);
+            if(!$validate->fails()){
+                $role->update($request->all());
+                $role->permissions()->sync($request->input('permissions', []));
+                $log_string_serialize=(json_encode(array("action"=>"Update Role -> ".$request->title,"target_user"=>'NA', "target_company"=>'NA')));
+                ActivityLogger::activity($log_string_serialize);
+                return redirect()->route('admin.roles.index')->with('message', trans('cruds.role.messages.success_edit'));
+            }else{
+                $log_string_serialize=(json_encode(array("action"=>"Update Role Failed-> ".$request->title,"target_user"=>'NA', "target_company"=>'NA')));
+                ActivityLogger::activity($log_string_serialize);
+                return back()->with('message', trans('cruds.role.messages.role_duplicate'));
+            }
         }catch(Excetion $e){
             return back()->with('message', trans('cruds.role.messages.exception'));
         }

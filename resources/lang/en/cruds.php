@@ -73,6 +73,7 @@ return [
             'deleted_at'               => 'Deleted Date',
             'organization'             => 'Organization',
             'organization_domain'      => 'Organization Domain',
+            'default_company'          => 'Validate Me'
         ],
         'messages'                      =>[
             'success_add'                   =>'User has been added successfully.',
@@ -209,6 +210,46 @@ return [
             'view'                          =>'View Document',
             'update'                        =>'Update Document',
             'delete'                        =>'Delete Document'
+        ]
+    ],
+    'refdatafield'              => [
+        'title'          => 'Field Definition',
+        'title_singular' => 'Field Definition',
+        'fields'         => [
+            'id'                       => 'ID',
+            's_no'                     => 'S.No',
+            'code'                     => 'Code',
+            'code_helper'              => '',
+            'title'                    => 'Title',
+            'RDT_key'                  => 'Reference Data Type Key',
+            'field_type'               => 'Field Type',
+            'created_date'             => 'Created Date',
+            'updated_date'             => 'Updated Date',
+            'upload'                   => 'Upload Field Data',
+            'download'                 => 'Download Field Data'
+        ],
+        'messages'                      =>[
+            'success_add'                   =>'Reference field has been added successfully.',
+            'success_edit'                  =>'Reference field has been updated successfully.',
+            'success_delete'                =>'Reference field has been deleted successfully.',
+            'error'                         =>'Error. Please try again.',
+            'exception'                     =>'Excetption. Please try again',
+        ],
+        'tooltip'                      =>[
+            'view'                          =>'View Reference Field',
+            'update'                        =>'Update Reference Field',
+            'delete'                        =>'Delete Reference Field'
+        ]
+    ],
+    'forgotpassword'              => [
+        'title'          => 'Forgot Password',
+        'title_singular' => 'Forgot Password',
+        'messages'                      =>[
+            'success'                       =>'Reset password link has been sent.',
+            'email_empty'                   =>'Email can not be empty.',
+            'email_not_found'               =>'Email is not regisetered.',
+            'error'                         =>'Error. Please try again.',
+            'exception'                     =>'Excetption. Please try again',
         ]
     ],
 ];

@@ -31,11 +31,9 @@
                         <th>
                             {{ trans('cruds.user.fields.roles') }}
                         </th>
-                        @if ((Auth::user()->roles->first()->toArray()['title'] ==='support staff'))
                         <th>
                             {{ trans('cruds.user.fields.organization') }}
                         </th>
-                        @endif
                         <th>
                             {{ trans('global.actions') }}
                         </th>
@@ -57,14 +55,12 @@
                             </td>
                             <td>
                                 @foreach($user->roles as $key => $item)
-                                    <span class="badge badge-info">{{ $item->title }}</span>
+                                    <span>{{ $item->title }}</span>
                                 @endforeach
                             </td>
-                            @if ((Auth::user()->roles->first()->toArray()['title'] ==='support staff'))
                             <td>
-                                <span class="badge badge-info">{{ $user->organization['organization_name'] }}</span>
+                                <span>{{ (isset($user->organization['organization_name']) && !empty($user->organization['organization_name']))? ($user->organization['organization_name']):trans('cruds.user.fields.default_company')}}</span>
                             </td>
-                            @endif
                             <td>
                                 @can('user_show')
                                     <a class="btn btn-xs btn-primary" href="{{ route('admin.users.show', $user->id) }}" title="{{ trans('cruds.user.tooltip.view') }}">

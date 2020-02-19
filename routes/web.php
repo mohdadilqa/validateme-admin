@@ -2,7 +2,7 @@
 
 Route::redirect('/', '/login');
 Route::redirect('/home', '/admin/dashboard');
-Auth::routes();
+//Auth::routes();
 //Route::get('/logout', 'Auth\LoginController@logout');
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth']], function () {
@@ -44,5 +44,19 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     //DocType
     Route::resource('doctype','DocTypeController');
     Route::post('doctype/referenceDataField','DocTypeController@referenceDataField');
+});
+
+//Overwrite Auth routes
+Route::group(['namespace' => 'Auth'],function(){
+     // Authentication Routes...
+    Route::get('login', 'LoginController@showLoginForm')->name('login');
+    Route::post('login', 'LoginController@login');
+    Route::post('logout', 'LoginController@logout')->name('logout');
+    
+    // Password Reset Routes...
+    Route::get('password/reset', 'ForgotPasswordController@showLinkRequestForm')->name('password.reset');
+    Route::post('password/email', 'ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+    Route::get('password/reset/{token}', 'ResetPasswordController@showResetForm')->name('password.reset.token');
+    Route::post('password/reset', 'ResetPasswordController@reset');
 });
 

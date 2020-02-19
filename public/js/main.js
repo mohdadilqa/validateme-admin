@@ -66,4 +66,9 @@ $(document).ready(function () {
 function goBack() {
   window.history.back()
 }
+$(function(){
+  setTimeout(function() {
+      $('.fade-message').fadeOut('fast');
+  }, 5000);
+});
 

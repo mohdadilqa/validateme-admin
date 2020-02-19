@@ -1,50 +1,41 @@
 @extends('layouts.app')
 @section('content')
 <div class="row justify-content-center">
-    <div class="col-md-8">
+    <div class="col-md-5">
         <div class="card-group">
             <div class="card p-4">
                 <div class="card-body">
-                    <form method="POST" action="{{ route('password.request') }}">
+                    <form method="POST" class="login-form-center" action="{{ route('password.reset')  }}">
                         {{ csrf_field() }}
-                        <h1>
-                            <div class="login-logo">
-                                <a href="#">
-                                    {{ trans('panel.site_title') }}
-                                </a>
-                            </div>
-                        </h1>
-                        <p class="text-muted"></p>
-                        <div>
-                            <input name="token" value="{{ $token }}" type="hidden">
-                            <div class="form-group has-feedback">
-                                <input type="email" name="email" class="form-control" required placeholder="{{ trans('global.login_email') }}">
-                                @if($errors->has('email'))
-                                    <em class="invalid-feedback">
-                                        {{ $errors->first('email') }}
-                                    </em>
-                                @endif
-                            </div>
-                            <div class="form-group has-feedback">
-                                <input type="password" name="password" class="form-control" required placeholder="{{ trans('global.login_password') }}">
+                        <input name="token" value="{{ $token }}" type="hidden">
+                        <h4><a href="<?php echo env('VALIDATEME_FE_HOST') ?>"><img src="<?php echo env('VALiDATEME_LOGO_URL');?>" height="50px" width="140px"></img></a></h4>
+                        <div class="input-group mb-3">
+                            <input type="email" name="email" class="form-control" required placeholder="{{ trans('global.login_email') }}">
+                            @if($errors->has('email'))
+                                <div class="invalid-feedback">
+                                    {{ $errors->first('email') }}
+                                </div>
+                            @endif
+                        </div>
+                        <div class="input-group mb-3">
+                            <input type="password" name="password" class="form-control" required placeholder="{{ trans('global.login_password') }}">
                                 @if($errors->has('password'))
                                     <em class="invalid-feedback">
                                         {{ $errors->first('password') }}
                                     </em>
                                 @endif
-                            </div>
-                            <div class="form-group has-feedback">
-                                <input type="password" name="password_confirmation" class="form-control" required placeholder="{{ trans('global.login_password_confirmation') }}">
+                        </div>
+                        <div class="input-group mb-3">
+                            <input type="password" name="password_confirmation" class="form-control" required placeholder="{{ trans('global.login_password_confirmation') }}">
                                 @if($errors->has('password_confirmation'))
                                     <em class="invalid-feedback">
                                         {{ $errors->first('password_confirmation') }}
                                     </em>
                                 @endif
-                            </div>
                         </div>
                         <div class="row">
-                            <div class="col-12 text-right">
-                                <button type="submit" class="btn btn-primary btn-block btn-flat">
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-success primary-button-class px-4">
                                     {{ trans('global.reset_password') }}
                                 </button>
                             </div>

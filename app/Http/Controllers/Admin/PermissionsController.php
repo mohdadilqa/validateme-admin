@@ -79,6 +79,8 @@ class PermissionsController extends Controller
                 ActivityLogger::activity($log_string_serialize);
                 return redirect()->route('admin.permissions.index')->with('message', trans('cruds.permission.messages.success_edit'));
             }else{
+                $log_string_serialize=(json_encode(array("action"=>"Update Permission Failed-> ".$permission->title,"target_user"=>'NA', "target_company"=>'NA')));
+                ActivityLogger::activity($log_string_serialize);
                 return back()->with('message', trans('cruds.permission.messages.permission_duplicate'));
             }
         }catch(Exception $e){

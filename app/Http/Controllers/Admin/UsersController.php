@@ -17,9 +17,10 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use GuzzleHttp\Client;
 use jeremykenedy\LaravelLogger\App\Http\Traits\ActivityLogger;
-
+use App\Traits\CompanyUserAPITrait;
 class UsersController extends Controller
 {
+    use CompanyUserAPITrait;
     public function index()
     {
         abort_if(Gate::denies('user_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
@@ -210,44 +211,7 @@ class UsersController extends Controller
     protected function sendEmailNotification($user){
         try{
             $user->load('organization');
-            $client = new Client();
-            $token = app(\Illuminate\Auth\Passwords\PasswordBroker::class)->createToken($user);
-            $link=env('APP_URL')."/password/reset/".$token;
-            $url=env("VALIDATEME_NOTIFICATION_ENDPOINT")."/sendnotification";
-            
-            $headers = [
-                'Content-type' => 'application/json; charset=utf-8',
-                'Accept' => 'application/json',
-                //'Authorization' => 'Basic ' . base64_encode($username . ':' . $password),
-            ];
-            $data=['json' => [
-                "from"=>"Validate Me <no-reply@validateme.online>",
-                "to"=>$user->email,
-                "message"=>"Verify and reset password", 
-                "category"=>"email",
-                "subCategory"=>"ADMIN_RESET_PASSWORD",
-                "resourceId"=>"",
-                "data"=>[
-                    "company"=>["name"=>$user['organization']->organization_name],
-                    "creator"=>["name"=>"#Creator#"],
-                    "name"=>$user->name,
-                    "link"=>$link,
-                    "requesterName"=>"#RequestorName#",
-                    "documentName"=>"#sample document#",
-                    "updatedBy"=>"#Updator#",
-                    "status"=>"#sample action#",
-                    "cancelledBy"=>"#Cancelling User#",
-                    "url"=>"#URL",
-                    "to"=>"#To User#",
-                    "by"=>"#By User#",
-                    "requestedFor"=> "#Requested For#",
-                    "action"=> "#action#",
-                    "actionCode"=> "SET_SOURCE",
-                    "requestor"=> "#Requestor#"
-                ] 
-            ]];
-            $response = $client->request('POST',$url, $data);
-            $emailResponse=json_decode($response->getBody()->getContents());
+            $emailResponse=$this->sendNotification($user);
             if(!empty($emailResponse) && !empty($emailResponse->response)){
                 $log_string_serialize=json_encode(array("action"=>"Verfication email sent.","target_user"=>$user->name, "target_company"=>$user['organization']->organization_name)); 
                 ActivityLogger::activity($log_string_serialize);
